@@ -1,0 +1,50 @@
+header {
+  display: flex;
+  justify-content: space-between;
+  height: var(--header-height);
+  align-items: center;
+  box-sizing: border-box;
+  padding: 0 1rem;
+  background-color: var(--primary-color-alt);
+}
+
+h1 {
+  font-size: 2rem;
+  margin: 0;
+  color: var(--secondary-color);
+  z-index: 2;
+  position: relative;
+}
+
+h1:after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  -webkit-text-stroke: 4px var(--accent-color);
+  font-size: 1em;
+  z-index: -1;
+}
+
+.header-links {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  gap: 3vw;
+  margin: 0;
+  padding: 0;
+}
+
+.header-links a {
+  font-size: 1.25rem;
+  color: var(--secondary-color);
+}
+
+.header-links a:hover,
+.header-links a:focus {
+  font-size: 1.5rem;
+  outline: none;
+}
+
+.header-links a:active {
+  color: var(--accent-color);
+}

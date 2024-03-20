@@ -1,0 +1,20 @@
+.invalid-feedback {
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 0.25rem;
+}
+
+#show-password {
+  cursor: pointer;
+  background-color: var(--secondary-color);
+  border-color: var(--secondary-color);
+  color: var(--accent-color);
+}
+
+.form-control:focus {
+  border-color: var(--accent-color);
+  box-shadow: inset 0px 0px 0px 1px var(--accent-color);
+}
+
+.submit-button {
+  align-self: center;
+}

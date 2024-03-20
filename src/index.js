@@ -1,21 +1,31 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
-//import "@fortawesome/fontawesome-free/css/all.min.css";
+import { createRoot } from 'react-dom/client';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
-import 'mdb-react-ui-kit/dist/css/mdb.min.css' //for MDBbootstrap
+import 'mdb-react-ui-kit/dist/css/mdb.min.css'; //for MDBbootstrap
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
 import registerServiceWorker from './registerServiceWorker';
-import {  BrowserRouter } from 'react-router-dom';
+import { store } from './app/Store';
+import { Provider, useDispatch, useSelector } from 'react-redux';
+import App from './app/App';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { selectUser } from './features/user/userSlice';
+const root = createRoot(document.getElementById('root'));
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const AppRouter = () => {
+  const dispatch = useDispatch();
+  const user = useSelector(selectUser);
+  const AppRoutes = App(dispatch, user);
+
+  return <RouterProvider router={createBrowserRouter(AppRoutes)} />;
+};
+
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
-    <App />
-    </BrowserRouter>
+    <Provider store={store}>
+      <AppRouter />
+    </Provider>
   </React.StrictMode>
 );
 registerServiceWorker();

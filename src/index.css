@@ -1,3 +1,22 @@
+:root {
+  --header-height: 64px;
+  --footer-height: 230px;
+  --primary-color: #00568c;
+  --primary-color-alt: #a8d4f0;
+  --secondary-color: #00373a;
+  --accent-color: #00ffbb;
+}
+
+html,
+body,
+#root {
+  min-height: 100vh;
+}
+
+main {
+  min-height: calc(100vh - var(--footer-height) - var(--header-height));
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -5,9 +24,73 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: var(--primary-color);
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.btn {
+  text-transform: none;
+  white-space: nowrap;
+  min-width: auto;
+}
+
+.btn-sm {
+  font-size: 1rem;
+  padding: 0.5rem 2.75rem;
+}
+
+.btn-xl {
+  padding: 1.25rem 4.5rem;
+  font-size: 1.25rem;
+}
+
+.btn-primary {
+  background-color: var(--secondary-color);
+  border-color: var(--secondary-color);
+}
+
+.btn-primary:hover,
+.btn-primary:active,
+.btn-primary:focus,
+.btn-primary:focus-visible {
+  background-color: #003033;
+  border-color: #003033;
+}
+
+.btn-primary:focus-visible {
+  box-shadow: 0 0 0 0.25rem #00373a80;
+}
+
+.btn-primary:active {
+  background-color: #002c2e;
+  border-color: #002c2e;
+}
+
+.btn-secondary {
+  background-color: #ffffff;
+  border: 3px solid var(--secondary-color);
+  color: #00373a;
+  box-sizing: border-box;
+}
+
+.btn-secondary:hover,
+.btn-secondary:active,
+.btn-secondary:focus,
+.btn-secondary:focus-visible {
+  background-color: var(--accent-color);
+  border-color: var(--accent-color);
+  color: var(--secondary-color);
+}
+
+.btn-secondary:focus-visible {
+  box-shadow: 0 0 0 0.25rem #00ffbb80;
+}
+
+.submit-button {
+  width: fit-content;
+  padding: 0.5rem 5rem;
 }

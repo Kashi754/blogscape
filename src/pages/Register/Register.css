@@ -1,0 +1,16 @@
+.registration-container {
+  padding: 3rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.registration-container h2 {
+  font-size: 3.3331rem;
+  margin: 0;
+  text-align: center;
+  color: var(--accent-color);
+  font-weight: bold;
+}
