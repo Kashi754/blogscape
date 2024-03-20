@@ -13,6 +13,8 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { selectUser } from './features/user/userSlice';
 const root = createRoot(document.getElementById('root'));
 
+// This is a test
+
 const AppRouter = () => {
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
