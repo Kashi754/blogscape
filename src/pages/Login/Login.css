@@ -1,0 +1,139 @@
+.login {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: fit-content;
+}
+
+.login-field {
+  width: clamp(15rem, 50vw, 200rem);
+  height: 75%;
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.login-title {
+  font-size: 2rem;
+  margin: 0;
+  text-align: center;
+  color: var(--accent-color);
+  font-weight: bold;
+}
+
+.login-title-alt {
+  font-size: 1.5rem;
+  margin: 0;
+  text-align: center;
+  color: var(--accent-color);
+  font-weight: bold;
+  display: none;
+}
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  flex-grow: 1;
+}
+
+.left,
+.right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.center {
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 0 1rem;
+}
+
+.or {
+  border: var(--border-style);
+  border-radius: 50%;
+  padding: 10px;
+  color: var(--accent-color);
+  background-color: var(--secondary-color);
+  font-weight: bold;
+  z-index: 1;
+  width: 46px;
+  height: 46px;
+  text-align: center;
+}
+
+.line {
+  width: 0.5px;
+  height: 100%;
+  background-color: var(--accent-color);
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.loginButton {
+  width: 150px;
+  padding: 15px 25px;
+  border-radius: 5px;
+  color: white;
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  margin-bottom: 20px;
+  cursor: pointer;
+  gap: 1rem;
+}
+
+.google {
+  background-color: #df4930;
+}
+
+.facebook {
+  background-color: #507cc0;
+}
+
+@media screen and (max-width: 992px) {
+  .wrapper {
+    flex-direction: column-reverse;
+  }
+
+  .login-title {
+    display: none;
+  }
+
+  .login-title-alt {
+    display: block;
+  }
+
+  .center {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+
+  .line {
+    height: 0.5px;
+    width: 70%;
+    margin: auto;
+  }
+
+  .left {
+    padding: 20px;
+  }
+
+  .right {
+    padding: 20px;
+  }
+}

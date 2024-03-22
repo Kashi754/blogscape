@@ -40,7 +40,7 @@ export function RegistrationForm({ handleSubmit }) {
     borderRadius: '10px',
     display: 'flex',
     flexDirection: 'column',
-    gap: '1.5rem',
+    gap: '0.5rem',
   };
 
   return (
@@ -111,7 +111,7 @@ export function RegistrationForm({ handleSubmit }) {
             placeholder='Blog Title'
           />
           <Form.Control.Feedback type='invalid'>
-            Please enter a valid username (letters and numbers only).
+            Please enter a valid blog title (letters and numbers only).
           </Form.Control.Feedback>
         </FloatingLabel>
       </Form.Group>

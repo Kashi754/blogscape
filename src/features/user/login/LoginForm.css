@@ -1,6 +1,12 @@
 .invalid-feedback {
   background-color: rgba(0, 0, 0, 0.5);
   padding: 0.25rem;
+  position: static;
+}
+
+.custom-feedback {
+  display: block;
+  margin: 0;
 }
 
 #show-password {

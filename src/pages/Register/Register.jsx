@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router';
 import { registerUser } from '../../API';
-import { RegistrationForm } from '../../components/RegistrationForm/RegistrationForm';
+import { RegistrationForm } from '../../features/user';
 import './Register.css';
 
 export function Register() {

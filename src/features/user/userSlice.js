@@ -60,7 +60,6 @@ const userSlice = createSlice({
   name: 'user',
   initialState: {
     user: {},
-    isLoggedIn: false,
     isLoading: false,
     error: null,
   },
