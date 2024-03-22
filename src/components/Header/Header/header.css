@@ -1,11 +1,16 @@
-header {
-  display: flex;
+.header {
   justify-content: space-between;
   height: var(--header-height);
   align-items: center;
   box-sizing: border-box;
   padding: 0 1rem;
   background-color: var(--primary-color-alt);
+}
+
+.header-left {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
 }
 
 h1 {
@@ -35,13 +40,13 @@ h1:after {
 }
 
 .header-links a {
-  font-size: 1.25rem;
+  font-size: min(max(0.8rem, 1.5vw), 1.25rem);
   color: var(--secondary-color);
 }
 
 .header-links a:hover,
 .header-links a:focus {
-  font-size: 1.5rem;
+  font-size: min(max(0.9rem, 1.75vw), 1.5rem);
   outline: none;
 }
 

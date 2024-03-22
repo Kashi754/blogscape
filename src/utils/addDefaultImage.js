@@ -1,3 +1,3 @@
 export const addDefaultImg = (e) => {
-  e.target.src = '/images/default.jpg';
+  e.target.src = '/images/default.png';
 };

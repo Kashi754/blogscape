@@ -1,0 +1,39 @@
+.home {
+  display: flex;
+  flex-direction: column;
+  gap: min(3vw, 2rem);
+  align-items: center;
+  width: fit-content;
+  margin: 0 auto;
+  padding-top: 5rem;
+}
+
+.heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+  width: 100%;
+}
+
+.heading h2 {
+  color: var(--accent-color);
+  font-size: min(3rem, max(3vw, 1.5rem));
+}
+
+.add-post-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 2rem;
+  height: fit-content;
+  justify-content: center;
+  line-height: 0;
+  position: relative;
+}
+
+@media screen and (max-width: 300px) {
+  .add-post-button {
+    padding: 0.25rem 0.5rem;
+  }
+}

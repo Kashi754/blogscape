@@ -56,13 +56,20 @@ code {
 .btn-primary:hover,
 .btn-primary:active,
 .btn-primary:focus,
-.btn-primary:focus-visible {
+.btn-primary:focus-visible,
+.btn:first-child:active {
   background-color: #003033;
   border-color: #003033;
+  color: var(--accent-color);
 }
 
 .btn-primary:focus-visible {
   box-shadow: 0 0 0 0.25rem #00373a80;
+}
+
+.show > .btn-primary.dropdown-toggle {
+  background-color: #003033;
+  border-color: #003033;
 }
 
 .btn-primary:active {
@@ -74,7 +81,6 @@ code {
   background-color: #ffffff;
   border: 3px solid var(--secondary-color);
   color: #00373a;
-  box-sizing: border-box;
 }
 
 .btn-secondary:hover,

@@ -10,8 +10,8 @@ import { Browse } from '../pages/Browse';
 import { NewPost } from '../pages/NewPost';
 import { Profile } from '../pages/Profile';
 import { NotFound } from '../pages/NotFound';
-import { Root } from '../pages/Root';
-import { fetchPostsForUser, userLoader } from '../API';
+import { Root } from '../pages/Root/Root';
+import { userLoader } from '../API';
 import { loadUserPosts } from '../features/posts/postsSlice';
 
 function App(dispatch, user) {
