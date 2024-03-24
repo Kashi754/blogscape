@@ -1,11 +1,11 @@
 import { Button } from 'react-bootstrap';
-import { UserPosts } from '../../features/posts/userPosts/UserPosts';
+import { UserPosts } from '../../features/userPosts/UserPosts';
 import { useNavigate } from 'react-router';
 import AddIcon from '@mui/icons-material/Add';
 import './Home.css';
 import useScreenSize from '../../hooks/useScreenSize';
 
-export function Home() {
+export default function Home() {
   const vw = useScreenSize().width;
 
   const navigate = useNavigate();

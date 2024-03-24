@@ -6,7 +6,7 @@ import { selectUser } from '../../features/user/userSlice';
 import { MobileHeader } from '../../components/Header/MobileHeader/MobileHeader';
 import './Root.css';
 
-export function Root() {
+export default function Root() {
   const user = useSelector(selectUser);
 
   return (

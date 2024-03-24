@@ -1,24 +1,22 @@
+import 'bootstrap-icons/font/bootstrap-icons.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'mdb-react-ui-kit/dist/css/mdb.min.css'; //for MDBbootstrap
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap-icons/font/bootstrap-icons.css';
-import 'mdb-react-ui-kit/dist/css/mdb.min.css'; //for MDBbootstrap
-import './index.css';
-import reportWebVitals from './reportWebVitals';
-import registerServiceWorker from './registerServiceWorker';
-import { store } from './app/Store';
-import { Provider, useDispatch, useSelector } from 'react-redux';
-import App from './app/App';
+import { Provider, useDispatch } from 'react-redux';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import { selectUser } from './features/user/userSlice';
+import App from './app/App';
+import { store } from './app/Store';
+import './index.css';
+import registerServiceWorker from './registerServiceWorker';
+import reportWebVitals from './reportWebVitals';
 const root = createRoot(document.getElementById('root'));
 
 // This is a test
 
-const AppRouter = () => {
+const AppRouter = ({ store }) => {
   const dispatch = useDispatch();
-  const user = useSelector(selectUser);
-  const AppRoutes = App(dispatch, user);
+  const AppRoutes = App(dispatch, store);
 
   return <RouterProvider router={createBrowserRouter(AppRoutes)} />;
 };
@@ -26,7 +24,7 @@ const AppRouter = () => {
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <AppRouter />
+      <AppRouter store={store} />
     </Provider>
   </React.StrictMode>
 );

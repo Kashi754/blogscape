@@ -1,9 +1,9 @@
 import { useNavigate } from 'react-router';
 import { registerUser } from '../../API';
-import { RegistrationForm } from '../../features/user';
+import { RegistrationForm } from '../../features/registration/RegistrationForm';
 import './Register.css';
 
-export function Register() {
+export default function Register() {
   const navigate = useNavigate();
   const handleRegistration = async (formData) => {
     const user = await registerUser(formData);

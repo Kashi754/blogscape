@@ -1,0 +1,139 @@
+.blog-header {
+  width: 100%;
+  height: fit-content;
+  background-size: cover;
+  background-position: center;
+  box-shadow: black 0px 0px 5px;
+  clip-path: inset(-10px -10px 0 -10px);
+  position: relative;
+  z-index: 2;
+}
+
+.blog-header-wrapper {
+  width: 100%;
+  height: fit-content;
+  min-height: 144px;
+  background-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0.9),
+    rgba(0, 0, 0, 0.25)
+  );
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.blog-header-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.5rem 1rem;
+  box-sizing: border-box;
+}
+
+.blog-title h2 {
+  display: inline-block;
+  margin: 0;
+  margin-right: 2rem;
+  color: var(--accent-color);
+  font-weight: bold;
+  font-size: min(2.75rem, max(3vw, 1.5rem));
+}
+
+.blog-title h3 {
+  display: inline-block;
+  margin: 0;
+  color: var(--accent-color);
+  font-size: min(1.25rem, max(1.5vw, 0.75rem));
+  font-weight: normal;
+}
+
+.blog-header-info p {
+  color: #ffffff;
+  font-size: min(1rem, max(1vw, 0.75rem));
+  margin: 0;
+}
+
+.follower-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  background-color: rgba(255, 255, 255, 0.5);
+  height: 100%;
+  min-height: 144px;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.follower-section h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+.follower-section div {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.unfollow-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--secondary-color);
+  font-weight: bold;
+  font-size: 1rem;
+  padding: 0;
+  margin: 0;
+  font-size: 0.75rem;
+  text-decoration: underline;
+}
+
+@media screen and (max-width: 700px) {
+  .blog-header {
+    min-width: 250px;
+  }
+  .blog-header-wrapper {
+    flex-direction: column;
+    background-image: none;
+    background-color: rgba(0, 0, 0, 0.75);
+    min-height: 200px;
+  }
+
+  .blog-header-info {
+    width: 100%;
+    justify-content: center;
+    flex-grow: 1;
+  }
+
+  .blog-title {
+    width: 100%;
+    justify-content: space-between;
+    display: flex;
+    align-items: center;
+  }
+
+  .follower-section {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    min-height: fit-content;
+    padding: 0.5rem;
+  }
+
+  .follower-section div {
+    flex-direction: row-reverse;
+  }
+
+  #follow-button {
+    font-size: 0.75rem;
+    padding: 0.5rem 1rem;
+  }
+}

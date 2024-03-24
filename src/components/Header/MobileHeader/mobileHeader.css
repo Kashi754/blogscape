@@ -64,7 +64,7 @@
 
 @media screen and (max-width: 430px) {
   .dropdown-menu.show {
-    width: 100vw;
+    width: 100dvw;
     right: -16px !important;
     top: 0 !important;
     z-index: 1;

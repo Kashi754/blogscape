@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { FloatingLabel, InputGroup, Form, Button } from 'react-bootstrap';
 import './LoginForm.css';
 
-export function LoginForm({ handleSubmit, isError }) {
+export function LoginForm({ isError }) {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [validated, setValidated] = useState(false);
   const [formData, setFormData] = useState({
@@ -26,7 +26,7 @@ export function LoginForm({ handleSubmit, isError }) {
       return;
     }
     setValidated(false);
-    handleSubmit(formData);
+    // TODO: Add login logic
   };
 
   const handleChange = (event) => {

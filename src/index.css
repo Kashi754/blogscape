@@ -96,6 +96,12 @@ code {
   box-shadow: 0 0 0 0.25rem #00ffbb80;
 }
 
+.btn-secondary:disabled {
+  background-color: var(--secondary-color);
+  border: 3px solid var(--secondary-color);
+  color: var(--accent-color);
+}
+
 .submit-button {
   width: fit-content;
   padding: 0.5rem 5rem;

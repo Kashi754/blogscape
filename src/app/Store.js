@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import userSliceReducer from '../features/user/userSlice';
-import postsSliceReducer from '../features/posts/postsSlice';
+import userPostsSliceReducer from '../features/userPosts/userPostsSlice';
+import blogSliceReducer from '../features/blog/blogSlice';
 
 const rootReducer = {
   // Add your reducer functions here
   user: userSliceReducer,
-  posts: postsSliceReducer,
+  userPosts: userPostsSliceReducer,
+  blog: blogSliceReducer,
 };
 
 export const store = configureStore({

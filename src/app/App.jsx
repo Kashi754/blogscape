@@ -1,20 +1,21 @@
 import './App.css';
 import { createRoutesFromElements, redirect, Route } from 'react-router-dom';
-import { Home } from '../pages/Home/Home';
+import Home from '../pages/Home/Home';
 import { Landing } from '../pages/Landing/Landing';
-import { Login } from '../pages/Login/Login';
-import { Register } from '../pages/Register/Register';
-import { Blog } from '../pages/Blog';
+import Login from '../pages/Login/Login';
+import Register from '../pages/Register/Register';
+import Blog from '../pages/Blog/Blog';
 import { Post } from '../pages/Post';
 import { Browse } from '../pages/Browse';
 import { NewPost } from '../pages/NewPost';
 import { Profile } from '../pages/Profile';
 import { NotFound } from '../pages/NotFound';
-import { Root } from '../pages/Root/Root';
-import { userLoader } from '../API';
-import { loadUserPosts } from '../features/posts/postsSlice';
+import Root from '../pages/Root/Root';
+import { loadUserPosts } from '../features/userPosts/userPostsAPI';
+import { verifyLoggedIn } from '../utils/verifyLoggedIn';
+import { loadBlog } from '../features/blog/blogAPI';
 
-function App(dispatch, user) {
+function App(dispatch, store) {
   const routes = createRoutesFromElements(
     <Route
       path='/'
@@ -23,10 +24,12 @@ function App(dispatch, user) {
       <Route
         index
         loader={async () => {
-          let userId = user.id;
-          if (!userId) userId = await userLoader(dispatch);
-          if (userId) throw redirect('/home');
-          return null;
+          try {
+            await verifyLoggedIn(store, dispatch);
+            return redirect('/home');
+          } catch (err) {
+            return null;
+          }
         }}
         element={<Landing />}
       />
@@ -42,30 +45,38 @@ function App(dispatch, user) {
         path='home'
         element={<Home />}
         loader={async () => {
-          let userId = user.id;
-          if (!userId) userId = await userLoader(dispatch);
-          if (!userId) throw redirect('/login');
-          await dispatch(loadUserPosts(userId));
+          try {
+            const userId = await verifyLoggedIn(store, dispatch);
+            await dispatch(loadUserPosts(userId));
+          } catch (err) {
+            return redirect('/login');
+          }
           return null;
         }}
       />
       <Route
-        path='blog/:blogId'
+        path='blog/:userId'
         element={<Blog />}
-        loader={async () => {
-          let userId = user.id;
-          if (!userId) userId = await userLoader(dispatch);
-          if (!userId) throw redirect('/login');
+        loader={async ({ params }) => {
+          try {
+            await verifyLoggedIn(store, dispatch);
+            await dispatch(loadBlog(params.userId));
+          } catch (err) {
+            console.error(err);
+            return redirect('/login');
+          }
           return null;
         }}
       />
       <Route
-        path='post/:post'
+        path='post/:postId'
         element={<Post />}
-        loader={async () => {
-          let userId = user.id;
-          if (!userId) userId = await userLoader(dispatch);
-          if (!userId) throw redirect('/login');
+        loader={async ({ params }) => {
+          try {
+            await verifyLoggedIn(store, dispatch);
+          } catch (err) {
+            return redirect('/login');
+          }
           return null;
         }}
       />
@@ -73,9 +84,11 @@ function App(dispatch, user) {
         path='browse'
         element={<Browse />}
         loader={async () => {
-          let userId = user.id;
-          if (!userId) userId = await userLoader(dispatch);
-          if (!userId) throw redirect('/login');
+          try {
+            await verifyLoggedIn(store, dispatch);
+          } catch (err) {
+            return redirect('/login');
+          }
           return null;
         }}
       />
@@ -83,9 +96,11 @@ function App(dispatch, user) {
         path='new'
         element={<NewPost />}
         loader={async () => {
-          let userId = user.id;
-          if (!userId) userId = await userLoader(dispatch);
-          if (!userId) throw redirect('/login');
+          try {
+            await verifyLoggedIn(store, dispatch);
+          } catch (err) {
+            return redirect('/login');
+          }
           return null;
         }}
       />
@@ -93,9 +108,11 @@ function App(dispatch, user) {
         path='profile/:userId'
         element={<Profile />}
         loader={async () => {
-          let userId = user.id;
-          if (!userId) userId = await userLoader(dispatch);
-          if (!userId) throw redirect('/login');
+          try {
+            await verifyLoggedIn(store, dispatch);
+          } catch (err) {
+            return redirect('/login');
+          }
           return null;
         }}
       />

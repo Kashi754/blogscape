@@ -1,10 +1,10 @@
 import { useNavigate } from 'react-router';
 import { loginUser } from '../../API';
-import { LoginForm } from '../../features/user';
+import { LoginForm } from '../../features/login/LoginForm';
 import './Login.css';
 import { useState } from 'react';
 
-export function Login() {
+export default function Login() {
   const url = process.env.REACT_APP_SERVER_URL;
 
   const navigate = useNavigate();

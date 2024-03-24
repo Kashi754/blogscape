@@ -1,0 +1,70 @@
+.post-item {
+  background-color: white;
+  height: min(313px, max(50vw, 250px));
+  box-sizing: border-box;
+  padding: 8%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: space-between;
+  box-shadow: black 0px 0px 5px;
+}
+
+.post-item h2 {
+  font-size: min(1.5rem, max(2vw, 1.25rem));
+  margin: 0;
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+.post-item p {
+  font-size: min(1rem, max(1.5vw, 0.75rem));
+  margin: 0;
+  position: relative;
+  line-height: 1.5em;
+  max-height: 6em;
+  overflow: hidden;
+}
+
+.post-item p::after {
+  position: absolute;
+  text-align: right;
+  content: '';
+  bottom: 0;
+  right: 0;
+  width: 70%;
+  height: 1.5em;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 1) 50%
+  );
+}
+
+.post-item-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.post-item-footer h4 {
+  font-size: min(0.75rem, max(1.5vw, 0.6rem));
+  color: grey;
+  margin: 0;
+}
+
+.post-item-footer a {
+  font-size: 0.75rem;
+  margin: 0;
+  color: var(--secondary-color);
+}
+
+.post-item-footer a:hover {
+  color: var(--accent-color);
+  text-decoration: underline;
+}
+
+.post-item-categories {
+  display: flex;
+  gap: 1vw;
+}
