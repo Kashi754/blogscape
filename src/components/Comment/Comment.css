@@ -1,0 +1,126 @@
+.comment-container:not(.reply-container) {
+  margin: 1rem 0;
+  background-color: white;
+  box-shadow: var(--shadow);
+}
+
+.comment-container:not(.reply-container):has(.replies) {
+  padding-bottom: 0.1rem;
+}
+
+.replies {
+  margin-left: min(1rem, max(1vw, 0.25rem));
+  margin-bottom: 1rem;
+  box-shadow: rgba(0, 0, 0, 0.664) 0px 4px 12px;
+  position: relative;
+  z-index: 1;
+}
+
+.reply-container {
+  position: relative;
+  z-index: 2;
+}
+
+.reply-container:not(:first-child)::before {
+  content: '';
+  display: block;
+  width: 75%;
+  border-top: 1px solid var(--primary-color);
+  box-shadow: rgb(0, 0, 0) 0px 3px 3px;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.comment {
+  background-color: white;
+  display: flex;
+  padding: 1rem;
+  height: fit-content;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1rem;
+}
+
+.comment-image {
+  object-fit: cover;
+  width: min(65px, max(10vw, 50px));
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+}
+
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--secondary-color);
+  padding: 0.25rem;
+  padding-top: 0;
+  flex-wrap: wrap;
+}
+
+.comment-header a {
+  margin: 0;
+  font-size: min(1rem, max(1.5vw, 0.75rem));
+  color: var(--primary-color);
+  text-decoration: underline;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.comment-header a:hover {
+  color: var(--accent-color);
+  text-decoration: none;
+}
+
+.comment-header h5 {
+  margin: 0;
+  font-size: min(0.75rem, max(1.5vw, 0.65rem));
+  color: var(--primary-color);
+  white-space: nowrap;
+}
+
+.comment-body {
+  flex-grow: 1;
+}
+
+.comment-body p {
+  margin: 0;
+  padding: 0.25rem;
+  font-size: min(0.75rem, max(1.5vw, 0.65rem));
+}
+
+.comment-buttons {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 0.25rem;
+}
+
+.reply-button,
+.show-replies-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--secondary-color);
+  font-weight: bold;
+  font-size: min(0.75rem, max(1.5vw, 0.65rem));
+  padding: 0;
+  margin: 0;
+  text-decoration: underline;
+}
+
+.reply-button:hover,
+.show-replies-button:hover {
+  color: var(--accent-color);
+  text-decoration: none;
+}
+
+.hide-replies-button {
+  color: red;
+}
+
+@media screen and (max-width: 500px) {
+  .comment-image {
+    display: none;
+  }
+}

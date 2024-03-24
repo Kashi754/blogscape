@@ -30,15 +30,17 @@ export function MainPostCard({ post, author, isLink }) {
         <div className='main-post-footer'>
           <div className='main-post-categories'>
             {post.categories.map((category) => (
-              <h4>{category}</h4>
+              <h4 key={category}>{category}</h4>
             ))}
           </div>
-          <Link
-            className='read-more-link'
-            to={`/posts/${post.id}`}
-          >
-            Read More
-          </Link>
+          {isLink && (
+            <Link
+              className='read-more-link'
+              to={`/posts/${post.id}`}
+            >
+              Read More
+            </Link>
+          )}
         </div>
       </div>
     </div>

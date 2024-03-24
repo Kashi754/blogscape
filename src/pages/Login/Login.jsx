@@ -41,7 +41,7 @@ export default function Login() {
             </div>
           </div>
           <div className='center'>
-            <div className='line' />
+            <div className='divider-line' />
             <div className='or'>OR</div>
           </div>
           <LoginForm

@@ -8,7 +8,7 @@
   align-items: center;
   padding: 0;
   background-color: var(--secondary-color);
-  box-shadow: black 0px 0px 5px;
+  box-shadow: var(--shadow);
 }
 
 .main-post * {

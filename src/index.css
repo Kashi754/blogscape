@@ -5,6 +5,7 @@
   --primary-color-alt: #a8d4f0;
   --secondary-color: #00373a;
   --accent-color: #00ffbb;
+  --shadow: rgba(0, 0, 0, 0.5) 0px 0px 15px 3px;
 }
 
 html,

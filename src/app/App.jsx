@@ -5,15 +5,16 @@ import { Landing } from '../pages/Landing/Landing';
 import Login from '../pages/Login/Login';
 import Register from '../pages/Register/Register';
 import Blog from '../pages/Blog/Blog';
-import { Post } from '../pages/Post';
+import Post from '../pages/Post/Post';
 import { Browse } from '../pages/Browse';
 import { NewPost } from '../pages/NewPost';
 import { Profile } from '../pages/Profile';
 import { NotFound } from '../pages/NotFound';
 import Root from '../pages/Root/Root';
-import { loadUserPosts } from '../features/userPosts/userPostsAPI';
+import { loadUserPosts } from '../API';
 import { verifyLoggedIn } from '../utils/verifyLoggedIn';
-import { loadBlog } from '../features/blog/blogAPI';
+import { loadBlog } from '../API';
+import { loadPost } from '../API';
 
 function App(dispatch, store) {
   const routes = createRoutesFromElements(
@@ -69,11 +70,12 @@ function App(dispatch, store) {
         }}
       />
       <Route
-        path='post/:postId'
+        path='posts/:postId'
         element={<Post />}
         loader={async ({ params }) => {
           try {
             await verifyLoggedIn(store, dispatch);
+            await dispatch(loadPost(params.postId));
           } catch (err) {
             return redirect('/login');
           }
