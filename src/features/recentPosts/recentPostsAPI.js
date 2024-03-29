@@ -11,7 +11,6 @@ export const loadRecentPosts = createAsyncThunk(
 
       posts.forEach((post) => {
         post.image = 'https://picsum.photos/200';
-        post.title = 'Blog Title ' + post.id;
         post.author = {
           name: 'Blog Author',
           image: 'https://picsum.photos/200',

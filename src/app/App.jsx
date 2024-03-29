@@ -17,6 +17,7 @@ import {
   loadUserPosts,
   registerUser,
   loadPopularBlogs,
+  loadRecentPosts,
 } from '../API';
 import { verifyLoggedIn } from '../utils/verifyLoggedIn';
 import { loadBlog } from '../API';
@@ -110,6 +111,7 @@ function App(dispatch, store) {
             await Promise.all([
               dispatch(loadFollowedBlogs()),
               dispatch(loadPopularBlogs()),
+              dispatch(loadRecentPosts()),
             ]);
           } catch (err) {
             return redirect('/login');

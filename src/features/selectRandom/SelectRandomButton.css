@@ -1,0 +1,8 @@
+.find-random {
+  height: 2.75rem;
+  width: max(25vw, 200px);
+}
+
+.find-random-button {
+  text-align: center;
+}

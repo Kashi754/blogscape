@@ -8,3 +8,6 @@ export { loadComments } from '../features/comments/commentsAPI';
 export { loadReplies } from '../features/comments/commentsAPI';
 export { loadFollowedBlogs } from '../features/followedBlogs/followedBlogsAPI';
 export { loadPopularBlogs } from '../features/popularBlogs/popularBlogsAPI';
+export { loadRecentPosts } from '../features/recentPosts/recentPostsAPI';
+export { loadSearchResults } from '../features/search/searchAPI';
+export { getRandomBlogId };

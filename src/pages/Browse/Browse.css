@@ -1,0 +1,17 @@
+.browse {
+  margin: 2rem 8vw;
+  box-sizing: border-box;
+}
+
+.browse-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+@media screen and (max-width: 510px) {
+  .browse-nav {
+    justify-content: center;
+  }
+}

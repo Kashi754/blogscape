@@ -4,7 +4,7 @@
 }
 
 .react-multiple-carousel__arrow {
-  background-color: rgba(255, 255, 255, 0.5) !important;
+  background-color: rgba(255, 255, 255, 0.75) !important;
 }
 .react-multiple-carousel__arrow::before {
   color: var(--secondary-color) !important;

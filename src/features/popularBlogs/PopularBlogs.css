@@ -1,0 +1,23 @@
+.react-multi-carousel-item {
+  padding: 1rem 0;
+  box-sizing: border-box;
+}
+
+.react-multiple-carousel__arrow {
+  background-color: rgba(255, 255, 255, 0.75) !important;
+}
+.react-multiple-carousel__arrow::before {
+  color: var(--secondary-color) !important;
+  font-weight: bold;
+}
+
+.popular-blogs {
+  margin-top: 3rem;
+}
+
+.popular-blogs h2 {
+  font-size: 2rem;
+  text-align: center;
+  font-weight: 400;
+  color: var(--primary-color-alt);
+}

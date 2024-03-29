@@ -1,15 +1,8 @@
 import { useRef, useState } from 'react';
 import { Button, FloatingLabel, Form } from 'react-bootstrap';
-import stripLow from 'validator/lib/stripLow';
-import escape from 'validator/lib/escape';
-import trim from 'validator/lib/trim';
-import blacklist from 'validator/lib/blacklist';
 import './AddCommentForm.css';
 import useAutosizeTextArea from '../../hooks/useAutosizeTextArea';
-const blacklistString = '!@#$%^&*()[]{}|/\\'.replace(
-  /[.*+?^${}()|[\]\\]/g,
-  '\\$&'
-);
+import { sanitizeInput } from '../../utils/sanitizeInput';
 
 export function AddCommentForm({
   handleSubmit,
@@ -23,11 +16,9 @@ export function AddCommentForm({
 
   const submitComment = (event) => {
     event.preventDefault();
-    const strippedLow = stripLow(comment, true);
-    const escaped = escape(strippedLow);
-    const trimmed = trim(escaped);
-    const blacklisted = blacklist(trimmed, blacklistString);
-    handleSubmit(blacklisted);
+
+    const sanitized = sanitizeInput(comment);
+    handleSubmit(sanitized);
   };
 
   const formStyle = {
