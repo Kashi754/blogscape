@@ -7,7 +7,7 @@ export function BlogNav() {
     <nav>
       <ul className='header-links'>
         <li>
-          <Link to='/'>Browse Blogs</Link>
+          <Link to='/browse'>Browse Blogs</Link>
         </li>
         <li>
           <Link to={`/blog/${blogId}`}>My Blog</Link>

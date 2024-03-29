@@ -3,6 +3,9 @@ import userSliceReducer from '../features/user/userSlice';
 import userPostsSliceReducer from '../features/userPosts/userPostsSlice';
 import blogSliceReducer from '../features/blog/blogSlice';
 import postSliceReducer from '../features/post/postSlice';
+import commentsSliceReducer from '../features/comments/commentsSlice';
+import followedBlogsSliceReducer from '../features/followedBlogs/followedBlogsSlice';
+import popularBlogsSliceReducer from '../features/popularBlogs/popularBlogsSlice';
 
 const rootReducer = {
   // Add your reducer functions here
@@ -10,6 +13,9 @@ const rootReducer = {
   userPosts: userPostsSliceReducer,
   blog: blogSliceReducer,
   post: postSliceReducer,
+  comments: commentsSliceReducer,
+  followedBlogs: followedBlogsSliceReducer,
+  popularBlogs: popularBlogsSliceReducer,
 };
 
 export const store = configureStore({

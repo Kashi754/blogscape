@@ -6,7 +6,6 @@ const postSlice = createSlice({
   name: 'post',
   initialState: {
     post: {},
-    comments: [],
     isLoading: false,
     error: null,
   },
@@ -24,8 +23,7 @@ const postSlice = createSlice({
       .addCase(loadPost.fulfilled, (state, action) => {
         state.isLoading = false;
         state.error = null;
-        state.post = action.payload.post;
-        state.comments = action.payload.comments;
+        state.post = action.payload;
       });
   },
 });
@@ -36,14 +34,7 @@ export const selectPost = (state) => {
     createdAt: convertTimestampToDate(state.post.post.createdAt),
   };
 };
-export const selectComments = (state) => {
-  return state.post.comments.map((comment) => {
-    return {
-      ...comment,
-      createdAt: convertTimestampToDate(comment.createdAt),
-    };
-  });
-};
+
 export const selectIsLoading = (state) => state.post.isLoading;
 export const selectError = (state) => state.post.error;
 export default postSlice.reducer;

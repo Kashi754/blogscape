@@ -1,15 +1,17 @@
-import { useNavigate } from 'react-router';
-import { registerUser } from '../../API';
 import { RegistrationForm } from '../../features/registration/RegistrationForm';
 import './Register.css';
+import { useSubmit } from 'react-router-dom';
 
 export default function Register() {
-  const navigate = useNavigate();
+  const submit = useSubmit();
+
   const handleRegistration = async (formData) => {
-    const user = await registerUser(formData);
-    if (!user) return;
-    // TODO: Add success message
-    navigate('/login');
+    const { confirmPassword, ...data } = formData;
+    submit(data, {
+      method: 'post',
+      action: '/register',
+      encType: 'application/json',
+    });
   };
 
   return (

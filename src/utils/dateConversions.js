@@ -18,5 +18,14 @@ export function convertDateToString(date) {
     dateStyle: 'medium',
     timeStyle: 'short',
   };
+
   return new Intl.DateTimeFormat(undefined, dateOptions).format(date);
+}
+
+export function convertTimestampToString(timestamp) {
+  let date = convertTimestampToDate(timestamp);
+  if (typeof date === 'string') {
+    date = convertTimestampToDate(date);
+  }
+  return convertDateToString(date);
 }

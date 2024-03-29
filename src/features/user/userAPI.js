@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 export const loadUser = createAsyncThunk(
   'user/loadUser',
-  async (userId, rejectWithValue) => {
+  async (userId, { rejectWithValue }) => {
     try {
       const serverUrl = `https://jsonplaceholder.typicode.com/users/${userId}`;
 

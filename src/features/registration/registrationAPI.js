@@ -8,8 +8,8 @@ export async function registerUser(formData) {
         'Content-type': 'application/json; charset=UTF-8',
       },
     });
-    const user = await response.json();
-    return user;
+
+    return response;
   } catch (err) {
     console.log(err);
     return null;

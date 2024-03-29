@@ -4,3 +4,7 @@ export { registerUser } from '../features/registration/registrationAPI';
 export { loadUserPosts } from '../features/userPosts/userPostsAPI';
 export { loadBlog } from '../features/blog/blogAPI';
 export { loadPost } from '../features/post/postAPI';
+export { loadComments } from '../features/comments/commentsAPI';
+export { loadReplies } from '../features/comments/commentsAPI';
+export { loadFollowedBlogs } from '../features/followedBlogs/followedBlogsAPI';
+export { loadPopularBlogs } from '../features/popularBlogs/popularBlogsAPI';

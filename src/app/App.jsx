@@ -6,12 +6,18 @@ import Login from '../pages/Login/Login';
 import Register from '../pages/Register/Register';
 import Blog from '../pages/Blog/Blog';
 import Post from '../pages/Post/Post';
-import { Browse } from '../pages/Browse';
+import Browse from '../pages/Browse/Browse';
 import { NewPost } from '../pages/NewPost';
 import { Profile } from '../pages/Profile';
 import { NotFound } from '../pages/NotFound';
 import Root from '../pages/Root/Root';
-import { loadUserPosts } from '../API';
+import {
+  loadComments,
+  loadFollowedBlogs,
+  loadUserPosts,
+  registerUser,
+  loadPopularBlogs,
+} from '../API';
 import { verifyLoggedIn } from '../utils/verifyLoggedIn';
 import { loadBlog } from '../API';
 import { loadPost } from '../API';
@@ -41,6 +47,18 @@ function App(dispatch, store) {
       <Route
         path='register'
         element={<Register />}
+        action={async ({ request }) => {
+          let formData = await request.json();
+          try {
+            const res = await registerUser(formData);
+            if (!res.ok) {
+              throw new Response('Failed to register', { status: 500 });
+            }
+            return redirect('/login');
+          } catch (err) {
+            throw new Response(err.message, { status: err.status || 500 });
+          }
+        }}
       />
       <Route
         path='home'
@@ -76,6 +94,7 @@ function App(dispatch, store) {
           try {
             await verifyLoggedIn(store, dispatch);
             await dispatch(loadPost(params.postId));
+            await dispatch(loadComments(params.postId));
           } catch (err) {
             return redirect('/login');
           }
@@ -88,6 +107,10 @@ function App(dispatch, store) {
         loader={async () => {
           try {
             await verifyLoggedIn(store, dispatch);
+            await Promise.all([
+              dispatch(loadFollowedBlogs()),
+              dispatch(loadPopularBlogs()),
+            ]);
           } catch (err) {
             return redirect('/login');
           }

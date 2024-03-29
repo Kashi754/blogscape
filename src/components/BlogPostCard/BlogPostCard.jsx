@@ -10,7 +10,7 @@ export function BlogPostCard({ post }) {
         <Link to={`/posts/${post.id}`}>Read More</Link>
         <div className='post-item-categories'>
           {post.categories.map((category) => (
-            <h4>{category}</h4>
+            <h4 key={category}>{category}</h4>
           ))}
         </div>
       </div>

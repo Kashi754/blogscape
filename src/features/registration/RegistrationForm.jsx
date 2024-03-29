@@ -22,6 +22,7 @@ export function RegistrationForm({ handleSubmit }) {
       setValidated(true);
       return;
     }
+    setValidated(false);
     handleSubmit(formData);
   };
 
@@ -61,10 +62,11 @@ export function RegistrationForm({ handleSubmit }) {
             value={formData.email}
             onChange={handleChange}
             required
-            pattern='[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}'
             isInvalid={
               validated &&
-              !/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}/.test(formData.email)
+              !/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(
+                formData.email
+              )
             }
             placeholder='name@example.com'
           />
