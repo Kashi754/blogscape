@@ -23,7 +23,7 @@ export function RegistrationForm({ handleSubmit }) {
       return;
     }
     setValidated(false);
-    handleSubmit(formData);
+    handleSubmit(event, formData);
   };
 
   const handleChange = (event) => {
@@ -108,12 +108,14 @@ export function RegistrationForm({ handleSubmit }) {
             value={formData.blogTitle}
             onChange={handleChange}
             required
-            pattern='^[a-zA-Z0-9]+$'
-            isInvalid={validated && !/^[a-zA-Z0-9]+$/.test(formData.blogTitle)}
+            pattern={`^[a-zA-Z0-9 .,!?'"\\-]+$`}
+            isInvalid={
+              validated && !/^[a-zA-Z0-9 .,!?'"\\-]+$/.test(formData.blogTitle)
+            }
             placeholder='Blog Title'
           />
           <Form.Control.Feedback type='invalid'>
-            Please enter a valid blog title (letters and numbers only).
+            "Please use only letters, numbers, spaces, and common punctuation."
           </Form.Control.Feedback>
         </FloatingLabel>
       </Form.Group>
@@ -160,7 +162,7 @@ export function RegistrationForm({ handleSubmit }) {
           value={formData.confirmPassword}
           onChange={handleChange}
           required
-          pattern={formData.password}
+          valid={formData.password === formData.confirmPassword}
           isInvalid={
             validated && formData.password !== formData.confirmPassword
           }

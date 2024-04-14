@@ -1,24 +1,25 @@
-import { useNavigate } from 'react-router';
-import { loginUser } from '../../API';
+import { useSelector } from 'react-redux';
 import { LoginForm } from '../../features/login/LoginForm';
 import './Login.css';
-import { useState } from 'react';
+import { useLoaderData, useSubmit } from 'react-router-dom';
+import { selectError } from '../../features/auth/authSlice';
 
 export default function Login() {
   const url = process.env.REACT_APP_SERVER_URL;
-
-  const navigate = useNavigate();
-  const [isError, setIsError] = useState(false);
+  const submit = useSubmit();
+  const error = useSelector(selectError);
+  const loggedOutMsg = useLoaderData();
 
   const google = () => {
     window.open(`${url}/login/google`, '_self');
   };
 
   const handleLogin = async (formData) => {
-    const user = await loginUser(formData);
-    if (!user) setIsError(true);
-    setIsError(false);
-    navigate('/home');
+    submit(formData, {
+      method: 'post',
+      action: '/login',
+      encType: 'application/json',
+    });
   };
 
   return (
@@ -46,7 +47,8 @@ export default function Login() {
           </div>
           <LoginForm
             handleSubmit={handleLogin}
-            isError={isError}
+            // TODO: Add error handling
+            error={error || (loggedOutMsg && { message: loggedOutMsg })}
           />
         </div>
       </div>

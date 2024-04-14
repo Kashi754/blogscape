@@ -10,6 +10,7 @@ import { store } from './app/Store';
 import './index.css';
 import registerServiceWorker from './registerServiceWorker';
 import reportWebVitals from './reportWebVitals';
+
 const root = createRoot(document.getElementById('root'));
 
 // This is a test

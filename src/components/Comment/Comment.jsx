@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectReplies } from '../../features/comments/commentsSlice';
 import { loadReplies } from '../../API';
-import { AddCommentForm } from '../addComment/AddCommentForm';
+import { AddCommentForm } from '../AddComment/AddCommentForm';
 
 export function Comment({ comment, handleSubmitReply, isReply = false }) {
   const {

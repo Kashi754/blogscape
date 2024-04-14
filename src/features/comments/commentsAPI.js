@@ -52,3 +52,19 @@ export const loadReplies = createAsyncThunk(
     }
   }
 );
+
+export const addComment = async (postId, comment) => {
+  const serverUrl = `https://jsonplaceholder.typicode.com/comments?postId=${postId}`; // Replace with your server URL
+
+  const response = await fetch(serverUrl, {
+    method: 'POST',
+    body: comment,
+    headers: {
+      'Content-type': 'application/json; charset=UTF-8',
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to add comment');
+  }
+};

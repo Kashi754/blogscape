@@ -21,9 +21,11 @@ export const loadBlog = createAsyncThunk(
         title: 'Blog Title',
         description: 'This is a description of the currently selected blog',
         image: 'https://picsum.photos/200/300',
+        thumbnail: 'https://picsum.photos/100',
         author: 'Blog Author',
         followers: 100,
         followed: false,
+        fileId: null,
         posts,
       };
     } catch (err) {

@@ -19,7 +19,7 @@ export function Footer() {
       <div className='divider'></div>
       <ul className='footer-links'>
         <li>
-          <SocialIcon url='https://twitter.com/arigorn_15' />
+          <SocialIcon url='https://x.com/arigorn_15' />
         </li>
         <li>
           <SocialIcon url='https://facebook.com/tj.petersen.7' />

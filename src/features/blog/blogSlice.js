@@ -11,6 +11,8 @@ const blogSlice = createSlice({
     author: '',
     followers: 0,
     followed: false,
+    fileId: '',
+    thumbnail: '',
     mostRecentPost: null,
     posts: [],
     isLoading: false,
@@ -37,6 +39,8 @@ const blogSlice = createSlice({
         state.author = blog.author;
         state.followers = blog.followers;
         state.followed = blog.followed;
+        state.fileId = blog.fileId;
+        state.thumbnail = blog.thumbnail;
 
         const [mostRecentPost, ...rest] = blog.posts;
         if (state.mostRecentPost) {
@@ -69,6 +73,8 @@ export const selectBlogHeader = (state) => {
     author: state.blog.author,
     followers: state.blog.followers,
     followed: state.blog.followed,
+    thumbnail: state.blog.thumbnail,
+    fileId: state.blog.fileId,
   };
 };
 

@@ -13,7 +13,7 @@ footer {
   margin: 0;
   color: var(--secondary-color);
   position: relative;
-  z-index: 2;
+  z-index: 0;
 }
 
 .footer-logo:after {

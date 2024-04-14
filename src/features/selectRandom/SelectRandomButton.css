@@ -6,3 +6,17 @@
 .find-random-button {
   text-align: center;
 }
+
+.select-random {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#button-left {
+  border-right-width: 2px;
+}
+
+#button-right {
+  border-left-width: 2px;
+}

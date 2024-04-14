@@ -1,17 +1,22 @@
 import { useEffect, useRef, useState } from 'react';
 import { Button, ButtonGroup } from 'react-bootstrap';
 import './SelectRandomButton.css';
+import { getRandomBlogId, getRandomPostId } from '../../API';
+import { useNavigate } from 'react-router';
 
 export const SelectRandomButton = () => {
   const [buttonSelected, setButtonSelected] = useState(false);
   const ref = useRef();
+  const navigate = useNavigate();
 
-  function navigateRandomBlog() {
-    const blogId = 
+  async function navigateRandomBlog() {
+    const blogId = await getRandomBlogId();
+    navigate(`/blog/${blogId}`);
   }
 
-  function navigateRandomPost() {
-    return null;
+  async function navigateRandomPost() {
+    const postId = await getRandomPostId();
+    navigate(`/posts/${postId}`);
   }
 
   useEffect(() => {
@@ -57,6 +62,7 @@ export const SelectRandomButton = () => {
         onClick={navigateRandomBlog}
         aria-label='go to random blog'
         className='select-random'
+        id='button-left'
       >
         Blog?
       </Button>
@@ -66,6 +72,7 @@ export const SelectRandomButton = () => {
         onClick={navigateRandomPost}
         aria-label='go to random post'
         className='select-random'
+        id='button-right'
       >
         Post?
       </Button>

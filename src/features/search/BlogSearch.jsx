@@ -13,10 +13,9 @@ export function BlogSearch() {
   const handleSearch = (e) => {
     e.preventDefault();
     const sanitized = sanitizeInput(search);
-    console.log(sanitized);
     navigate({
       pathname: '/search',
-      search: createSearchParams({ q: search }).toString(),
+      search: createSearchParams({ q: sanitized }).toString(),
     });
   };
 

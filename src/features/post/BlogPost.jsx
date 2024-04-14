@@ -15,7 +15,7 @@ export function BlogPost() {
         isLink={false}
       />
       <PostBody body={post.body} />
-      <PostComments />
+      <PostComments postId={post.id} />
     </div>
   );
 }

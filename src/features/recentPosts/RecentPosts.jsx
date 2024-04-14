@@ -8,7 +8,7 @@ export function RecentPosts() {
 
   return (
     <section className='recent-posts'>
-      <h2>Recent Posts</h2>
+      <h2 className='recent-posts-heading'>Recent Posts</h2>
       <div className='recent-posts-list'>
         {recentPosts.map((post) => (
           <BlogPostCard

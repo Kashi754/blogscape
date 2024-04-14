@@ -1,0 +1,133 @@
+.wmde-markdown-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 10px;
+  flex-grow: 1;
+}
+
+.editor-wrapper {
+  box-sizing: border-box;
+  transition: width 0.5s ease-in-out, height 0.01s;
+  height: 100%;
+}
+
+.wmde-markdown-container.invalid {
+  border: 1px solid #f93154;
+}
+
+.md-editor {
+  height: 100%;
+}
+
+.md-editor.preview-visible {
+  border-bottom-right-radius: 0;
+}
+
+.md-editor-toolbar-warp {
+  background-color: var(--primary-color-alt);
+}
+
+.md-editor-toolbar button {
+  color: var(--secondary-color);
+}
+
+.md-editor-toolbar button:hover {
+  color: var(--primary-color);
+}
+
+.editor-body {
+  width: 50%;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+  box-sizing: border-box;
+  padding: 1rem;
+  border-left: 1px solid var(--accent-color);
+  height: 100%;
+  overflow-y: scroll;
+  overflow-x: scroll;
+  transition: width 0.5s ease-in-out, padding 0.5s ease-in-out, height 0.01s;
+}
+
+.editor-body.hidden {
+  width: 0;
+  padding: 0 !important;
+  border-left: none;
+}
+
+.md-editor.fullscreen {
+  height: 100vh;
+  transition: height 0.5s ease-in-out, width 0.01s;
+}
+
+.md-editor.fullscreen.preview-visible {
+  height: 70vh;
+  border-bottom: 1px solid var(--accent-color);
+}
+
+.editor-body.fullscreen {
+  height: 30vh;
+  width: 100vw;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 999;
+  border-top: 1px solid var(--accent-color);
+  transition: height 0.5s ease-in-out, width 0.01s;
+}
+
+.editor-body.fullscreen.hidden {
+  height: 0;
+  transition: height 0.5s ease-in-out, width 0.01s;
+}
+
+.body-section-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  height: 100%;
+}
+
+.body-invalid {
+  display: block;
+}
+
+/* 680px */
+
+@media screen and (max-width: 700px) {
+  .editor-wrapper {
+    width: 100% !important;
+    transition: height 0.5s ease-in-out, width none;
+  }
+
+  .wmde-markdown-container {
+    flex-direction: column;
+  }
+
+  .md-editor {
+    border-top-right-radius: 3px;
+    border-bottom-left-radius: 0;
+    height: 400px;
+  }
+
+  .editor-body {
+    width: 100%;
+    height: 400px;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 3px;
+    border-left: none;
+    border-top: 1px solid var(--accent-color);
+    transition: height 0.5s ease-in-out;
+  }
+
+  .editor-body.hidden {
+    width: 100%;
+    height: 0;
+    border-top: none;
+  }
+
+  .editor-wrapper {
+    border-right: none;
+  }
+}

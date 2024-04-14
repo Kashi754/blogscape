@@ -2,10 +2,15 @@ import { useSelector } from 'react-redux';
 import { selectBlogHeader } from '../blogSlice';
 import { Button } from 'react-bootstrap';
 import './BlogHeader.css';
+import { selectUserId } from '../../auth/authSlice';
+import { useParams } from 'react-router';
 
 export function BlogHeader() {
   const { title, description, image, author, followers, followed } =
     useSelector(selectBlogHeader);
+
+  const userId = useSelector(selectUserId);
+  const userIdParam = parseInt(useParams().userId);
 
   function followBlog(e) {
     e.preventDefault();
@@ -19,17 +24,17 @@ export function BlogHeader() {
       style={{ backgroundImage: `url(${image})` }}
     >
       <div className='blog-header-wrapper'>
-        <div className='blog-header-info'>
+        <section className='blog-header-info'>
           <div className='blog-title'>
             <h2>{title}</h2>
             <h3>{author}</h3>
           </div>
           <p>{description}</p>
-        </div>
+        </section>
 
-        <div className='follower-section'>
+        <section className='follower-section'>
           <h3>{followers} followers</h3>
-          {followed ? (
+          {userId === userIdParam ? null : followed ? (
             <div>
               <Button
                 id='follow-button'
@@ -58,7 +63,7 @@ export function BlogHeader() {
               Follow
             </Button>
           )}
-        </div>
+        </section>
       </div>
     </header>
   );

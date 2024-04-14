@@ -3,19 +3,13 @@ import { useState } from 'react';
 import { FloatingLabel, InputGroup, Form, Button } from 'react-bootstrap';
 import './LoginForm.css';
 
-export function LoginForm({ isError }) {
+export function LoginForm({ error, handleSubmit }) {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [validated, setValidated] = useState(false);
   const [formData, setFormData] = useState({
     username: '',
     password: '',
   });
-
-  const isInvalid =
-    validated &&
-    !/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/.test(formData.password) &&
-    !/^[a-zA-Z0-9]+$/.test(formData.username) &&
-    isError;
 
   const submitForm = (event) => {
     event.preventDefault();
@@ -27,6 +21,7 @@ export function LoginForm({ isError }) {
     }
     setValidated(false);
     // TODO: Add login logic
+    handleSubmit(formData);
   };
 
   const handleChange = (event) => {
@@ -39,12 +34,12 @@ export function LoginForm({ isError }) {
   };
 
   const formStyle = {
-    width: 'clamp(300px, 50vw, 700px)',
+    width: 'clamp(250px, 50vw, 400px)',
     padding: '20px',
     borderRadius: '10px',
     display: 'flex',
     flexDirection: 'column',
-    gap: '0.25rem',
+    gap: '0.5rem',
   };
 
   return (
@@ -69,11 +64,17 @@ export function LoginForm({ isError }) {
             isInvalid={validated && !/^[a-zA-Z0-9]+$/.test(formData.username)}
             placeholder='Username'
           />
+          <Form.Control.Feedback
+            className='login-feedback'
+            type='invalid'
+          >
+            Invalid username
+          </Form.Control.Feedback>
         </FloatingLabel>
       </Form.Group>
 
       <Form.Group>
-        <InputGroup>
+        <InputGroup hasValidation>
           <Form.Control
             type={passwordVisible ? 'text' : 'password'}
             placeholder='Password'
@@ -95,12 +96,16 @@ export function LoginForm({ isError }) {
               />
             )}
           </InputGroup.Text>
+          <Form.Control.Feedback
+            className='login-feedback'
+            type='invalid'
+          >
+            Invalid password
+          </Form.Control.Feedback>
         </InputGroup>
       </Form.Group>
-      {!isInvalid && (
-        <div className='invalid-feedback custom-feedback'>
-          Incorrect Username or Password!
-        </div>
+      {!!error && (
+        <div className='invalid-feedback custom-feedback'>{error.message}</div>
       )}
 
       <Button

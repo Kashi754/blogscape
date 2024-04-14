@@ -18,7 +18,7 @@ export default function Home() {
           className='add-post-button'
           variant='secondary'
           size='sm'
-          onClick={() => navigate('/new-post')}
+          onClick={() => navigate('/new')}
         >
           <AddIcon fontSize={vw <= 500 ? 'small' : 'large'} />{' '}
           {vw >= 700 ? 'New Blog Post' : vw <= 525 ? '' : 'New Post'}

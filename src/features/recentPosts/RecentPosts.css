@@ -21,3 +21,11 @@
   font-weight: 400;
   color: var(--primary-color-alt);
 }
+
+@media screen and (max-width: 550px) {
+  .recent-posts-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}

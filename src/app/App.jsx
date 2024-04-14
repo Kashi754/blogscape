@@ -7,9 +7,9 @@ import Register from '../pages/Register/Register';
 import Blog from '../pages/Blog/Blog';
 import Post from '../pages/Post/Post';
 import Browse from '../pages/Browse/Browse';
-import { NewPost } from '../pages/NewPost';
-import { Profile } from '../pages/Profile';
-import { NotFound } from '../pages/NotFound';
+import NewPost from '../pages/NewPost/NewPost';
+import Profile from '../pages/Profile/Profile';
+import NotFound from '../pages/NotFound/NotFound';
 import Root from '../pages/Root/Root';
 import {
   loadComments,
@@ -18,6 +18,12 @@ import {
   registerUser,
   loadPopularBlogs,
   loadRecentPosts,
+  loadTags,
+  addComment,
+  createPost,
+  login,
+  logout,
+  loadUser,
 } from '../API';
 import { verifyLoggedIn } from '../utils/verifyLoggedIn';
 import { loadBlog } from '../API';
@@ -33,7 +39,7 @@ function App(dispatch, store) {
         index
         loader={async () => {
           try {
-            await verifyLoggedIn(store, dispatch);
+            verifyLoggedIn(store, dispatch);
             return redirect('/home');
           } catch (err) {
             return null;
@@ -44,6 +50,32 @@ function App(dispatch, store) {
       <Route
         path='login'
         element={<Login />}
+        action={async ({ request }) => {
+          let formData = await request.json();
+          try {
+            // Action to login user
+            const res = await dispatch(login(formData));
+            if (!res.type.includes('fulfilled')) {
+              return null;
+            }
+            return redirect('/home');
+          } catch (err) {
+            throw new Response(err.message, { status: err.status || 500 });
+          }
+        }}
+      />
+      <Route
+        path='logout'
+        element={<Login />}
+        loader={async () => {
+          try {
+            // Action to logout user
+            await dispatch(logout());
+            return 'You have been Logged Out!';
+          } catch (err) {
+            throw new Response(err.message, { status: err.status || 500 });
+          }
+        }}
       />
       <Route
         path='register'
@@ -51,6 +83,7 @@ function App(dispatch, store) {
         action={async ({ request }) => {
           let formData = await request.json();
           try {
+            // Action to register user
             const res = await registerUser(formData);
             if (!res.ok) {
               throw new Response('Failed to register', { status: 500 });
@@ -66,8 +99,8 @@ function App(dispatch, store) {
         element={<Home />}
         loader={async () => {
           try {
-            const userId = await verifyLoggedIn(store, dispatch);
-            await dispatch(loadUserPosts(userId));
+            await verifyLoggedIn(store, dispatch);
+            await dispatch(loadUserPosts(1));
           } catch (err) {
             return redirect('/login');
           }
@@ -101,6 +134,19 @@ function App(dispatch, store) {
           }
           return null;
         }}
+        action={async ({ params, request }) => {
+          // Action to add a comment
+          let comment = await request.json();
+          console.log(comment);
+          try {
+            const res = await addComment(params, comment);
+            if (!res.ok) {
+              throw new Response('Failed to add comment', { status: 500 });
+            }
+          } catch (err) {
+            throw new Response(err.message, { status: err.status || 500 });
+          }
+        }}
       />
       <Route
         path='browse'
@@ -125,21 +171,62 @@ function App(dispatch, store) {
         loader={async () => {
           try {
             await verifyLoggedIn(store, dispatch);
+            await dispatch(loadTags());
           } catch (err) {
             return redirect('/login');
           }
           return null;
         }}
+        action={async ({ request }) => {
+          // Action to create a new post
+          let formData = await request.formData();
+          try {
+            const res = await createPost(formData);
+            if (!res.ok) {
+              throw new Response('Failed to create post', { status: 500 });
+            }
+            return redirect('/home');
+          } catch (err) {
+            throw new Response(err.message, { status: err.status || 500 });
+          }
+        }}
       />
       <Route
-        path='profile/:userId'
+        path='profile/:userId?'
         element={<Profile />}
-        loader={async () => {
+        loader={async ({ params }) => {
           try {
-            await verifyLoggedIn(store, dispatch);
+            const userId = await verifyLoggedIn(store, dispatch);
+            await dispatch(loadUser(params.userId || userId));
+            await dispatch(loadBlog(params.userId || userId));
           } catch (err) {
             return redirect('/login');
           }
+          return null;
+        }}
+        action={async ({ request }) => {
+          const { key, formData } = await request.json();
+
+          if (key === 'profile') {
+            // TODO: Add edit profile logic
+            console.log('profile', formData);
+          }
+
+          if (key === 'password') {
+            // TODO: Add change password logic
+            console.log('password', formData);
+          }
+
+          if (key === 'socialMedia') {
+            // TODO: Add edit social media logic
+            console.log('socialMedia', formData);
+          }
+
+          if (key === 'blog') {
+            // TODO: Add edit blog logic
+            console.log('blog', formData);
+          }
+
           return null;
         }}
       />

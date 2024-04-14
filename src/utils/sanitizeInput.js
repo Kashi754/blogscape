@@ -1,6 +1,6 @@
 import { blacklist, escape, stripLow, trim } from 'validator';
 
-const blacklistString = '!;@#$%^&*()[]{}|/\\'.replace(
+const blacklistString = ';@$%^&*()[]{}|/\\'.replace(
   /[.*+?^${}();|[\]\\]/g,
   '\\$&'
 );

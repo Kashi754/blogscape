@@ -8,6 +8,8 @@ import followedBlogsSliceReducer from '../features/followedBlogs/followedBlogsSl
 import popularBlogsSliceReducer from '../features/popularBlogs/popularBlogsSlice';
 import recentPostsSliceReducer from '../features/recentPosts/recentPostsSlice';
 import searchSliceReducer from '../features/search/searchSlice';
+import tagsSliceReducer from '../features/tags/tagsSlice';
+import authSliceReducer from '../features/auth/authSlice';
 
 const rootReducer = {
   // Add your reducer functions here
@@ -20,6 +22,8 @@ const rootReducer = {
   popularBlogs: popularBlogsSliceReducer,
   recentPosts: recentPostsSliceReducer,
   search: searchSliceReducer,
+  tags: tagsSliceReducer,
+  auth: authSliceReducer,
 };
 
 export const store = configureStore({

@@ -1,12 +1,21 @@
-import { loadUser } from '../API';
+import { setAuthenticated } from '../features/auth/authSlice';
+import { getWithExpiry } from './LocalStorageWithExpiry';
 
-export async function verifyLoggedIn(store, dispatch) {
-  const userId = store.getState().user.user.id;
-  if (userId) return userId;
+export function verifyLoggedIn(store, dispatch) {
+  const auth = store.getState().auth;
+  if (auth.authenticated) {
+    const now = new Date();
+    const notExpired = now.getTime() < auth.expiry;
+    if (notExpired) {
+      return auth.userId;
+    }
+  }
+  const { value: userIdInStore, expiry } = getWithExpiry('auth');
+  if (!userIdInStore) {
+    dispatch(setAuthenticated({ auth: false }));
+    throw new Error('Please log in');
+  }
 
-  await dispatch(loadUser(1));
-
-  const error = store.getState().user.error;
-  if (error) throw new Error(error.message);
-  return store.getState().user.user.id;
+  dispatch(setAuthenticated({ auth: userIdInStore, expiry }));
+  return userIdInStore;
 }

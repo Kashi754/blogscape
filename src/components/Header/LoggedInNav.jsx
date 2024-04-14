@@ -4,6 +4,10 @@ import { Button } from 'react-bootstrap';
 export function LoggedInNav() {
   const navigate = useNavigate();
 
+  const handleNavigate = () => {
+    navigate('/profile');
+  };
+
   return (
     <nav>
       <ul className='header-links'>
@@ -19,7 +23,7 @@ export function LoggedInNav() {
         <li>
           <Button
             variant='primary'
-            onClick={() => navigate('/profile')}
+            onClick={handleNavigate}
             size='sm'
           >
             Profile

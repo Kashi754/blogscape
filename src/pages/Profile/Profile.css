@@ -1,0 +1,132 @@
+.profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 7.5rem;
+  width: 100%;
+  height: 100%;
+  padding: 7.3rem 0.5rem;
+}
+
+.profile h2:not(.blog-header h2) {
+  color: var(--accent-color);
+  font-weight: bold;
+  font-size: 3rem;
+  margin: 0;
+  background-color: var(--secondary-color);
+  width: min(700px, 90vw);
+  border-radius: 5px;
+  text-align: center;
+  padding: 0.5rem;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--accent-color);
+}
+
+.profile-body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4vw;
+}
+
+.profile-picture-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  flex: 1 1 20rem;
+}
+
+.profile-picture-section img {
+  width: 100%;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  border-radius: 3px;
+  box-shadow: var(--shadow);
+}
+
+.profile-picture-section h4 {
+  color: var(--primary-color-alt);
+  margin: 0;
+  font-size: 1.375rem;
+}
+
+.profile-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 45vw;
+}
+
+.profile-item {
+  display: flex;
+  gap: 1rem;
+  padding: 0 0.5rem;
+}
+
+.profile-item h3 {
+  font-size: min(2rem, max(3vw, 1.25rem));
+  margin: 0;
+  color: var(--accent-color);
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+}
+
+.profile-item h4 {
+  font-size: min(1.5rem, max(2.75vw, 1rem));
+  margin: 0;
+  color: var(--primary-color-alt);
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+}
+
+.profile-blog-link:hover {
+  text-decoration: none;
+}
+
+.profile-section .blog-header {
+  width: 100%;
+  clip-path: unset;
+}
+
+.profile-section .blog-header:hover {
+  border: 1px solid var(--accent-color);
+}
+
+.social-media {
+  display: flex;
+  gap: 1rem;
+  padding: 0 0.5rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+@media screen and (max-width: 560px) {
+  .profile {
+    gap: 2rem;
+    padding: 2rem;
+  }
+
+  .profile-body {
+    flex-direction: column;
+  }
+
+  .profile h2:not(.blog-header h2) {
+    font-size: min(2.5rem, max(8vw, 1.5rem));
+  }
+
+  .profile-section {
+    width: 100%;
+    align-items: center;
+  }
+
+  .profile-item h3,
+  .profile-item h4 {
+    font-size: min(1.25rem, max(4vw, 1rem));
+  }
+}

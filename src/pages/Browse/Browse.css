@@ -10,6 +10,12 @@
   gap: 0.5rem;
 }
 
+@media screen and (max-width: 800px) {
+  .browse-nav {
+    margin-bottom: 2rem;
+  }
+}
+
 @media screen and (max-width: 510px) {
   .browse-nav {
     justify-content: center;

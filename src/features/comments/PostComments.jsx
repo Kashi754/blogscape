@@ -3,31 +3,29 @@ import { Comment } from '../../components/Comment/Comment';
 import { selectComments } from './commentsSlice';
 import { useSubmit } from 'react-router-dom';
 import { useState } from 'react';
-import { AddCommentForm } from '../../components/addComment/AddCommentForm';
+import { AddCommentForm } from '../../components/AddComment/AddCommentForm';
 import { Button } from 'react-bootstrap';
 import AddIcon from '@mui/icons-material/Add';
 import './PostComments.css';
 
-export function PostComments() {
+export function PostComments({ postId }) {
   const comments = useSelector(selectComments);
   const submit = useSubmit();
   const [addComment, setAddComment] = useState(false);
 
-  const submitComment = (comment, commentId) => {
+  const submitComment = (body, commentId) => {
     setAddComment(false);
-    const body = comment;
+    const comment = { body };
+
     if (commentId) {
-      body.commentId = commentId;
+      comment.commentId = commentId;
     }
 
-    submit(
-      { body },
-      {
-        method: 'post',
-        action: '/post',
-        encType: 'application/json',
-      }
-    );
+    submit(comment, {
+      method: 'post',
+      action: `/posts/${postId}`,
+      encType: 'application/json',
+    });
   };
 
   const cancelComment = () => {
