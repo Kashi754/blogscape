@@ -4,6 +4,7 @@ import { Button } from 'react-bootstrap';
 import './BlogHeader.css';
 import { selectUserId } from '../../auth/authSlice';
 import { useParams } from 'react-router';
+import { useSubmit } from 'react-router-dom';
 
 export function BlogHeader() {
   const { title, description, image, author, followers, followed } =
@@ -11,11 +12,11 @@ export function BlogHeader() {
 
   const userId = useSelector(selectUserId);
   const userIdParam = parseInt(useParams().userId);
+  const submit = useSubmit();
 
   function followBlog(e) {
     e.preventDefault();
-
-    // TODO: Add follow logic
+    submit(null, { method: 'post', action: `/blog/${userIdParam}` });
   }
 
   return (

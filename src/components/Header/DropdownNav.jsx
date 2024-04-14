@@ -8,18 +8,24 @@ const DropdownButton = React.forwardRef(({ children, onClick }, ref) => (
     variant='primary'
     size='sm'
     ref={ref}
-    onClick={onClick}
+    onClick={(e) => {
+      e.preventDefault();
+      onClick(e);
+    }}
     className='dropdown-button'
   >
     {children}
   </Button>
 ));
 
-const DropdownLink = React.forwardRef(({ children, to }, ref) => (
+const DropdownLink = React.forwardRef(({ children, onClick, to }, ref) => (
   <Link
     className='dropdown-link'
     ref={ref}
     to={to}
+    onClick={(e) => {
+      onClick(e);
+    }}
   >
     {children}
   </Link>
@@ -30,7 +36,7 @@ export function DropdownNav({ loggedIn, blogId }) {
 
   if (loggedIn) {
     return (
-      <Dropdown>
+      <Dropdown autoClose='true'>
         <Dropdown.Toggle variant='primary'>
           <MenuIcon />
         </Dropdown.Toggle>

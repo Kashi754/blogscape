@@ -34,3 +34,8 @@ export const loadBlog = createAsyncThunk(
     }
   }
 );
+
+export const followBlog = (userId) => {
+  // TODO: Add follow logic
+  console.log(userId);
+};

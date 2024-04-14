@@ -32,6 +32,12 @@
   position: relative;
 }
 
+@media screen and (max-width: 500px) {
+  .home {
+    padding-top: 3rem;
+  }
+}
+
 @media screen and (max-width: 300px) {
   .add-post-button {
     padding: 0.25rem 0.5rem;

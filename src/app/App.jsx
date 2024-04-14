@@ -24,6 +24,8 @@ import {
   login,
   logout,
   loadUser,
+  followBlog,
+  addReply,
 } from '../API';
 import { verifyLoggedIn } from '../utils/verifyLoggedIn';
 import { loadBlog } from '../API';
@@ -120,6 +122,15 @@ function App(dispatch, store) {
           }
           return null;
         }}
+        action={async ({ params }) => {
+          // Action to follow a blog
+          try {
+            await followBlog(params.userId);
+            return null;
+          } catch (err) {
+            throw new Response(err.message, { status: err.status || 500 });
+          }
+        }}
       />
       <Route
         path='posts/:postId'
@@ -136,13 +147,15 @@ function App(dispatch, store) {
         }}
         action={async ({ params, request }) => {
           // Action to add a comment
-          let comment = await request.json();
-          console.log(comment);
+          let { key, comment } = await request.json();
+
           try {
-            const res = await addComment(params, comment);
-            if (!res.ok) {
-              throw new Response('Failed to add comment', { status: 500 });
+            if (key === 'comment') {
+              await addComment(params, comment);
+            } else {
+              await addReply(params, comment);
             }
+            return null;
           } catch (err) {
             throw new Response(err.message, { status: err.status || 500 });
           }
@@ -179,12 +192,9 @@ function App(dispatch, store) {
         }}
         action={async ({ request }) => {
           // Action to create a new post
-          let formData = await request.formData();
+          let formData = await request.json();
           try {
-            const res = await createPost(formData);
-            if (!res.ok) {
-              throw new Response('Failed to create post', { status: 500 });
-            }
+            await createPost(formData);
             return redirect('/home');
           } catch (err) {
             throw new Response(err.message, { status: err.status || 500 });
@@ -207,27 +217,30 @@ function App(dispatch, store) {
         action={async ({ request }) => {
           const { key, formData } = await request.json();
 
-          if (key === 'profile') {
-            // TODO: Add edit profile logic
-            console.log('profile', formData);
-          }
+          try {
+            if (key === 'profile') {
+              // TODO: Add edit profile logic
+              console.log('profile', formData);
+            }
 
-          if (key === 'password') {
-            // TODO: Add change password logic
-            console.log('password', formData);
-          }
+            if (key === 'password') {
+              // TODO: Add change password logic
+              console.log('password', formData);
+            }
 
-          if (key === 'socialMedia') {
-            // TODO: Add edit social media logic
-            console.log('socialMedia', formData);
-          }
+            if (key === 'socialMedia') {
+              // TODO: Add edit social media logic
+              console.log('socialMedia', formData);
+            }
 
-          if (key === 'blog') {
-            // TODO: Add edit blog logic
-            console.log('blog', formData);
+            if (key === 'blog') {
+              // TODO: Add edit blog logic
+              console.log('blog', formData);
+            }
+            return null;
+          } catch (err) {
+            throw new Response(err.message, { status: err.status || 500 });
           }
-
-          return null;
         }}
       />
       <Route

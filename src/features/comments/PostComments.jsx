@@ -13,19 +13,31 @@ export function PostComments({ postId }) {
   const submit = useSubmit();
   const [addComment, setAddComment] = useState(false);
 
-  const submitComment = (body, commentId) => {
+  const submitComment = (body) => {
     setAddComment(false);
     const comment = { body };
 
-    if (commentId) {
-      comment.commentId = commentId;
-    }
+    submit(
+      { key: 'comment', comment },
+      {
+        method: 'post',
+        action: `/posts/${postId}`,
+        encType: 'application/json',
+      }
+    );
+  };
 
-    submit(comment, {
-      method: 'post',
-      action: `/posts/${postId}`,
-      encType: 'application/json',
-    });
+  const submitReply = (body, commentId) => {
+    const comment = { body, commentId };
+
+    submit(
+      { key: 'reply', comment },
+      {
+        method: 'post',
+        action: `/posts/${postId}`,
+        encType: 'application/json',
+      }
+    );
   };
 
   const cancelComment = () => {
@@ -57,7 +69,7 @@ export function PostComments({ postId }) {
         <Comment
           key={comment.id}
           comment={comment}
-          handleSubmitReply={submitComment}
+          handleSubmitReply={submitReply}
         />
       ))}
     </section>

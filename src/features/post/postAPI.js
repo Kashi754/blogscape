@@ -24,17 +24,7 @@ export const loadPost = createAsyncThunk(
 );
 
 export const createPost = async (post) => {
-  const serverUrl = 'https://jsonplaceholder.typicode.com/posts';
-  // const response = await fetch(serverUrl, {
-  //   method: 'POST',
-  //   body: post,
-  //   headers: {
-  //     'Content-type': 'multipart/form-data',
-  //     'cross-origin': 'anonymous',
-  //   },
-  // });
-
-  const response = await Promise.resolve({ ok: true });
-
-  return response;
+  // TODO: add post to server
+  console.log(post);
+  return null;
 };

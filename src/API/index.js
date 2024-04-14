@@ -10,20 +10,32 @@ export {
   verifyPassword,
   updateUserSocialMedia,
 } from '../features/user/userAPI';
+
 export { login, logout } from '../features/auth/authAPI';
+
 export { loadUserPosts } from '../features/userPosts/userPostsAPI';
-export { loadBlog } from '../features/blog/blogAPI';
+
+export { loadBlog, followBlog } from '../features/blog/blogAPI';
+
 export { loadPost, createPost } from '../features/post/postAPI';
+
 export {
   loadComments,
   loadReplies,
   addComment,
+  addReply,
 } from '../features/comments/commentsAPI';
+
 export { loadFollowedBlogs } from '../features/followedBlogs/followedBlogsAPI';
+
 export { loadPopularBlogs } from '../features/popularBlogs/popularBlogsAPI';
+
 export { loadRecentPosts } from '../features/recentPosts/recentPostsAPI';
+
 export { loadSearchResults } from '../features/search/searchAPI';
+
 export { loadTags, addTag } from '../features/tags/tagsAPI';
+
 export {
   getRandomBlogId,
   getRandomPostId,

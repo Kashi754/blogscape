@@ -2,24 +2,32 @@ import { useSubmit } from 'react-router-dom';
 import { NewPostForm } from '../../features/post/NewPostForm';
 import './NewPost.css';
 import { sanitizeInput } from '../../utils/sanitizeInput';
+import { uploadImage } from '../../API';
 
 export default function NewPost() {
   const submit = useSubmit();
 
-  const handlePost = (formObject) => {
-    const formData = new FormData();
+  const handlePost = async (formObject) => {
+    const { image, ...formData } = formObject;
 
-    formObject.title = sanitizeInput(formObject.title);
-    formObject.subtitle = sanitizeInput(formObject.subtitle);
+    formData.title = sanitizeInput(formObject.title);
+    formData.subtitle = sanitizeInput(formObject.subtitle);
 
-    for (const key in formObject) {
-      formData.append(key, formObject[key]);
+    if (image) {
+      const { fileId, url, thumbnailUrl } = await uploadImage(image, 'posts');
+      formData.fileId = fileId;
+      formData.image = url;
+      formData.thumbnail = thumbnailUrl;
+    } else {
+      formData.fileId = null;
+      formData.image = null;
+      formData.thumbnail = null;
     }
 
-    // Content type = multipart/form-data
     submit(formData, {
       method: 'post',
-      encType: 'multipart/form-data',
+      encType: 'application/json',
+      action: '/new',
     });
   };
 
