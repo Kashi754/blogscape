@@ -78,6 +78,12 @@ code {
   border-color: #002c2e;
 }
 
+.btn-primary:disabled {
+  cursor: not-allowed;
+  opacity: 0.75;
+  background-color: var(--secondary-color);
+}
+
 .btn-secondary {
   background-color: #ffffff;
   border: 3px solid var(--secondary-color);
@@ -149,5 +155,10 @@ code {
   position: static;
   background-color: rgba(255, 0, 0, 0.315);
   border-radius: 3px;
-  color: rgb(0, 31, 29);
+  color: rgb(0, 255, 238);
+  font-weight: bold;
+}
+
+.modal .invalid-feedback {
+  color: rgb(0, 44, 41);
 }

@@ -62,6 +62,7 @@ export function AddCommentForm({
           type='submit'
           variant='primary'
           size='lg'
+          disabled={!comment}
         >
           {isReply ? 'Reply' : 'Add Comment'}
         </Button>

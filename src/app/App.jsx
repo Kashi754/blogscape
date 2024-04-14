@@ -11,6 +11,7 @@ import NewPost from '../pages/NewPost/NewPost';
 import Profile from '../pages/Profile/Profile';
 import NotFound from '../pages/NotFound/NotFound';
 import Root from '../pages/Root/Root';
+import Search from '../pages/Search/Search';
 import {
   loadComments,
   loadFollowedBlogs,
@@ -26,10 +27,12 @@ import {
   loadUser,
   followBlog,
   addReply,
+  loadBlog,
+  loadPost,
+  loadSearchResults,
 } from '../API';
 import { verifyLoggedIn } from '../utils/verifyLoggedIn';
-import { loadBlog } from '../API';
-import { loadPost } from '../API';
+import { splitOnQuotes } from '../utils/splitOnQuotes';
 
 function App(dispatch, store) {
   const routes = createRoutesFromElements(
@@ -241,6 +244,22 @@ function App(dispatch, store) {
           } catch (err) {
             throw new Response(err.message, { status: err.status || 500 });
           }
+        }}
+      />
+      <Route
+        path='search'
+        element={<Search />}
+        loader={async ({ request }) => {
+          const url = new URL(request.url);
+          const searchString = url.searchParams.get('q');
+          const searchTerms = splitOnQuotes(searchString);
+          try {
+            await verifyLoggedIn(store, dispatch);
+            await dispatch(loadSearchResults(searchTerms));
+          } catch (err) {
+            return redirect('/login');
+          }
+          return null;
         }}
       />
       <Route

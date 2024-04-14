@@ -12,7 +12,7 @@ export function BlogSearch() {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    const sanitized = sanitizeInput(search);
+    const sanitized = sanitizeInput(search, false);
     navigate({
       pathname: '/search',
       search: createSearchParams({ q: sanitized }).toString(),

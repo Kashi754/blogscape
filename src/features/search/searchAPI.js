@@ -40,7 +40,7 @@ export const loadSearchResults = createAsyncThunk(
   'search/loadSearchResults',
   async (searchTerms, { rejectWithValue }) => {
     try {
-      const [blogs, posts] = Promise.all([
+      const [blogs, posts] = await Promise.all([
         loadBlogsSearch(searchTerms),
         loadPostsSearch(searchTerms),
       ]);

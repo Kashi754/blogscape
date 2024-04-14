@@ -21,12 +21,14 @@ const searchSlice = createSlice({
       .addCase(loadSearchResults.fulfilled, (state, action) => {
         state.isLoading = false;
         state.error = null;
-        state.recentPosts = action.payload;
+        state.blogs = action.payload.blogs;
+        state.posts = action.payload.posts;
       });
   },
 });
 
-export const selectRecentPosts = (state) => state.recentPosts.recentPosts;
+export const selectSearchBlogs = (state) => state.search.blogs;
+export const selectSearchPosts = (state) => state.search.posts;
 export const selectIsLoading = (state) => state.recentPosts.isLoading;
 export const selectError = (state) => state.recentPosts.error;
 export default searchSlice.reducer;

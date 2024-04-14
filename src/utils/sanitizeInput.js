@@ -5,10 +5,17 @@ const blacklistString = ';@$%^&*()[]{}|/\\'.replace(
   '\\$&'
 );
 
-export function sanitizeInput(input) {
+const blacklistStringWithEscape = ';@$%^&*()[]{}|/'.replace(
+  /[.*+?^${}();|[\]]/g,
+  '\\$&'
+);
+
+export function sanitizeInput(input, escapeQuotes = true) {
   const strippedLow = stripLow(input, true);
-  const blacklisted = blacklist(strippedLow, blacklistString);
-  const escaped = escape(blacklisted);
+  const blacklisted = escapeQuotes
+    ? blacklist(strippedLow, blacklistString)
+    : blacklist(strippedLow, blacklistStringWithEscape);
+  const escaped = escapeQuotes ? escape(blacklisted) : blacklisted;
   const trimmed = trim(escaped);
 
   return trimmed;
