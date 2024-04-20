@@ -16,6 +16,9 @@ export const loadRecentPosts = createAsyncThunk(
           image: 'https://picsum.photos/200',
         };
         post.categories = ['#tech', '#javascript', '#react'];
+        post.createdAt = '1999-01-08 04:05:06';
+        post.thumbnail = '';
+        post.fileId = '';
       });
 
       return posts;

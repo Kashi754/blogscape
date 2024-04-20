@@ -58,7 +58,7 @@ export const addComment = async (postId, comment) => {
   console.log(postId, comment);
 };
 
-export const addReply = async (postId, reply) => {
+export const addReply = async (postId, commentId, reply) => {
   // TODO: Add logic to add reply
   console.log(postId, reply);
 };

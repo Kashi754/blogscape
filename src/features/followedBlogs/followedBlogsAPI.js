@@ -1,5 +1,4 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import blogSlice from '../blog/blogSlice';
 
 export const loadFollowedBlogs = createAsyncThunk(
   'followedBlogs/loadFollowedBlogs',

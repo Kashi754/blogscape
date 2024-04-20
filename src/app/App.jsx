@@ -16,7 +16,7 @@ import {
   loadComments,
   loadFollowedBlogs,
   loadUserPosts,
-  registerUser,
+  register,
   loadPopularBlogs,
   loadRecentPosts,
   loadTags,
@@ -30,6 +30,8 @@ import {
   loadBlog,
   loadPost,
   loadSearchResults,
+  loadBlogPosts,
+  unFollowBlog,
 } from '../API';
 import { verifyLoggedIn } from '../utils/verifyLoggedIn';
 import { splitOnQuotes } from '../utils/splitOnQuotes';
@@ -89,10 +91,7 @@ function App(dispatch, store) {
           let formData = await request.json();
           try {
             // Action to register user
-            const res = await registerUser(formData);
-            if (!res.ok) {
-              throw new Response('Failed to register', { status: 500 });
-            }
+            await register(formData);
             return redirect('/login');
           } catch (err) {
             throw new Response(err.message, { status: err.status || 500 });
@@ -118,17 +117,25 @@ function App(dispatch, store) {
         loader={async ({ params }) => {
           try {
             await verifyLoggedIn(store, dispatch);
-            await dispatch(loadBlog(params.userId));
+            await Promise.all([
+              dispatch(loadBlog(params.userId)),
+              dispatch(loadBlogPosts({ userId: params.userId })),
+            ]);
           } catch (err) {
             console.error(err);
             return redirect('/login');
           }
           return null;
         }}
-        action={async ({ params }) => {
+        action={async ({ request, params }) => {
           // Action to follow a blog
+          const method = request.method;
           try {
-            await followBlog(params.userId);
+            if (method === 'PUT') {
+              await unFollowBlog(params.userId);
+            } else {
+              await followBlog(params.userId);
+            }
             return null;
           } catch (err) {
             throw new Response(err.message, { status: err.status || 500 });
@@ -156,7 +163,7 @@ function App(dispatch, store) {
             if (key === 'comment') {
               await addComment(params, comment);
             } else {
-              await addReply(params, comment);
+              await addReply(params, comment.commentId, comment.body);
             }
             return null;
           } catch (err) {

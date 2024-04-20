@@ -3,6 +3,15 @@ import { useState } from 'react';
 import { FloatingLabel, InputGroup, Form, Button } from 'react-bootstrap';
 import './LoginForm.css';
 
+const formStyle = {
+  width: 'clamp(250px, 50vw, 400px)',
+  padding: '20px',
+  borderRadius: '10px',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '0.5rem',
+};
+
 export function LoginForm({ error, handleSubmit }) {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [validated, setValidated] = useState(false);
@@ -31,15 +40,6 @@ export function LoginForm({ error, handleSubmit }) {
       ...formData,
       [name]: value,
     });
-  };
-
-  const formStyle = {
-    width: 'clamp(250px, 50vw, 400px)',
-    padding: '20px',
-    borderRadius: '10px',
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '0.5rem',
   };
 
   return (

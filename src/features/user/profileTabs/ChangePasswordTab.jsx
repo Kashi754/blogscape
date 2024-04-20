@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { Form, InputGroup } from 'react-bootstrap';
 import { verifyPassword } from '../../../API';
+import { useSelector } from 'react-redux';
+import { selectUsername } from '../../auth/authSlice';
 
 export function ChangePasswordTab({ onSubmit }) {
   const [formData, setFormData] = useState({
@@ -13,6 +15,7 @@ export function ChangePasswordTab({ onSubmit }) {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [correctPassword, setCorrectPassword] = useState(true);
   const [passwordsMatch, setPasswordsMatch] = useState(true);
+  const username = useSelector(selectUsername);
 
   const handleChange = (event) => {
     setCorrectPassword(true);
@@ -48,7 +51,10 @@ export function ChangePasswordTab({ onSubmit }) {
     setValidated(false);
     onSubmit({
       key: 'password',
-      formData: { newPassword: formData.newPassword },
+      formData: {
+        oldPassword: formData.oldPassword,
+        newPassword: formData.newPassword,
+      },
     });
   };
 
@@ -60,6 +66,15 @@ export function ChangePasswordTab({ onSubmit }) {
       id='password-form-tab'
       className='tab'
     >
+      <Form.Control
+        required
+        type='text'
+        name='username'
+        value={username}
+        autoComplete='username'
+        style={{ display: 'none' }}
+        readOnly
+      />
       <Form.Group
         className='password-group mb-3'
         controlId='formOldPassword'
@@ -72,6 +87,7 @@ export function ChangePasswordTab({ onSubmit }) {
             name='oldPassword'
             placeholder='Old Password'
             onChange={handleChange}
+            autoComplete='current-password'
             isInvalid={!correctPassword}
           />
           <InputGroup.Text id='show-password'>
@@ -101,6 +117,7 @@ export function ChangePasswordTab({ onSubmit }) {
           name='newPassword'
           placeholder='New Password'
           onChange={handleChange}
+          autoComplete='new-password'
           minLength={8}
           pattern='(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}'
           isInvalid={
@@ -124,6 +141,7 @@ export function ChangePasswordTab({ onSubmit }) {
           name='confirmPassword'
           placeholder='Confirm New Password'
           onChange={handleChange}
+          autoComplete='new-password'
           isInvalid={
             validated &&
             (formData.newPassword !== formData.confirmPassword ||

@@ -5,17 +5,21 @@ import { nanoid } from 'nanoid';
 
 export {
   loadUser,
-  registerUser,
   updateUser,
   verifyPassword,
   updateUserSocialMedia,
 } from '../features/user/userAPI';
 
-export { login, logout } from '../features/auth/authAPI';
+export { login, logout, register } from '../features/auth/authAPI';
 
 export { loadUserPosts } from '../features/userPosts/userPostsAPI';
 
-export { loadBlog, followBlog } from '../features/blog/blogAPI';
+export {
+  loadBlog,
+  followBlog,
+  unFollowBlog,
+  loadBlogPosts,
+} from '../features/blog/blogAPI';
 
 export { loadPost, createPost } from '../features/post/postAPI';
 

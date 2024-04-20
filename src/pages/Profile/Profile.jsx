@@ -40,26 +40,29 @@ export default function Profile() {
             visible={!!user.location}
             data={{ title: 'Location', value: user.location }}
           />
-          <Link
-            className='profile-blog-link'
-            to={`/blog/${userId}/`}
-          >
-            <ProfileBlogCard blog={blog} />
-          </Link>
-          {user.socialMedia?.length > 0 && (
-            <div className='social-media'>
-              {user.socialMedia.map(
-                (item) =>
-                  item.url && (
-                    <SocialIcon
-                      target='_blank'
-                      url={item.url}
-                      key={item.name}
-                    />
-                  )
-              )}
-            </div>
+          {blog && (
+            <Link
+              className='profile-blog-link'
+              to={`/blog/${userId}/`}
+            >
+              <ProfileBlogCard blog={blog} />
+            </Link>
           )}
+          {user.socialMedia &&
+            Object.values(user.socialMedia)?.some((val) => val !== null) && (
+              <div className='social-media'>
+                {Object.keys(user.socialMedia).map(
+                  (item) =>
+                    user.socialMedia[item] && (
+                      <SocialIcon
+                        target='_blank'
+                        url={user.socialMedia[item]}
+                        key={item}
+                      />
+                    )
+                )}
+              </div>
+            )}
         </section>
       </article>
       {user.id === userId && <EditProfileModal />}

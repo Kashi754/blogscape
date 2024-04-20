@@ -10,12 +10,12 @@ export function verifyLoggedIn(store, dispatch) {
       return auth.userId;
     }
   }
-  const { value: userIdInStore, expiry } = getWithExpiry('auth');
-  if (!userIdInStore) {
+  const { id, username, expiry } = getWithExpiry('auth');
+  if (!id) {
     dispatch(setAuthenticated({ auth: false }));
     throw new Error('Please log in');
   }
 
-  dispatch(setAuthenticated({ auth: userIdInStore, expiry }));
-  return userIdInStore;
+  dispatch(setAuthenticated({ id, username, expiry }));
+  return id;
 }

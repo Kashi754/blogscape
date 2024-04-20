@@ -19,6 +19,11 @@ export function BlogHeader() {
     submit(null, { method: 'post', action: `/blog/${userIdParam}` });
   }
 
+  function unFollowBlog(e) {
+    e.preventDefault();
+    submit(null, { method: 'put', action: `/blog/${userIdParam}` });
+  }
+
   return (
     <header
       className='blog-header'
@@ -48,7 +53,7 @@ export function BlogHeader() {
               </Button>
               <button
                 className='unfollow-button'
-                onClick={followBlog}
+                onClick={unFollowBlog}
               >
                 Unfollow
               </button>

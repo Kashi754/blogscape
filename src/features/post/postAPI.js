@@ -11,6 +11,8 @@ export const loadPost = createAsyncThunk(
 
       post.image = 'https://picsum.photos/200/300';
       post.createdAt = '1999-01-08 04:05:06';
+      post.thumbnail = '';
+      post.fileId = '';
       post.subtitle = 'This is a very nice subtitle about a generic blog post.';
       post.categories = ['#tech', '#javascript', '#react'];
       post.author = 'Blog Author';

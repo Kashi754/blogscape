@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { loadBlog } from './blogAPI';
+import { loadBlog, loadBlogPosts } from './blogAPI';
 import { convertTimestampToDate } from '../../utils/dateConversions';
 
 const blogSlice = createSlice({
@@ -41,8 +41,19 @@ const blogSlice = createSlice({
         state.followed = blog.followed;
         state.fileId = blog.fileId;
         state.thumbnail = blog.thumbnail;
-
-        const [mostRecentPost, ...rest] = blog.posts;
+      })
+      .addCase(loadBlogPosts.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(loadBlogPosts.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      .addCase(loadBlogPosts.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.error = null;
+        const [mostRecentPost, ...rest] = action.payload;
         if (state.mostRecentPost) {
           const mostRecentCreatedAt = convertTimestampToDate(
             mostRecentPost.createdAt
@@ -55,7 +66,7 @@ const blogSlice = createSlice({
             state.mostRecentPost = mostRecentPost;
             state.posts = rest;
           } else {
-            state.posts = blog.posts;
+            state.posts = action.payload;
           }
         } else {
           state.mostRecentPost = mostRecentPost;

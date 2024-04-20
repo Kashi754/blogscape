@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { LoginForm } from '../../features/login/LoginForm';
+import { LoginForm } from '../../features/auth/login/LoginForm';
 import './Login.css';
 import { useLoaderData, useSubmit } from 'react-router-dom';
 import { selectError } from '../../features/auth/authSlice';

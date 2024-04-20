@@ -18,43 +18,22 @@ export const loadUser = createAsyncThunk(
       user.thumbnail = 'https://picsum.photos/100';
       user.location = 'France';
       user.locationCode = 'FR';
-      user.socialMedia = [
-        { name: 'facebook', url: 'https://facebook.com/arigorn_15' },
-        { name: 'twitter', url: 'https://x.com/tj.petersen.7' },
-        { name: 'tiktok', url: 'https://www.tiktok.com/@kashi754' },
-        { name: 'instagram', url: 'https://www.instagram.com/tj_petersen/' },
-        {
-          name: 'youtube',
-          url: 'https://www.youtube.com/channel/UCigqp32mhKab61Xjpbpjf9g',
-        },
-        { name: 'twitch', url: 'https://www.twitch.tv/kashi754' },
-        { name: 'github', url: 'https://github.com/Kashi754' },
-        { name: 'discord', url: null },
-      ];
+      user.socialMedia = {
+        facebook: 'https://facebook.com/arigorn_15',
+        twitter: 'https://x.com/tj.petersen.7',
+        tiktok: 'https://www.tiktok.com/@kashi754',
+        instagram: 'https://www.instagram.com/tj_petersen/',
+        youtube: 'https://www.youtube.com/channel/UCigqp32mhKab61Xjpbpjf9g',
+        twitch: 'https://www.twitch.tv/kashi754',
+        github: 'https://github.com/Kashi754',
+        discord: null,
+      };
       return user;
     } catch (err) {
       return rejectWithValue({ message: err.message, status: err.status });
     }
   }
 );
-
-export async function registerUser(formData) {
-  try {
-    const serverUrl = 'https://jsonplaceholder.typicode.com/users/';
-    const response = await fetch(serverUrl, {
-      method: 'POST',
-      body: JSON.stringify(formData),
-      headers: {
-        'Content-type': 'application/json; charset=UTF-8',
-      },
-    });
-
-    return response;
-  } catch (err) {
-    console.log(err);
-    return null;
-  }
-}
 
 export async function updateUser(formData) {
   try {

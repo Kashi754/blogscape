@@ -10,18 +10,21 @@ const authSlice = createSlice({
     error: null,
     authenticated: false,
     userId: null,
+    username: null,
     expiry: null,
   },
   reducers: {
     setAuthenticated: (state, action) => {
-      const { auth, expiry } = action.payload;
-      if (auth) {
+      const { username, id, expiry } = action.payload;
+      if (id) {
         state.expiry = expiry;
-        state.userId = auth;
+        state.userId = id;
+        state.username = username;
         state.authenticated = true;
       } else {
         state.expiry = null;
         state.userId = null;
+        state.username = null;
         state.authenticated = false;
       }
     },
@@ -37,11 +40,15 @@ const authSlice = createSlice({
         state.authenticated = false;
         state.error = action.payload;
         state.isLoading = false;
+        state.username = null;
+        state.userId = null;
+        state.expiry = null;
       })
       .addCase(login.fulfilled, (state, action) => {
-        const { userId, expiry } = action.payload;
+        const { username, userId, expiry } = action.payload;
         state.userId = userId;
         state.expiry = expiry;
+        state.username = username;
         state.authenticated = true;
         state.error = null;
         state.isLoading = false;
@@ -54,8 +61,6 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload;
         state.authenticated = false;
-        state.expiry = null;
-        state.userId = null;
       })
       .addCase(logout.fulfilled, (state, action) => {
         state.isLoading = false;
@@ -63,12 +68,14 @@ const authSlice = createSlice({
         state.authenticated = false;
         state.expiry = null;
         state.userId = null;
+        state.username = null;
       });
   },
 });
 
 export const selectAuthenticated = (state) => state.auth.authenticated;
 export const selectUserId = (state) => state.auth.userId;
+export const selectUsername = (state) => state.auth.username;
 export const selectError = (state) => state.auth.error;
 export const selectIsLoading = (state) => state.auth.isLoading;
 export const { setAuthenticated } = authSlice.actions;

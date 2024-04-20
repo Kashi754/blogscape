@@ -42,7 +42,7 @@ export function SocialMediaCheckForm({
           type='switch'
           name={company.icon}
           checked={checked}
-          id={`social-media-${company.name}`}
+          id={`social-media-${company.id}`}
           onChange={handleCheck}
         />
       </Form.Group>

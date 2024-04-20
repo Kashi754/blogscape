@@ -8,6 +8,8 @@ async function loadBlogsSearch(searchTerms) {
 
   blogs.forEach((blog) => {
     blog.image = 'https://picsum.photos/200/300';
+    blog.thumbnail = '';
+    blog.fileId = '';
     blog.title = 'Blog Title ' + blog.id;
     blog.author = blog.username;
     blog.followers = 100;
@@ -26,6 +28,9 @@ async function loadPostsSearch(searchTerms) {
 
   posts.forEach((post) => {
     post.image = 'https://picsum.photos/200';
+    post.createdAt = '1999-01-08 04:05:06';
+    post.thumbnail = '';
+    post.fileId = '';
     post.author = {
       name: 'Blog Author',
       image: 'https://picsum.photos/200',

@@ -13,8 +13,17 @@ export const login = createAsyncThunk(
         throw new Error('Failed to login');
       }
       const auth = await response.json();
-      setWithExpiry('auth', auth.id, auth.expiry || 1000 * 60 * 30);
-      return { userId: auth.id, expiry: auth.expiry || 1000 * 60 * 30 };
+      setWithExpiry(
+        'auth',
+        auth.id,
+        auth.username,
+        auth.expiry || 1000 * 60 * 30
+      );
+      return {
+        username: auth.username,
+        userId: auth.id,
+        expiry: auth.expiry || 1000 * 60 * 30,
+      };
     } catch (err) {
       console.log(err);
       return rejectWithValue({ message: err.message, status: err.status });
@@ -33,3 +42,19 @@ export const logout = createAsyncThunk(
     }
   }
 );
+
+export async function register(formData) {
+  try {
+    const serverUrl = 'https://jsonplaceholder.typicode.com/users/';
+    await fetch(serverUrl, {
+      method: 'POST',
+      body: JSON.stringify(formData),
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+      },
+    });
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+}

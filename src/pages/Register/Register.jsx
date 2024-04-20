@@ -1,4 +1,4 @@
-import { RegistrationForm } from '../../features/registration/RegistrationForm';
+import { RegistrationForm } from '../../features/auth/registration/RegistrationForm';
 import './Register.css';
 import { useSubmit } from 'react-router-dom';
 

@@ -50,7 +50,7 @@ const socialMediaCompanies = [
 export function EditSocialMediaTab({ onSubmit }) {
   const [validated, setValidated] = useState(false);
   const { socialMedia } = useSelector(selectUser);
-  const [formData, setFormData] = useState(socialMedia || []);
+  const [formData, setFormData] = useState(socialMedia || {});
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -71,63 +71,18 @@ export function EditSocialMediaTab({ onSubmit }) {
   };
 
   const handleAddSocial = (social) => {
-    const currentIndex = formData.findIndex(
-      (item) => item.name === social.name
-    );
-    if (currentIndex === -1) {
-      setFormData([...formData, social]);
-    } else {
-      let updatedSocial;
-      const socialMediaIndex = socialMedia.findIndex(
-        (item) => item.name === social.name
-      );
-
-      if (socialMediaIndex !== -1 && socialMedia[socialMediaIndex].url) {
-        updatedSocial = socialMedia[socialMediaIndex];
-      } else {
-        updatedSocial = { ...formData[currentIndex], url: social.url };
-      }
-
-      const newFormData = [
-        ...formData.slice(0, currentIndex),
-        updatedSocial,
-        ...formData.slice(currentIndex + 1),
-      ];
-      setFormData(newFormData);
-    }
+    setFormData((prev) => ({ ...prev, [social.name]: social.url }));
   };
 
   const handleRemoveSocial = (name) => {
     setValidated(false);
-    const currentIndex = formData.findIndex((item) => item.name === name);
-    if (currentIndex === -1) {
-      return;
-    }
-    const updatedSocial = { ...formData[currentIndex], url: null };
-    const newFormData = [
-      ...formData.slice(0, currentIndex),
-      updatedSocial,
-      ...formData.slice(currentIndex + 1),
-    ];
-    setFormData(newFormData);
+    setFormData((prev) => ({ ...prev, [name]: null }));
   };
 
   const handleChangeSocial = (updatedField) => {
     const { name, value } = updatedField;
-    const currentIndex = formData.findIndex((item) => item.name === name);
-    if (currentIndex === -1) {
-      return;
-    }
-    const updatedSocial = {
-      ...formData[currentIndex],
-      url: value,
-    };
-    const newFormData = [
-      ...formData.slice(0, currentIndex),
-      updatedSocial,
-      ...formData.slice(currentIndex + 1),
-    ];
-    setFormData(newFormData);
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    console.log(updatedField);
   };
 
   return (
@@ -138,7 +93,7 @@ export function EditSocialMediaTab({ onSubmit }) {
       id='social-media-form-tab'
       className='tab'
       style={
-        formData.some((e) => e.url)
+        Object.values(formData).every((value) => value !== null)
           ? { width: '100%' }
           : { width: 'fit-content' }
       }
@@ -147,11 +102,11 @@ export function EditSocialMediaTab({ onSubmit }) {
         <SocialMediaCheckForm
           key={company.name}
           company={company}
-          checked={formData.some((e) => e.name === company.id && e.url)}
+          checked={formData[company.id] !== null}
           handleAddSocial={handleAddSocial}
           handleRemoveSocial={handleRemoveSocial}
           handleChangeSocial={handleChangeSocial}
-          socialUrl={formData.find((e) => e.name === company.id)?.url}
+          socialUrl={formData[company.id]}
           validated={validated}
         />
       ))}
