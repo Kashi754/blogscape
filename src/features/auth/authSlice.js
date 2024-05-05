@@ -14,10 +14,10 @@ const authSlice = createSlice({
   },
   reducers: {
     setAuthenticated: (state, action) => {
-      const { displayName, blogId, userId, expiry } = action.payload;
-      if (userId) {
+      const { displayName, id, blogId, expiry } = action.payload;
+      if (id) {
         state.expiry = expiry;
-        state.userId = userId;
+        state.userId = id;
         state.blogId = blogId;
         state.displayName = displayName;
         state.authenticated = true;
@@ -48,7 +48,6 @@ const authSlice = createSlice({
       })
       .addCase(login.fulfilled, (state, action) => {
         const { displayName, blogId, userId, expiry } = action.payload;
-        console.log(action.payload);
         state.userId = userId;
         state.expiry = expiry;
         state.displayName = displayName;
