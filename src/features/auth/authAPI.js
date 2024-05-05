@@ -1,32 +1,27 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { setWithExpiry } from '../../utils/LocalStorageWithExpiry';
+import { axiosInstance } from '../../API/axiosBaseQuery';
+import Cookies from 'js-cookie';
 
 export const login = createAsyncThunk(
   'auth/login',
   async (formData, { rejectWithValue }) => {
     try {
-      const serverUrl = 'https://jsonplaceholder.typicode.com/users/1';
-      const response = await fetch(serverUrl, {
-        method: 'GET',
-      });
-      if (!response.ok) {
-        throw new Error('Failed to login');
-      }
-      const auth = await response.json();
-      setWithExpiry(
-        'auth',
-        auth.id,
-        auth.username,
-        auth.expiry || 1000 * 60 * 30
+      const { data: userResult } = await axiosInstance.post(
+        'v1/auth/login',
+        formData
       );
-      return {
-        username: auth.username,
-        userId: auth.id,
-        expiry: auth.expiry || 1000 * 60 * 30,
-      };
+
+      const { maxAge, ...user } = userResult;
+
+      const maxAgeInDays = maxAge / 1000 / 60 / 60 / 24;
+      Cookies.set('user', JSON.stringify(user), { expires: maxAgeInDays });
+
+      return user;
     } catch (err) {
-      console.log(err);
-      return rejectWithValue({ message: err.message, status: err.status });
+      return rejectWithValue({
+        message: err.response?.data || err || err.message,
+        status: err.response?.status,
+      });
     }
   }
 );
@@ -35,26 +30,17 @@ export const logout = createAsyncThunk(
   'auth/logout',
   async (_params, { rejectWithValue }) => {
     try {
-      localStorage.removeItem('auth');
+      await axiosInstance.post('v1/auth/logout');
       return true;
     } catch (err) {
-      return rejectWithValue({ message: err.message, status: err.status });
+      return rejectWithValue({
+        message: err.response?.data || err || err.message,
+        status: err.response?.status,
+      });
     }
   }
 );
 
 export async function register(formData) {
-  try {
-    const serverUrl = 'https://jsonplaceholder.typicode.com/users/';
-    await fetch(serverUrl, {
-      method: 'POST',
-      body: JSON.stringify(formData),
-      headers: {
-        'Content-type': 'application/json; charset=UTF-8',
-      },
-    });
-  } catch (err) {
-    console.log(err);
-    return null;
-  }
+  await axiosInstance.post('v1/auth/register', formData);
 }

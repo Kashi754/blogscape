@@ -1,11 +1,9 @@
-import { useSelector } from 'react-redux';
-import { selectUserPosts } from './userPostsSlice';
 import './UserPosts.css';
-import { HomePostCard } from '../../components/HomePostCard/HomePostCard';
+import { HomePostCard } from '../../../components/HomePostCard/HomePostCard';
+import { useGetMyPostsQuery } from '../../posts/postsSlice';
 
 export function UserPosts() {
-  const posts = useSelector(selectUserPosts);
-
+  const { data: posts } = useGetMyPostsQuery();
   if (posts.length < 1) return <h2>Loading...</h2>;
 
   return (

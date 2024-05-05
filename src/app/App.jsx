@@ -1,5 +1,10 @@
 import './App.css';
-import { createRoutesFromElements, redirect, Route } from 'react-router-dom';
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  redirect,
+  Route,
+} from 'react-router-dom';
 import Home from '../pages/Home/Home';
 import { Landing } from '../pages/Landing/Landing';
 import Login from '../pages/Login/Login';
@@ -12,225 +17,215 @@ import Profile from '../pages/Profile/Profile';
 import NotFound from '../pages/NotFound/NotFound';
 import Root from '../pages/Root/Root';
 import Search from '../pages/Search/Search';
-import {
-  loadComments,
-  loadFollowedBlogs,
-  loadUserPosts,
-  register,
-  loadPopularBlogs,
-  loadRecentPosts,
-  loadTags,
-  addComment,
-  createPost,
-  login,
-  logout,
-  loadUser,
-  followBlog,
-  addReply,
-  loadBlog,
-  loadPost,
-  loadSearchResults,
-  loadBlogPosts,
-  unFollowBlog,
-} from '../API';
 import { verifyLoggedIn } from '../utils/verifyLoggedIn';
-import { splitOnQuotes } from '../utils/splitOnQuotes';
+import { PostsLoader } from '../features/posts/posts.loaders';
+import { BlogLoader } from '../features/blog/blog.loaders';
+import { TagsLoader } from '../features/tags/tags.loaders';
+import { UserLoader } from '../features/user/user.loaders';
+import {
+  editMyBlogAction,
+  toggleFollowedBlogAction,
+} from '../features/blog/blog.actions';
+import {
+  addCommentAction,
+  createPostAction,
+} from '../features/posts/post.actions';
+import {
+  updateProfileAction,
+  updateSocialMediaAction,
+} from '../features/user/user.actions';
+import { login, logout, register } from '../API';
+import { setAuthenticated } from '../features/auth/authSlice';
 
-function App(dispatch, store) {
-  const routes = createRoutesFromElements(
-    <Route
-      path='/'
-      element={<Root />}
-    >
+export function getAppRouter(store) {
+  const postsLoader = new PostsLoader(store);
+  const blogLoader = new BlogLoader(store);
+  const tagsLoader = new TagsLoader(store);
+  const userLoader = new UserLoader(store);
+
+  return createBrowserRouter(
+    createRoutesFromElements(
       <Route
-        index
-        loader={async () => {
-          try {
-            verifyLoggedIn(store, dispatch);
-            return redirect('/home');
-          } catch (err) {
-            return null;
-          }
-        }}
-        element={<Landing />}
-      />
-      <Route
-        path='login'
-        element={<Login />}
-        action={async ({ request }) => {
-          let formData = await request.json();
-          try {
-            // Action to login user
-            const res = await dispatch(login(formData));
-            if (!res.type.includes('fulfilled')) {
+        path='/'
+        element={<Root />}
+      >
+        <Route
+          index
+          loader={async () => {
+            try {
+              await verifyLoggedIn(store);
+            } catch (err) {
               return null;
             }
+            // return redirect('/home');
             return redirect('/home');
-          } catch (err) {
-            throw new Response(err.message, { status: err.status || 500 });
-          }
-        }}
-      />
-      <Route
-        path='logout'
-        element={<Login />}
-        loader={async () => {
-          try {
-            // Action to logout user
-            await dispatch(logout());
-            return 'You have been Logged Out!';
-          } catch (err) {
-            throw new Response(err.message, { status: err.status || 500 });
-          }
-        }}
-      />
-      <Route
-        path='register'
-        element={<Register />}
-        action={async ({ request }) => {
-          let formData = await request.json();
-          try {
-            // Action to register user
-            await register(formData);
-            return redirect('/login');
-          } catch (err) {
-            throw new Response(err.message, { status: err.status || 500 });
-          }
-        }}
-      />
-      <Route
-        path='home'
-        element={<Home />}
-        loader={async () => {
-          try {
-            await verifyLoggedIn(store, dispatch);
-            await dispatch(loadUserPosts(1));
-          } catch (err) {
-            return redirect('/login');
-          }
-          return null;
-        }}
-      />
-      <Route
-        path='blog/:userId'
-        element={<Blog />}
-        loader={async ({ params }) => {
-          try {
-            await verifyLoggedIn(store, dispatch);
-            await Promise.all([
-              dispatch(loadBlog(params.userId)),
-              dispatch(loadBlogPosts({ userId: params.userId })),
-            ]);
-          } catch (err) {
-            console.error(err);
-            return redirect('/login');
-          }
-          return null;
-        }}
-        action={async ({ request, params }) => {
-          // Action to follow a blog
-          const method = request.method;
-          try {
-            if (method === 'PUT') {
-              await unFollowBlog(params.userId);
+          }}
+          element={<Landing />}
+        />
+        <Route
+          path='login'
+          element={<Login />}
+          action={async ({ request }) => {
+            let formData = await request.json();
+            // Action to login user
+            const response = await store.dispatch(login(formData));
+            if (response.type.includes('rejected')) {
+              return null;
             } else {
-              await followBlog(params.userId);
+              return redirect('/home');
             }
-            return null;
-          } catch (err) {
-            throw new Response(err.message, { status: err.status || 500 });
-          }
-        }}
-      />
-      <Route
-        path='posts/:postId'
-        element={<Post />}
-        loader={async ({ params }) => {
-          try {
-            await verifyLoggedIn(store, dispatch);
-            await dispatch(loadPost(params.postId));
-            await dispatch(loadComments(params.postId));
-          } catch (err) {
+          }}
+        />
+        <Route
+          path='logout'
+          element={<Login />}
+          loader={async () => {
+            try {
+              // Action to logout user
+              await store.dispatch(logout());
+              return redirect('/login');
+            } catch (err) {
+              throw new Response(err.message, { status: err.status || 500 });
+            }
+          }}
+        />
+        <Route
+          path='register'
+          element={<Register />}
+          loader={async () => {
+            try {
+              const id = await verifyLoggedIn(store);
+              if (id) {
+                return redirect('/home');
+              }
+            } catch (err) {
+              return null;
+            }
+          }}
+          action={async ({ request }) => {
+            let formData = await request.json();
+            const response = await store.dispatch(register(formData));
+            console.log(response);
             return redirect('/login');
-          }
-          return null;
-        }}
-        action={async ({ params, request }) => {
-          // Action to add a comment
-          let { key, comment } = await request.json();
-
-          try {
-            if (key === 'comment') {
-              await addComment(params, comment);
-            } else {
-              await addReply(params, comment.commentId, comment.body);
+          }}
+        />
+        <Route
+          path='home'
+          element={<Home />}
+          loader={async ({ request }) => {
+            try {
+              await verifyLoggedIn(store);
+            } catch (err) {
+              console.log(err);
+              return redirect('/login');
             }
-            return null;
-          } catch (err) {
-            throw new Response(err.message, { status: err.status || 500 });
-          }
-        }}
-      />
-      <Route
-        path='browse'
-        element={<Browse />}
-        loader={async () => {
-          try {
-            await verifyLoggedIn(store, dispatch);
-            await Promise.all([
-              dispatch(loadFollowedBlogs()),
-              dispatch(loadPopularBlogs()),
-              dispatch(loadRecentPosts()),
+            const posts = await postsLoader.myPostsLoader({ request });
+            return posts;
+          }}
+        />
+        <Route
+          path='blog/:blogId'
+          element={<Blog />}
+          loader={async ({ request, params }) => {
+            try {
+              await verifyLoggedIn(store);
+            } catch (err) {
+              return redirect('/login');
+            }
+            const blog = await blogLoader.blogLoader({ request, params });
+            const { posts, query } = await postsLoader.listPostsLoader({
+              request,
+              params,
+            });
+            return { blog, posts, blogId: params.blogId, q: query };
+          }}
+          action={toggleFollowedBlogAction(store)}
+        />
+        <Route
+          path='posts/:postId'
+          element={<Post />}
+          loader={async ({ params, request }) => {
+            try {
+              await verifyLoggedIn(store);
+            } catch (err) {
+              return redirect('/login');
+            }
+            let post;
+            let comments;
+            try {
+              post = await postsLoader.postLoader({ params, request });
+              comments = await postsLoader.postCommentsLoader({
+                params,
+                request,
+              });
+            } catch (err) {
+              console.log(err);
+            }
+            return { post, comments, postId: params.postId };
+          }}
+          action={addCommentAction(store.dispatch)}
+        />
+        <Route
+          path='browse'
+          element={<Browse />}
+          loader={async ({ request }) => {
+            try {
+              await verifyLoggedIn(store);
+            } catch (err) {
+              return redirect('/login');
+            }
+            const [followedBlogs, popularBlogs, posts] = await Promise.all([
+              blogLoader.listFollowedBlogsLoader({ request }),
+              blogLoader.listPopularBlogsLoader({ request }),
+              postsLoader.listPostsLoader({ request }),
             ]);
-          } catch (err) {
-            return redirect('/login');
-          }
-          return null;
-        }}
-      />
-      <Route
-        path='new'
-        element={<NewPost />}
-        loader={async () => {
-          try {
-            await verifyLoggedIn(store, dispatch);
-            await dispatch(loadTags());
-          } catch (err) {
-            return redirect('/login');
-          }
-          return null;
-        }}
-        action={async ({ request }) => {
-          // Action to create a new post
-          let formData = await request.json();
-          try {
-            await createPost(formData);
-            return redirect('/home');
-          } catch (err) {
-            throw new Response(err.message, { status: err.status || 500 });
-          }
-        }}
-      />
-      <Route
-        path='profile/:userId?'
-        element={<Profile />}
-        loader={async ({ params }) => {
-          try {
-            const userId = await verifyLoggedIn(store, dispatch);
-            await dispatch(loadUser(params.userId || userId));
-            await dispatch(loadBlog(params.userId || userId));
-          } catch (err) {
-            return redirect('/login');
-          }
-          return null;
-        }}
-        action={async ({ request }) => {
-          const { key, formData } = await request.json();
 
-          try {
+            return { followedBlogs, popularBlogs, posts };
+          }}
+        />
+        <Route
+          path='new'
+          element={<NewPost />}
+          loader={async () => {
+            try {
+              await verifyLoggedIn(store);
+            } catch (err) {
+              return redirect('/login');
+            }
+            const tags = await tagsLoader.listTagsLoader();
+            return { tags };
+          }}
+          action={createPostAction(store.dispatch)}
+        />
+        <Route
+          path='profile/:userId?'
+          element={<Profile />}
+          loader={async ({ params, request }) => {
+            try {
+              await verifyLoggedIn(store);
+            } catch (err) {
+              return redirect('/login');
+            }
+            let user;
+            let blog;
+            if (params.userId) {
+              user = await userLoader.userLoader({ params, request });
+              blog = await blogLoader.blogLoader({
+                params: { blogId: user.blogId },
+                request,
+              });
+            } else {
+              user = await userLoader.myProfileLoader({ request });
+              blog = await blogLoader.myBlogLoader({ request });
+            }
+            return { user, blog, userId: params.userId, blogId: user.blogId };
+          }}
+          action={async ({ request }) => {
+            const { key, formData } = await request.json();
+            request.body = JSON.stringify(formData);
+
             if (key === 'profile') {
-              // TODO: Add edit profile logic
-              console.log('profile', formData);
+              updateProfileAction(store.dispatch)(formData);
             }
 
             if (key === 'password') {
@@ -239,44 +234,39 @@ function App(dispatch, store) {
             }
 
             if (key === 'socialMedia') {
-              // TODO: Add edit social media logic
-              console.log('socialMedia', formData);
+              updateSocialMediaAction(store.dispatch)(formData);
             }
 
             if (key === 'blog') {
-              // TODO: Add edit blog logic
-              console.log('blog', formData);
+              editMyBlogAction(store.dispatch)(formData);
             }
             return null;
-          } catch (err) {
-            throw new Response(err.message, { status: err.status || 500 });
-          }
-        }}
-      />
-      <Route
-        path='search'
-        element={<Search />}
-        loader={async ({ request }) => {
-          const url = new URL(request.url);
-          const searchString = url.searchParams.get('q');
-          const searchTerms = splitOnQuotes(searchString);
-          try {
-            await verifyLoggedIn(store, dispatch);
-            await dispatch(loadSearchResults(searchTerms));
-          } catch (err) {
-            return redirect('/login');
-          }
-          return null;
-        }}
-      />
-      <Route
-        path='*'
-        element={<NotFound />}
-      />
-    </Route>
+          }}
+        />
+        <Route
+          path='search'
+          element={<Search />}
+          loader={async ({ request }) => {
+            try {
+              await verifyLoggedIn(store);
+            } catch (err) {
+              return redirect('/login');
+            }
+            const [blogs, posts] = await Promise.all([
+              blogLoader.listBlogsLoader({ request }),
+              postsLoader.listPostsLoader({ request }),
+            ]);
+            const url = new URL(request.url);
+            const q = url.searchParams.toString();
+
+            return { blogs, posts, q };
+          }}
+        />
+        <Route
+          path='*'
+          element={<NotFound />}
+        />
+      </Route>
+    )
   );
-
-  return routes;
 }
-
-export default App;

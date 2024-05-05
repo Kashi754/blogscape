@@ -1,37 +1,45 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { loadUser } from './userAPI';
+import { blogscapeApi } from '../../API/apiSlice';
 
-const url = process.env.REACT_APP_SERVER_URL;
-
-const userSlice = createSlice({
-  name: 'user',
-  initialState: {
-    user: {},
-    isLoading: false,
-    error: null,
-  },
-  reducers: {},
-  extraReducers: (builder) => {
-    builder
-      .addCase(loadUser.pending, (state) => {
-        state.user = {};
-        state.error = false;
-        state.isLoading = true;
-      })
-      .addCase(loadUser.rejected, (state, action) => {
-        state.user = {};
-        state.error = action.payload;
-        state.isLoading = false;
-      })
-      .addCase(loadUser.fulfilled, (state, action) => {
-        state.user = action.payload;
-        state.error = null;
-        state.isLoading = false;
-      });
-  },
+export const userSlice = blogscapeApi.injectEndpoints({
+  endpoints: (builder) => ({
+    getUserById: builder.query({
+      query: (id) => ({
+        url: `/users/${id}`,
+        method: 'GET',
+      }),
+      providesTags: (result, error, arg) => [{ type: 'Users', id: arg }],
+    }),
+    getMyProfile: builder.query({
+      query: () => ({
+        url: '/me/profile',
+        method: 'GET',
+      }),
+      providesTags: ['myProfile'],
+    }),
+    updateMyProfile: builder.mutation({
+      query: (profile) => ({
+        url: '/me/profile',
+        method: 'PUT',
+        data: profile,
+      }),
+      invalidatesTags: ['myProfile'],
+    }),
+    updateMySocialMedia: builder.mutation({
+      query: (socialMedia) => ({
+        url: '/me/social-media',
+        method: 'PUT',
+        data: socialMedia,
+      }),
+      invalidatesTags: ['myProfile'],
+    }),
+  }),
 });
 
-export const selectUser = (state) => state.user.user;
-export const selectIsLoading = (state) => state.user.isLoading;
-export const selectError = (state) => state.user.error;
-export default userSlice.reducer;
+export const {
+  useGetUserByIdQuery,
+  useGetMyProfileQuery,
+  useUpdateMyProfileMutation,
+  useUpdateMySocialMediaMutation,
+} = userSlice;
+export const selectUserResult = userSlice.endpoints.getUserById.select();
+export const selectMyProfileResult = userSlice.endpoints.getMyProfile.select();

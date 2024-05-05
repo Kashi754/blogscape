@@ -1,27 +1,22 @@
-import { useSelector } from 'react-redux';
-import { selectBlogHeader } from '../blogSlice';
+import { useGetBlogByIdQuery } from '../blogSlice';
 import { Button } from 'react-bootstrap';
 import './BlogHeader.css';
-import { selectUserId } from '../../auth/authSlice';
 import { useParams } from 'react-router';
 import { useSubmit } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { selectUserAuth } from '../../auth/authSlice';
 
 export function BlogHeader() {
+  const blogId = parseInt(useParams().blogId);
   const { title, description, image, author, followers, followed } =
-    useSelector(selectBlogHeader);
+    useGetBlogByIdQuery(blogId).data || {};
 
-  const userId = useSelector(selectUserId);
-  const userIdParam = parseInt(useParams().userId);
+  const { displayName } = useSelector(selectUserAuth) || {};
   const submit = useSubmit();
 
-  function followBlog(e) {
+  function toggleBlogFollowing(e) {
     e.preventDefault();
-    submit(null, { method: 'post', action: `/blog/${userIdParam}` });
-  }
-
-  function unFollowBlog(e) {
-    e.preventDefault();
-    submit(null, { method: 'put', action: `/blog/${userIdParam}` });
+    submit(null, { method: 'post', action: `/blog/${blogId}` });
   }
 
   return (
@@ -40,7 +35,7 @@ export function BlogHeader() {
 
         <section className='follower-section'>
           <h3>{followers} followers</h3>
-          {userId === userIdParam ? null : followed ? (
+          {displayName === author ? null : followed ? (
             <div>
               <Button
                 id='follow-button'
@@ -53,7 +48,7 @@ export function BlogHeader() {
               </Button>
               <button
                 className='unfollow-button'
-                onClick={unFollowBlog}
+                onClick={toggleBlogFollowing}
               >
                 Unfollow
               </button>
@@ -62,7 +57,7 @@ export function BlogHeader() {
             <Button
               id='follow-button'
               variant='secondary'
-              onClick={followBlog}
+              onClick={toggleBlogFollowing}
               size='sm'
               className='follow-button'
             >

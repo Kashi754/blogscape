@@ -1,5 +1,5 @@
 import { Button } from 'react-bootstrap';
-import { UserPosts } from '../../features/userPosts/UserPosts';
+import { UserPosts } from '../../features/user/userPosts/UserPosts';
 import { useNavigate } from 'react-router';
 import AddIcon from '@mui/icons-material/Add';
 import './Home.css';

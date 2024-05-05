@@ -1,11 +1,10 @@
-import { useSelector } from 'react-redux';
-import { selectAuthenticated, selectToken } from './authSlice';
 import { Navigate } from 'react-router';
+import Cookies from 'js-cookie';
 
 const requireAuth = (WrappedComponent) => {
   const AuthHOC = (props) => {
-    const isAuthenticated = useSelector(selectAuthenticated);
-    if (!isAuthenticated) {
+    const userCookie = Cookies.get('user');
+    if (!userCookie) {
       return (
         <Navigate
           to='/login'

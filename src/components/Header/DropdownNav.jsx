@@ -31,10 +31,10 @@ const DropdownLink = React.forwardRef(({ children, onClick, to }, ref) => (
   </Link>
 ));
 
-export function DropdownNav({ loggedIn, blogId }) {
+export function DropdownNav({ blogId }) {
   const navigate = useNavigate();
 
-  if (loggedIn) {
+  if (!!blogId) {
     return (
       <Dropdown autoClose='true'>
         <Dropdown.Toggle variant='primary'>

@@ -9,14 +9,15 @@ export function getWithExpiry(key) {
     localStorage.removeItem(key);
     return null;
   }
-  return { id: data.id, username: data.username, expiry: data.expiry };
+  return data;
 }
 
-export function setWithExpiry(key, value1, value2, ttl) {
+export function setWithExpiry(key, value1, value2, value3, ttl) {
   const now = new Date();
   const item = {
     id: value1,
-    username: value2,
+    displayName: value2,
+    blogId: value3,
     expiry: now.getTime() + ttl,
   };
   localStorage.setItem(key, JSON.stringify(item));

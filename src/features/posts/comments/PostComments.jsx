@@ -1,43 +1,36 @@
-import { useSelector } from 'react-redux';
-import { Comment } from '../../components/Comment/Comment';
-import { selectComments } from './commentsSlice';
+import { Comment } from '../../../components/Comment/Comment';
 import { useSubmit } from 'react-router-dom';
 import { useState } from 'react';
-import { AddCommentForm } from '../../components/AddComment/AddCommentForm';
+import { AddCommentForm } from '../../../components/AddComment/AddCommentForm';
 import { Button } from 'react-bootstrap';
 import AddIcon from '@mui/icons-material/Add';
 import './PostComments.css';
 
-export function PostComments({ postId }) {
-  const comments = useSelector(selectComments);
+export function PostComments({ postId, comments }) {
   const submit = useSubmit();
   const [addComment, setAddComment] = useState(false);
 
   const submitComment = (body) => {
     setAddComment(false);
-    const comment = { body };
+    const comment = { comment: body };
 
-    submit(
-      { key: 'comment', comment },
-      {
-        method: 'post',
-        action: `/posts/${postId}`,
-        encType: 'application/json',
-      }
-    );
+    submit(comment, {
+      method: 'post',
+      action: `/posts/${postId}`,
+      encType: 'application/json',
+    });
   };
 
   const submitReply = (body, commentId) => {
-    const comment = { body, commentId };
+    setAddComment(false);
+    body.comment_id = commentId;
+    const comment = { comment: body };
 
-    submit(
-      { key: 'reply', comment },
-      {
-        method: 'post',
-        action: `/posts/${postId}`,
-        encType: 'application/json',
-      }
-    );
+    submit(comment, {
+      method: 'post',
+      action: `/posts/${postId}`,
+      encType: 'application/json',
+    });
   };
 
   const cancelComment = () => {

@@ -1,4 +1,5 @@
 export function convertTimestampToDate(timestamp) {
+  console.log(timestamp);
   const splitTimestamp = timestamp.split(/[- :]/);
   const convertedDate = new Date(
     Date.UTC(
@@ -14,12 +15,13 @@ export function convertTimestampToDate(timestamp) {
 }
 
 export function convertDateToString(date) {
+  const dateTimestamp = new Date(date);
   const dateOptions = {
     dateStyle: 'medium',
     timeStyle: 'short',
   };
 
-  return new Intl.DateTimeFormat(undefined, dateOptions).format(date);
+  return new Intl.DateTimeFormat(undefined, dateOptions).format(dateTimestamp);
 }
 
 export function convertTimestampToString(timestamp) {

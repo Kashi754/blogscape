@@ -1,20 +1,18 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
 import { FloatingLabel, Form } from 'react-bootstrap';
 import { FileInput } from '../../../components/FileInput/FileInput';
-import { selectBlogHeader } from '../../blog/blogSlice';
+import { useGetMyBlogQuery } from '../../blog/blogSlice';
 import { sanitizeInput } from '../../../utils/sanitizeInput';
 import { uploadImage } from '../../../API';
 
 export function EditBlogTab({ onSubmit }) {
-  const blog = useSelector(selectBlogHeader);
+  const { data: blog } = useGetMyBlogQuery();
   const [formObject, setFormObject] = useState({
     title: blog.title || null,
     description: blog.description || null,
     image: null,
   });
   const [validated, setValidated] = useState(false);
-  const [loading, setLoading] = useState(false);
 
   const handleChange = (event) => {
     if (event.target) {
@@ -37,7 +35,6 @@ export function EditBlogTab({ onSubmit }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
 
     const form = e.currentTarget;
 
@@ -69,7 +66,6 @@ export function EditBlogTab({ onSubmit }) {
       formToSend.thumbnail = blog.thumbnail;
     }
 
-    setLoading(false);
     onSubmit({ key: 'blog', formData: formToSend });
   };
 

@@ -4,15 +4,16 @@ import { Footer } from '../../components/Footer/Footer';
 import { MobileHeader } from '../../components/Header/MobileHeader/MobileHeader';
 import './Root.css';
 import { useSelector } from 'react-redux';
-import { selectAuthenticated } from '../../features/auth/authSlice';
+import { selectUserAuth } from '../../features/auth/authSlice';
 
 export default function Root() {
-  const authenticated = useSelector(selectAuthenticated);
+  const user = useSelector(selectUserAuth) || {};
+  const { blogId } = user;
 
   return (
     <>
-      <Header loggedIn={authenticated} />
-      <MobileHeader loggedIn={authenticated} />
+      <Header blogId={blogId} />
+      <MobileHeader blogId={blogId} />
       <Outlet />
       <Footer />
     </>

@@ -1,12 +1,10 @@
 import { useState } from 'react';
 import { Button, FloatingLabel, Form } from 'react-bootstrap';
-import { ReactMarkdownEditor } from '../../components/ReactMarkdownEditor/ReactMarkdownEditor';
-import { TagSelect } from '../../components/TagSelect/TagSelect';
-import { useSelector } from 'react-redux';
-import { selectTagsData } from '../tags/tagsSlice';
-import { addTag } from '../../API';
-import { FileInput } from '../../components/FileInput/FileInput';
+import { ReactMarkdownEditor } from '../../../components/ReactMarkdownEditor/ReactMarkdownEditor';
+import { TagSelect } from '../../tags/TagSelect/TagSelect';
+import { FileInput } from '../../../components/FileInput/FileInput';
 import './NewPostForm.css';
+import { useCreateTagMutation, useGetTagsQuery } from '../../tags/tagsSlice';
 
 export function NewPostForm({ handleSubmit }) {
   const [formObject, setFormObject] = useState({
@@ -16,7 +14,10 @@ export function NewPostForm({ handleSubmit }) {
     tags: [],
     image: null,
   });
-  const tagsData = useSelector(selectTagsData);
+  const { data: tagsData } = useGetTagsQuery();
+
+  const [createTag] = useCreateTagMutation();
+
   const [validated, setValidated] = useState(false);
 
   const submitForm = async (event) => {
@@ -127,7 +128,7 @@ export function NewPostForm({ handleSubmit }) {
           tagsData={tagsData}
           form={formObject}
           setForm={setFormObject}
-          addTag={addTag}
+          addTag={createTag}
         />
         <Button
           className='post-submit-button'

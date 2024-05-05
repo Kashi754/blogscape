@@ -1,4 +1,4 @@
-import { BlogPost } from '../../features/post/BlogPost';
+import { BlogPost } from '../../features/posts/blogPost/BlogPost';
 import './Post.css';
 
 export default function Post() {

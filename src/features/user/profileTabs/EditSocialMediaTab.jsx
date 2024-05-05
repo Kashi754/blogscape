@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { Form } from 'react-bootstrap';
 import { SocialMediaCheckForm } from '../../../components/SocialMediaCheckForm/SocialMediaCheckForm';
-import { useSelector } from 'react-redux';
-import { selectUser } from '../userSlice';
+import { useGetMyProfileQuery } from '../userSlice';
 
 const socialMediaCompanies = [
   {
@@ -49,7 +48,8 @@ const socialMediaCompanies = [
 
 export function EditSocialMediaTab({ onSubmit }) {
   const [validated, setValidated] = useState(false);
-  const { socialMedia } = useSelector(selectUser);
+  const { data: user } = useGetMyProfileQuery();
+  const socialMedia = user?.socialMedia;
   const [formData, setFormData] = useState(socialMedia || {});
 
   const handleSubmit = (e) => {
@@ -82,7 +82,6 @@ export function EditSocialMediaTab({ onSubmit }) {
   const handleChangeSocial = (updatedField) => {
     const { name, value } = updatedField;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    console.log(updatedField);
   };
 
   return (

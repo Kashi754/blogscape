@@ -2,8 +2,7 @@ import { useState } from 'react';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { Form, InputGroup } from 'react-bootstrap';
 import { verifyPassword } from '../../../API';
-import { useSelector } from 'react-redux';
-import { selectUsername } from '../../auth/authSlice';
+import { useGetMyProfileQuery } from '../userSlice';
 
 export function ChangePasswordTab({ onSubmit }) {
   const [formData, setFormData] = useState({
@@ -15,7 +14,8 @@ export function ChangePasswordTab({ onSubmit }) {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [correctPassword, setCorrectPassword] = useState(true);
   const [passwordsMatch, setPasswordsMatch] = useState(true);
-  const username = useSelector(selectUsername);
+  const { data: user } = useGetMyProfileQuery();
+  const username = user?.username;
 
   const handleChange = (event) => {
     setCorrectPassword(true);

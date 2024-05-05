@@ -1,8 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { login, logout } from './authAPI';
 
-const url = process.env.REACT_APP_SERVER_URL;
-
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
@@ -10,21 +8,24 @@ const authSlice = createSlice({
     error: null,
     authenticated: false,
     userId: null,
-    username: null,
+    blogId: null,
+    displayName: '',
     expiry: null,
   },
   reducers: {
     setAuthenticated: (state, action) => {
-      const { username, id, expiry } = action.payload;
-      if (id) {
+      const { displayName, blogId, userId, expiry } = action.payload;
+      if (userId) {
         state.expiry = expiry;
-        state.userId = id;
-        state.username = username;
+        state.userId = userId;
+        state.blogId = blogId;
+        state.displayName = displayName;
         state.authenticated = true;
       } else {
         state.expiry = null;
         state.userId = null;
-        state.username = null;
+        state.blogId = null;
+        state.displayName = '';
         state.authenticated = false;
       }
     },
@@ -40,16 +41,19 @@ const authSlice = createSlice({
         state.authenticated = false;
         state.error = action.payload;
         state.isLoading = false;
-        state.username = null;
+        state.displayName = '';
+        state.blogId = null;
         state.userId = null;
         state.expiry = null;
       })
       .addCase(login.fulfilled, (state, action) => {
-        const { username, userId, expiry } = action.payload;
+        const { displayName, blogId, userId, expiry } = action.payload;
+        console.log(action.payload);
         state.userId = userId;
         state.expiry = expiry;
-        state.username = username;
+        state.displayName = displayName;
         state.authenticated = true;
+        state.blogId = blogId;
         state.error = null;
         state.isLoading = false;
       })
@@ -60,7 +64,6 @@ const authSlice = createSlice({
       .addCase(logout.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
-        state.authenticated = false;
       })
       .addCase(logout.fulfilled, (state, action) => {
         state.isLoading = false;
@@ -68,14 +71,19 @@ const authSlice = createSlice({
         state.authenticated = false;
         state.expiry = null;
         state.userId = null;
-        state.username = null;
+        state.blogId = null;
+        state.displayName = '';
       });
   },
 });
 
-export const selectAuthenticated = (state) => state.auth.authenticated;
-export const selectUserId = (state) => state.auth.userId;
-export const selectUsername = (state) => state.auth.username;
+export const selectUserAuth = (state) => ({
+  authenticated: state.auth.authenticated,
+  userId: state.auth.userId,
+  blogId: state.auth.blogId,
+  displayName: state.auth.displayName,
+  expiry: state.auth.expiry,
+});
 export const selectError = (state) => state.auth.error;
 export const selectIsLoading = (state) => state.auth.isLoading;
 export const { setAuthenticated } = authSlice.actions;

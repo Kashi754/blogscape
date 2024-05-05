@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { FloatingLabel, Form } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
-import { selectUser } from '../userSlice';
+import { useGetMyProfileQuery } from '../userSlice';
 import { CountrySelect } from '../../../components/CountrySelect/CountrySelect';
 import { FileInput } from '../../../components/FileInput/FileInput';
 import { isURL } from 'validator';
@@ -9,7 +8,7 @@ import { sanitizeInput } from '../../../utils/sanitizeInput';
 import { uploadImage } from '../../../API';
 
 export function EditProfileTab({ onSubmit }) {
-  const user = useSelector(selectUser);
+  const { data: user } = useGetMyProfileQuery();
   const [formObject, setFormObject] = useState({
     email: user.email,
     website: user.website || null,
@@ -18,10 +17,8 @@ export function EditProfileTab({ onSubmit }) {
   });
   const [validated, setValidated] = useState(false);
   const [validUrl, setValidUrl] = useState(false);
-  const [loading, setLoading] = useState(false);
 
   const handleChange = (event) => {
-    console.log(event);
     if (event.target) {
       const { name, value } = event.target;
       if (name === 'website') {
@@ -51,7 +48,6 @@ export function EditProfileTab({ onSubmit }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
 
     const form = e.currentTarget;
 
@@ -67,24 +63,21 @@ export function EditProfileTab({ onSubmit }) {
     }
 
     setValidated(false);
-    const { image, ...formToSend } = formObject;
+    let { image, ...formToSend } = formObject;
 
     formToSend.email = sanitizeInput(formToSend.email);
     formToSend.website = sanitizeInput(formToSend.website);
 
     if (image) {
-      const { fileId, url, thumbnailUrl } = await uploadImage(image, 'users');
-      formToSend.fileId = fileId;
-      formToSend.image = url;
-      formToSend.thumbnail = thumbnailUrl;
+      const imageResponse = await uploadImage(image, 'users');
+      formToSend = { ...formToSend, ...imageResponse };
     } else {
-      formToSend.fileId = user.fileId;
+      formToSend.file_id = user.fileId;
       formToSend.image = user.image;
       formToSend.thumbnail = user.thumbnail;
     }
 
-    setLoading(false);
-    onSubmit({ key: 'profile', formData: formObject });
+    onSubmit({ key: 'profile', formData: formToSend });
   };
 
   return (

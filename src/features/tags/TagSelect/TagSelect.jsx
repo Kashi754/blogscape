@@ -1,5 +1,6 @@
 import CreatableSelect from 'react-select/creatable';
-import { sanitizeInput } from '../../utils/sanitizeInput';
+import { sanitizeInput } from '../../../utils/sanitizeInput';
+import { useCreateTagMutation, useGetTagsQuery } from '../tagsSlice';
 
 const styles = {
   clearIndicator: (provided) => ({
@@ -103,17 +104,19 @@ const styles = {
 };
 
 export function TagSelect({ tagsData, form, setForm, addTag }) {
-  const { tags, isLoading, isError } = tagsData;
+  const { data: tags, isFetching, isLoading } = useGetTagsQuery();
+
+  const [createTag, { isLoading: tagLoading }] = useCreateTagMutation();
 
   const options = tags.map((tag) => ({
     value: tag.id,
-    label: tag.title,
+    label: tag.name,
   }));
 
   const handleCreate = async (inputValue) => {
     // TODO: Implement with RTK Query
     const sanitized = sanitizeInput(inputValue);
-    const newOption = await addTag(sanitized);
+    const newOption = await createTag(sanitized).unwrap();
     setForm((prev) => ({
       ...prev,
       tags: [...prev.tags, newOption],
@@ -141,7 +144,7 @@ export function TagSelect({ tagsData, form, setForm, addTag }) {
           value: tag.id,
           label: tag.name,
         }))}
-        isDisabled={isLoading}
+        isDisabled={isLoading || tagLoading || isFetching}
         isLoading={isLoading}
         name='categories'
         options={options}

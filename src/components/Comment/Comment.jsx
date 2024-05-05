@@ -1,32 +1,24 @@
 import { useState } from 'react';
 import './Comment.css';
 import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectReplies } from '../../features/comments/commentsSlice';
-import { loadReplies } from '../../API';
 import { AddCommentForm } from '../AddComment/AddCommentForm';
+import { convertDateToString } from '../../utils/dateConversions';
+import { addDefaultImg } from '../../utils/addDefaultImage';
+
+// TODO: show replies
 
 export function Comment({ comment, handleSubmitReply, isReply = false }) {
-  const {
-    id,
-    userImage,
-    userName,
-    userId,
-    createdAt,
-    body,
-    replies: replyCount,
-  } = comment;
-  const date = createdAt;
+  const { id, createdAt, body, replyCount, user } = comment;
+
+  const date = convertDateToString(createdAt);
+  const { id: userId, display_name: userName, thumbnail: userImage } = user;
 
   const [repliesVisible, setRepliesVisible] = useState(false);
-  const replies = useSelector(selectReplies);
-  const dispatch = useDispatch();
   const [replying, setReplying] = useState(false);
 
   const toggleReplies = (e) => {
-    if (!repliesVisible && replyCount > 0 && !replies[id]) {
+    if (!repliesVisible && replyCount > 0) {
       e.preventDefault();
-      dispatch(loadReplies(id));
     }
     setRepliesVisible(!repliesVisible);
   };
@@ -48,6 +40,7 @@ export function Comment({ comment, handleSubmitReply, isReply = false }) {
             className='comment-image'
             src={userImage}
             alt={userName}
+            onError={addDefaultImg}
           />
         )}
         <div className='comment-body'>
@@ -84,7 +77,7 @@ export function Comment({ comment, handleSubmitReply, isReply = false }) {
           )}
         </div>
       </div>
-      {repliesVisible && replies[id] && (
+      {/* {repliesVisible && replies[id] && (
         <div className='replies'>
           {replies[id].map((comment) => (
             <Comment
@@ -95,7 +88,7 @@ export function Comment({ comment, handleSubmitReply, isReply = false }) {
             />
           ))}
         </div>
-      )}
+      )} */}
       {replying && (
         <AddCommentForm
           handleSubmit={handleReply}

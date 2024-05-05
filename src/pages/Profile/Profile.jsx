@@ -1,28 +1,38 @@
-import { useSelector } from 'react-redux';
-import { selectUser } from '../../features/user/userSlice';
+import {
+  useGetMyProfileQuery,
+  useGetUserByIdQuery,
+} from '../../features/user/userSlice';
 import { ProfileItem } from '../../components/ProfileItem/ProfileItem';
 import { ProfileBlogCard } from '../../features/blog/profileBlogCard/ProfileBlogCard';
 import { addDefaultImg } from '../../utils/addDefaultImage';
-import { selectBlogHeader } from '../../features/blog/blogSlice';
 import { SocialIcon } from 'react-social-icons';
-import { selectUserId } from '../../features/auth/authSlice';
 import { EditProfileModal } from '../../components/EditProfileModal/EditProfileModal';
 import './Profile.css';
-import { Link } from 'react-router-dom';
+import { Link, useLoaderData } from 'react-router-dom';
+import {
+  useGetBlogByIdQuery,
+  useGetMyBlogQuery,
+} from '../../features/blog/blogSlice';
 
 export default function Profile() {
-  const user = useSelector(selectUser);
-  const userId = useSelector(selectUserId);
-  const blog = useSelector(selectBlogHeader);
+  const { userId } = useLoaderData();
+  const { data: otherUser = {} } = useGetUserByIdQuery(userId);
+  const { data: myProfile = {} } = useGetMyProfileQuery();
+  const user = userId ? otherUser : myProfile;
+  const { data: otherBlog = {} } = useGetBlogByIdQuery(user?.blogId);
+  const { data: myBlog = {} } = useGetMyBlogQuery();
+  const blog = user?.blogId ? otherBlog : myBlog;
+
+  if (!blog) return null;
 
   return (
     <main className='profile'>
-      <h2>{user.username}</h2>
+      <h2>{user.displayName}</h2>
       <article className='profile-body'>
         <section className='profile-picture-section'>
           <img
             src={user.image}
-            alt={user.username}
+            alt={user.displayName}
             onError={addDefaultImg}
           />
           <h4>{blog.followers} Followers</h4>
@@ -43,7 +53,7 @@ export default function Profile() {
           {blog && (
             <Link
               className='profile-blog-link'
-              to={`/blog/${userId}/`}
+              to={`/blog/${blog.id}/`}
             >
               <ProfileBlogCard blog={blog} />
             </Link>
@@ -65,7 +75,7 @@ export default function Profile() {
             )}
         </section>
       </article>
-      {user.id === userId && <EditProfileModal />}
+      {!userId && <EditProfileModal />}
     </main>
   );
 }

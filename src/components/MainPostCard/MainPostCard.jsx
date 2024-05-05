@@ -3,6 +3,7 @@ import './MainPostCard.css';
 import { addDefaultImg } from '../../utils/addDefaultImage';
 import { convertDateToString } from '../../utils/dateConversions';
 export function MainPostCard({ post, author, isLink }) {
+  if (!post) return null;
   const date = convertDateToString(post.createdAt);
 
   return (
@@ -29,8 +30,8 @@ export function MainPostCard({ post, author, isLink }) {
         </div>
         <div className='main-post-footer'>
           <div className='main-post-categories'>
-            {post.categories.map((category) => (
-              <h4 key={category}>{category}</h4>
+            {post.tags.map((tag) => (
+              <h4 key={tag}>{tag}</h4>
             ))}
           </div>
           {isLink && (

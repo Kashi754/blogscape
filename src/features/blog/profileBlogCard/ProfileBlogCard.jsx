@@ -4,7 +4,11 @@ export function ProfileBlogCard({ blog }) {
   return (
     <header
       className='blog-header'
-      style={{ backgroundImage: `url(${image})` }}
+      style={{
+        backgroundImage: `url(${
+          image || '/images/blog-default-background.webp'
+        })`,
+      }}
     >
       <div className='blog-header-wrapper'>
         <div className='blog-header-info'>

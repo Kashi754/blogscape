@@ -1,14 +1,12 @@
-import { useSelector } from 'react-redux';
-import {
-  selectSearchBlogs,
-  selectSearchPosts,
-} from '../../features/search/searchSlice';
 import Carousel from 'react-multi-carousel';
 import { BlogCard } from '../../components/BlogCard/BlogCard';
 import { BlogSearch } from '../../features/search/BlogSearch';
 import { SelectRandomButton } from '../../features/selectRandom/SelectRandomButton';
 import { BlogPostCard } from '../../components/BlogPostCard/BlogPostCard';
 import './Search.css';
+import { useLoaderData } from 'react-router';
+import { useGetBlogsQuery } from '../../features/blog/blogSlice';
+import { useGetPostsQuery } from '../../features/posts/postsSlice';
 
 const responsive = {
   superLargeDesktop: {
@@ -39,8 +37,9 @@ const responsive = {
 };
 
 export default function Search() {
-  const blogs = useSelector(selectSearchBlogs);
-  const posts = useSelector(selectSearchPosts);
+  const { q } = useLoaderData();
+  const { data: blogs } = useGetBlogsQuery(q);
+  const { data: posts } = useGetPostsQuery(q);
 
   return (
     <main className='search'>

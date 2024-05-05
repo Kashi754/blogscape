@@ -1,9 +1,8 @@
 import Carousel from 'react-multi-carousel';
-import './FollowedBlogs.css';
+import './PopularBlogs.css';
 import 'react-multi-carousel/lib/styles.css';
-import { useSelector } from 'react-redux';
-import { selectFollowedBlogs } from './followedBlogsSlice';
-import { BlogCard } from '../../components/BlogCard/BlogCard';
+import { BlogCard } from '../../../components/BlogCard/BlogCard';
+import { useGetPopularBlogsQuery } from '../blogSlice';
 
 const responsive = {
   superLargeDesktop: {
@@ -33,12 +32,12 @@ const responsive = {
   },
 };
 
-export function FollowedBlogs() {
-  const followedBlogs = useSelector(selectFollowedBlogs);
+export function PopularBlogs() {
+  const { data: popularBlogs = [] } = useGetPopularBlogsQuery();
 
   return (
-    <section className='followed-blogs'>
-      <h2>Followed Blogs</h2>
+    <section className='popular-blogs'>
+      <h2>Popular Blogs</h2>
       <Carousel
         additionalTransform={0}
         arrows
@@ -64,7 +63,7 @@ export function FollowedBlogs() {
         slidesToSlide={1}
         swipeable
       >
-        {followedBlogs.map((blog) => (
+        {popularBlogs.map((blog) => (
           <BlogCard
             key={blog.id}
             blog={blog}

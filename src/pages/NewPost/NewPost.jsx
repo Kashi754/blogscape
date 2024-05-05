@@ -1,5 +1,5 @@
 import { useSubmit } from 'react-router-dom';
-import { NewPostForm } from '../../features/post/NewPostForm';
+import { NewPostForm } from '../../features/posts/blogPost/NewPostForm';
 import './NewPost.css';
 import { sanitizeInput } from '../../utils/sanitizeInput';
 import { uploadImage } from '../../API';

@@ -1,10 +1,9 @@
-import { useSelector } from 'react-redux';
-import { selectRecentPosts } from './recentPostsSlice';
 import './RecentPosts.css';
-import { BlogPostCard } from '../../components/BlogPostCard/BlogPostCard';
+import { BlogPostCard } from '../../../components/BlogPostCard/BlogPostCard';
+import { useGetPostsQuery } from '../postsSlice';
 
 export function RecentPosts() {
-  const recentPosts = useSelector(selectRecentPosts);
+  const { data: recentPosts = [] } = useGetPostsQuery();
 
   return (
     <section className='recent-posts'>

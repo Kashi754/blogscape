@@ -1,8 +1,6 @@
 import { Link } from 'react-router-dom';
 
-export function BlogNav() {
-  // TODO: retrieve user's blogId from the store
-  let blogId = 1;
+export function BlogNav({ blogId }) {
   return (
     <nav>
       <ul className='header-links'>

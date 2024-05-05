@@ -3,9 +3,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css'; //for MDBbootstrap
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { Provider, useDispatch } from 'react-redux';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import App from './app/App';
+import { Provider } from 'react-redux';
+import { RouterProvider } from 'react-router-dom';
+import { getAppRouter } from './app/App';
 import { store } from './app/Store';
 import './index.css';
 import registerServiceWorker from './registerServiceWorker';
@@ -15,17 +15,10 @@ const root = createRoot(document.getElementById('root'));
 
 // This is a test
 
-const AppRouter = ({ store }) => {
-  const dispatch = useDispatch();
-  const AppRoutes = App(dispatch, store);
-
-  return <RouterProvider router={createBrowserRouter(AppRoutes)} />;
-};
-
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <AppRouter store={store} />
+      <RouterProvider router={getAppRouter(store)} />
     </Provider>
   </React.StrictMode>
 );

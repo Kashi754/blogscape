@@ -2,16 +2,13 @@ import { Link } from 'react-router-dom';
 import './mobileHeader.css';
 import { DropdownNav } from '../DropdownNav';
 
-export function MobileHeader({ loggedIn }) {
+export function MobileHeader({ blogId }) {
   return (
     <header className='mobile-header'>
       <Link to='/'>
         <h1 data-text='BlogScape'>BlogScape</h1>
       </Link>
-      <DropdownNav
-        loggedIn={loggedIn}
-        blogId={1}
-      />
+      <DropdownNav blogId={blogId} />
     </header>
   );
 }

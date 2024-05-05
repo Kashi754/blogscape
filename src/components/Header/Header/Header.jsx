@@ -4,16 +4,16 @@ import { LoggedOutNav } from '../LoggedOutNav';
 import { BlogNav } from '../BlogNav';
 import './header.css';
 
-export function Header({ loggedIn }) {
+export function Header({ blogId }) {
   return (
     <header className='header'>
       <div className='header-left'>
         <Link to='/'>
           <h1 data-text='BlogScape'>BlogScape</h1>
         </Link>
-        {loggedIn && <BlogNav />}
+        {!!blogId && <BlogNav blogId={blogId} />}
       </div>
-      {loggedIn ? <LoggedInNav /> : <LoggedOutNav />}
+      {!!blogId ? <LoggedInNav /> : <LoggedOutNav />}
     </header>
   );
 }
