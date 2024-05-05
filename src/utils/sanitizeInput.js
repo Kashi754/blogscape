@@ -15,7 +15,8 @@ export function sanitizeInput(input, escapeQuotes = true) {
   const blacklisted = escapeQuotes
     ? blacklist(strippedLow, blacklistString)
     : blacklist(strippedLow, blacklistStringWithEscape);
-  const escaped = escapeQuotes ? escape(blacklisted) : blacklisted;
+  //const escaped = escapeQuotes ? escape(blacklisted) : blacklisted;
+  const escaped = blacklisted;
   const trimmed = trim(escaped);
 
   return trimmed;
