@@ -4,7 +4,7 @@ export const tagsSlice = blogscapeApi.injectEndpoints({
   endpoints: (builder) => ({
     getTags: builder.query({
       query: () => ({
-        url: '/me/following',
+        url: '/tags',
         method: 'GET',
       }),
       providesTags: ['Tags'],
@@ -13,7 +13,7 @@ export const tagsSlice = blogscapeApi.injectEndpoints({
       query: (tag) => ({
         url: '/tags',
         method: 'POST',
-        data: tag,
+        data: { tag: tag },
       }),
       invalidatesTags: ['Tags'],
     }),
