@@ -65,9 +65,6 @@ export function EditProfileTab({ onSubmit }) {
     setValidated(false);
     let { image, ...formToSend } = formObject;
 
-    formToSend.email = sanitizeInput(formToSend.email);
-    formToSend.website = sanitizeInput(formToSend.website);
-
     if (image) {
       const imageResponse = await uploadImage(image, 'users');
       formToSend = { ...formToSend, ...imageResponse };

@@ -6,7 +6,7 @@ import { sanitizeInput } from '../../../utils/sanitizeInput';
 import { uploadImage } from '../../../API';
 
 export function EditBlogTab({ onSubmit }) {
-  const { data: blog } = useGetMyBlogQuery();
+  const { data: blog = {} } = useGetMyBlogQuery();
   const [formObject, setFormObject] = useState({
     title: blog.title || null,
     description: blog.description || null,
@@ -50,18 +50,21 @@ export function EditBlogTab({ onSubmit }) {
     }
 
     setValidated(false);
-    const { image, ...formToSend } = formObject;
+    const { image: imageFile, ...formToSend } = formObject;
 
     formToSend.title = sanitizeInput(formToSend.title);
     formToSend.description = sanitizeInput(formToSend.description);
 
-    if (image) {
-      const { fileId, url, thumbnailUrl } = await uploadImage(image, 'blogs');
-      formToSend.fileId = fileId;
-      formToSend.image = url;
-      formToSend.thumbnail = thumbnailUrl;
+    if (imageFile) {
+      const { file_id, image, thumbnail } = await uploadImage(
+        imageFile,
+        'blogs'
+      );
+      formToSend.file_id = file_id;
+      formToSend.image = image;
+      formToSend.thumbnail = thumbnail;
     } else {
-      formToSend.fileId = blog.fileId;
+      formToSend.file_id = blog.fileId;
       formToSend.image = blog.image;
       formToSend.thumbnail = blog.thumbnail;
     }
@@ -93,7 +96,7 @@ export function EditBlogTab({ onSubmit }) {
             <Form.Control
               type='text'
               name='title'
-              value={formObject.title}
+              value={formObject.title || ''}
               onChange={handleChange}
               placeholder={blog.title}
               pattern={`^[a-zA-Z0-9 .,!?'"\\-]+$`}
@@ -121,7 +124,7 @@ export function EditBlogTab({ onSubmit }) {
               as={'textarea'}
               name='description'
               className='blog-description-field'
-              value={formObject.description}
+              value={formObject.description || ''}
               onChange={handleChange}
               placeholder={blog.description}
               pattern={`^[a-zA-Z0-9 .,!?'"\\-]+$`}
