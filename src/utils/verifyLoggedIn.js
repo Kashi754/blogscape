@@ -6,7 +6,6 @@ export function verifyLoggedIn(store) {
   const now = new Date();
   if (auth.authenticated) {
     const notExpired = now.getTime() < auth.expiry;
-    console.log(now.getTime(), auth.expiry, notExpired);
     if (notExpired) {
       return auth.userId;
     } else {
@@ -14,8 +13,6 @@ export function verifyLoggedIn(store) {
       throw new Error('Please log in');
     }
   }
-
-  console.log(auth);
 
   const userCookie = Cookies.get('user');
 

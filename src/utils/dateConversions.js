@@ -1,5 +1,4 @@
 export function convertTimestampToDate(timestamp) {
-  console.log(timestamp);
   const splitTimestamp = timestamp.split(/[- :]/);
   const convertedDate = new Date(
     Date.UTC(

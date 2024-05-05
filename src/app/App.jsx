@@ -104,8 +104,7 @@ export function getAppRouter(store) {
           }}
           action={async ({ request }) => {
             let formData = await request.json();
-            const response = await store.dispatch(register(formData));
-            console.log(response);
+            await store.dispatch(register(formData));
             return redirect('/login');
           }}
         />
@@ -137,7 +136,7 @@ export function getAppRouter(store) {
               request,
               params,
             });
-            return { blog, posts, blogId: params.blogId, q: query };
+            return { blog, posts, blogId: params.blogId, query };
           }}
           action={toggleFollowedBlogAction(store)}
         />
@@ -186,13 +185,13 @@ export function getAppRouter(store) {
         <Route
           path='new'
           element={<NewPost />}
-          loader={async () => {
+          loader={async ({ request }) => {
             try {
               await verifyLoggedIn(store);
             } catch (err) {
               return redirect('/login');
             }
-            const tags = await tagsLoader.listTagsLoader();
+            const tags = await tagsLoader.listTagsLoader({ request });
             return { tags };
           }}
           action={createPostAction(store.dispatch)}
@@ -206,19 +205,12 @@ export function getAppRouter(store) {
             } catch (err) {
               return redirect('/login');
             }
-            let user;
-            let blog;
-            if (params.userId) {
-              user = await userLoader.userLoader({ params, request });
-              blog = await blogLoader.blogLoader({
-                params: { blogId: user.blogId },
-                request,
-              });
-            } else {
-              user = await userLoader.myProfileLoader({ request });
-              blog = await blogLoader.myBlogLoader({ request });
-            }
-            return { user, blog, userId: params.userId, blogId: user.blogId };
+
+            const user = params.userId
+              ? await userLoader.userLoader({ params, request })
+              : await userLoader.myProfileLoader({ request });
+
+            return { user, userId: params.userId };
           }}
           action={async ({ request }) => {
             const { key, formData } = await request.json();
