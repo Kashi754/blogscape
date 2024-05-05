@@ -45,7 +45,7 @@ export function Comment({ comment, handleSubmitReply, isReply = false }) {
         )}
         <div className='comment-body'>
           <div className='comment-header'>
-            <Link to={`/users/${userId}`}>{userName}</Link>
+            <Link to={`/profile/${userId}`}>{userName}</Link>
             <h5>{date}</h5>
           </div>
 

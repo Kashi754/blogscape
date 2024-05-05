@@ -5,13 +5,15 @@ export class PostsLoader extends BaseLoader {
   listPostsLoader = async ({ params, request }) => {
     const url = new URL(request.url);
     const query = url.searchParams?.toString() || '';
-    const blogId = params?.blogId ? 'blogId=' + params?.blogId : '';
-    const posts = await this._loader(
-      postsSlice.endpoints.getPosts,
-      request,
-      query + blogId
-    );
-    return { posts, query };
+    let blogId = '';
+    if (params) {
+      blogId = `blogId=${params.blogId}`;
+    }
+
+    const q = query + blogId;
+    const posts = await this._loader(postsSlice.endpoints.getPosts, request, q);
+
+    return { posts, query: q };
   };
 
   postLoader = async ({ params, request }) => {

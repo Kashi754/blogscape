@@ -1,14 +1,12 @@
 import { MainPostCard } from '../../../components/MainPostCard/MainPostCard';
 import { PostBody } from '../../../components/PostBody/PostBody';
 import { PostComments } from '../comments/PostComments';
-import { useLoaderData } from 'react-router';
 import {
   useGetPostByIdQuery,
   useGetPostCommentsByIdQuery,
 } from '../postsSlice';
 
-export function BlogPost() {
-  const { postId } = useLoaderData();
+export function BlogPost({ postId }) {
   const { data: post = {} } = useGetPostByIdQuery(postId);
   const { data: comments = [] } = useGetPostCommentsByIdQuery(postId);
 
