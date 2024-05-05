@@ -1,13 +1,11 @@
 import { useGetBlogByIdQuery } from '../blogSlice';
 import { Button } from 'react-bootstrap';
 import './BlogHeader.css';
-import { useParams } from 'react-router';
 import { useSubmit } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectUserAuth } from '../../auth/authSlice';
 
-export function BlogHeader() {
-  const blogId = parseInt(useParams().blogId);
+export function BlogHeader({ blogId }) {
   const { title, description, image, author, followers, followed } =
     useGetBlogByIdQuery(blogId).data || {};
 

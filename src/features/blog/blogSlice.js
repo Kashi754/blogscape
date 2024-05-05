@@ -39,7 +39,7 @@ export const blogsSlice = blogscapeApi.injectEndpoints({
         method: 'PUT',
         data: blog,
       }),
-      invalidatesTags: ['myBlog'],
+      invalidatesTags: ['myBlog', 'myProfile'],
     }),
     getFollowedBlogs: builder.query({
       query: () => ({
