@@ -23,16 +23,19 @@ export const postsSlice = blogscapeApi.injectEndpoints({
       query: (post) => ({
         url: '/posts',
         method: 'POST',
-        body: post,
+        data: post,
       }),
-      invalidatesTags: [{ type: 'Posts', id: 'LIST' }],
+      invalidatesTags: [
+        { type: 'Posts', id: 'LIST' },
+        { type: 'MyPosts', id: 'LIST' },
+      ],
     }),
     getMyPosts: builder.query({
       query: () => ({
         url: '/me/posts',
         method: 'GET',
       }),
-      providesTags: ['MyPosts'],
+      providesTags: [{ type: 'MyPosts', id: 'LIST' }],
     }),
     getPostCommentsById: builder.query({
       query: (id) => ({

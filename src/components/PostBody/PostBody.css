@@ -1,6 +1,6 @@
 .post-body {
-  margin-top: 2rem;
-  margin-bottom: 2rem;
+  margin-top: 2em;
+  margin-bottom: 2em;
   box-shadow: var(--shadow);
   background-color: white;
   padding: 5vw;
@@ -71,7 +71,7 @@
 .wmde-markdown .code-line .token.deleted .prefix.deleted:before {
   visibility: visible;
   content: '-';
-  margin-right: -0.5rem;
+  margin-right: -0.5em;
 }
 
 .wmde-markdown table tr {
@@ -100,7 +100,7 @@
   display: flex;
   align-items: center;
   height: fit-content;
-  padding: 0.25rem 0;
+  padding: 0.25em 0;
 }
 
 input[type='checkbox']:disabled {

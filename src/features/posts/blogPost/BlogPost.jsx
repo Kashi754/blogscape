@@ -10,6 +10,8 @@ export function BlogPost({ postId }) {
   const { data: post = {} } = useGetPostByIdQuery(postId);
   const { data: comments = [] } = useGetPostCommentsByIdQuery(postId);
 
+  if (!post) return null;
+
   return (
     <div>
       <MainPostCard

@@ -8,16 +8,17 @@ export default function NewPost() {
   const submit = useSubmit();
 
   const handlePost = async (formObject) => {
-    const { image, ...formData } = formObject;
+    const { image: imageData, ...formData } = formObject;
 
     formData.title = sanitizeInput(formObject.title);
     formData.subtitle = sanitizeInput(formObject.subtitle);
 
-    if (image) {
-      const { fileId, url, thumbnailUrl } = await uploadImage(image, 'posts');
-      formData.fileId = fileId;
-      formData.image = url;
-      formData.thumbnail = thumbnailUrl;
+    if (imageData) {
+      const imageResponse = await uploadImage(imageData, 'posts');
+      const { file_id, image, thumbnail } = imageResponse;
+      formData.file_id = file_id;
+      formData.image = image;
+      formData.thumbnail = thumbnail;
     } else {
       formData.fileId = null;
       formData.image = null;
