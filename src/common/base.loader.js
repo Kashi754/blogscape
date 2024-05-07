@@ -28,13 +28,14 @@ export class BaseLoader {
     request.signal.onabort = promise.abort;
     const res = await promise;
     const { data, isError, error } = res;
-    if (isError) {
-      const { status = 403, data } = error;
-      throw new Response('', {
-        status,
-        statusText: data?.message || getErrorMessage(status),
-      });
-    }
+    // if (isError) {
+    //   const { status = 403, data } = error;
+    //   console.log(error);
+    //   throw new Response('', {
+    //     status,
+    //     statusText: data?.message || getErrorMessage(status),
+    //   });
+    // }
     return data;
   };
 }

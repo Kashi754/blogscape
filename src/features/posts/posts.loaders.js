@@ -16,6 +16,17 @@ export class PostsLoader extends BaseLoader {
     return { posts, query: q };
   };
 
+  listPostsSearchLoader = async ({ params, request }) => {
+    const url = new URL(request.url);
+    const query = url.searchParams.toString();
+    const posts = await this._loader(
+      postsSlice.endpoints.getPostsSearch,
+      request,
+      query
+    );
+    return { posts, query };
+  };
+
   postLoader = async ({ params, request }) => {
     // verify if logged in
     return await this._loader(

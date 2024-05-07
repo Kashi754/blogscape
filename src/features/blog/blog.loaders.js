@@ -13,6 +13,17 @@ export class BlogLoader extends BaseLoader {
     return { blogs };
   };
 
+  listBlogsSearchLoader = async ({ request }) => {
+    const url = new URL(request.url);
+    const query = url.searchParams.toString();
+    const blogs = await this._loader(
+      blogsSlice.endpoints.getBlogsSearch,
+      request,
+      query
+    );
+    return { blogs };
+  };
+
   listPopularBlogsLoader = async ({ request }) => {
     const blogs = await this._loader(
       blogsSlice.endpoints.getPopularBlogs,

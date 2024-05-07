@@ -245,8 +245,8 @@ export function getAppRouter(store) {
               return redirect('/login');
             }
             const [blogs, posts] = await Promise.all([
-              blogLoader.listBlogsLoader({ request }),
-              postsLoader.listPostsLoader({ request }),
+              blogLoader.listBlogsSearchLoader({ request }),
+              postsLoader.listPostsSearchLoader({ request }),
             ]);
             const url = new URL(request.url);
             const q = url.searchParams.toString();

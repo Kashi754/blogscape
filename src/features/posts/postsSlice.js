@@ -12,6 +12,16 @@ export const postsSlice = blogscapeApi.injectEndpoints({
         ...result.map(({ id }) => ({ type: 'Posts', id })),
       ],
     }),
+    getPostsSearch: builder.query({
+      query: (q) => ({
+        url: `/posts/search?${q}`,
+        method: 'GET',
+      }),
+      providesTags: (result = [], error, arg) => [
+        { type: 'Posts', id: 'LIST' },
+        ...result.map(({ id }) => ({ type: 'Posts', id })),
+      ],
+    }),
     getPostById: builder.query({
       query: (id) => ({
         url: `/posts/${id}`,
@@ -61,6 +71,7 @@ export const postsSlice = blogscapeApi.injectEndpoints({
 
 export const {
   useGetPostsQuery,
+  useGetPostsSearchQuery,
   useGetPostByIdQuery,
   useGetMyPostsQuery,
   useCreatePostMutation,

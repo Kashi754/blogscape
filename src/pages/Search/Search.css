@@ -2,3 +2,9 @@
   margin: 2rem 8vw;
   box-sizing: border-box;
 }
+
+.search-error-message {
+  color: var(--accent-color);
+  text-align: center;
+  margin: 5rem;
+}

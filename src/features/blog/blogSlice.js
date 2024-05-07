@@ -12,6 +12,16 @@ export const blogsSlice = blogscapeApi.injectEndpoints({
         ...result.map(({ id }) => ({ type: 'Blog', id })),
       ],
     }),
+    getBlogsSearch: builder.query({
+      query: (q) => ({
+        url: `/blogs/search?${q}`,
+        method: 'GET',
+      }),
+      providesTags: (result = [], error, arg) => [
+        { type: 'Blog', id: 'LIST' },
+        ...result.map(({ id }) => ({ type: 'Blog', id })),
+      ],
+    }),
     getPopularBlogs: builder.query({
       query: () => ({
         url: '/blogs/popular',
@@ -61,6 +71,7 @@ export const blogsSlice = blogscapeApi.injectEndpoints({
 
 export const {
   useGetBlogsQuery,
+  useGetBlogsSearchQuery,
   useGetPopularBlogsQuery,
   useGetBlogByIdQuery,
   useGetMyBlogQuery,
