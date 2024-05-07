@@ -2,12 +2,24 @@ import { Link } from 'react-router-dom';
 import MarkdownPreview from '@uiw/react-markdown-preview';
 import rehypeSanitize from 'rehype-sanitize';
 import './BlogPostCard.css';
+import { addDefaultImg } from '../../utils/addDefaultImage';
 
 const rehypePlugins = [rehypeSanitize];
 
 export function BlogPostCard({ post }) {
   return (
     <div className='post-item'>
+      <div className='author-info'>
+        <Link to={`/profile/${post.authorId}`}>
+          <img
+            className='post-author-thumbnail'
+            alt={post.author}
+            src={post.authorThumbnail || '/images/default.png'}
+            onError={addDefaultImg}
+          />
+          {post.author}
+        </Link>
+      </div>
       <h2>{post.title}</h2>
       <MarkdownPreview
         source={post.body}

@@ -1,12 +1,12 @@
 import { useGetBlogByIdQuery } from '../blogSlice';
 import { Button } from 'react-bootstrap';
 import './BlogHeader.css';
-import { useSubmit } from 'react-router-dom';
+import { Link, useSubmit } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectUserAuth } from '../../auth/authSlice';
 
 export function BlogHeader({ blogId }) {
-  const { title, description, image, author, followers, followed } =
+  const { title, description, image, author, authorId, followers, followed } =
     useGetBlogByIdQuery(blogId).data || {};
 
   const { displayName } = useSelector(selectUserAuth) || {};
@@ -26,7 +26,7 @@ export function BlogHeader({ blogId }) {
         <section className='blog-header-info'>
           <div className='blog-title'>
             <h2>{title}</h2>
-            <h3>{author}</h3>
+            <Link to={'/profile/' + authorId}>{'— ' + author}</Link>
           </div>
           <p>{description}</p>
         </section>

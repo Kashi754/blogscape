@@ -8,6 +8,30 @@
   justify-content: space-between;
   align-items: space-between;
   box-shadow: var(--shadow);
+  position: relative;
+}
+
+.author-info {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+}
+
+.author-info a {
+  font-size: 0.75rem;
+  text-transform: capitalize;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: bold;
+}
+
+.post-author-thumbnail {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: top;
 }
 
 .post-item h2 {

@@ -41,6 +41,7 @@
 
 .profile-picture-section img {
   width: 100%;
+  max-width: 390px;
   aspect-ratio: 1/1;
   object-fit: cover;
   border-radius: 3px;
@@ -58,6 +59,7 @@
   flex-direction: column;
   gap: 0.75rem;
   width: 45vw;
+  min-width: fit-content;
 }
 
 .profile-item {
@@ -76,7 +78,7 @@
 }
 
 .profile-item h4 {
-  font-size: min(1.5rem, max(2.75vw, 1rem));
+  font-size: min(1.25rem, max(2.5vw, 0.75rem));
   margin: 0;
   color: var(--primary-color-alt);
   font-weight: 400;

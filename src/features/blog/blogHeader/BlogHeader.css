@@ -41,10 +41,10 @@
   font-size: min(2.75rem, max(3vw, 1.5rem));
 }
 
-.blog-title h3 {
+.blog-title a {
   display: inline-block;
   margin: 0;
-  color: var(--accent-color);
+  color: var(--primary-color-alt);
   font-size: min(1.25rem, max(1.5vw, 0.75rem));
   font-weight: normal;
 }
