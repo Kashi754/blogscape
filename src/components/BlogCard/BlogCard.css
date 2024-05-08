@@ -5,6 +5,8 @@
   border-radius: 4px;
   background-color: var(--primary-color-alt);
   position: relative;
+  box-sizing: border-box;
+  border: 1px solid var(--secondary-color);
 }
 
 .blog-card-image {

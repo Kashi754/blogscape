@@ -3,6 +3,7 @@
   height: min(313px, max(50vw, 250px));
   box-sizing: border-box;
   padding: 8%;
+  padding-bottom: 4%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -24,6 +25,7 @@
   align-items: center;
   gap: 0.5rem;
   font-weight: bold;
+  color: var(--secondary-color);
 }
 
 .post-author-thumbnail {
@@ -61,11 +63,11 @@
   bottom: 0;
   right: 0;
   width: 100%;
-  height: 1.5rem;
+  height: 3rem;
   background: linear-gradient(
     to bottom,
     rgba(255, 255, 255, 0),
-    rgba(255, 255, 255, 1)
+    rgba(255, 255, 255, 1) 95%
   );
 }
 
