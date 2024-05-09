@@ -35,7 +35,6 @@ import {
   updateSocialMediaAction,
 } from '../features/user/user.actions';
 import { login, logout, register } from '../API';
-import { setAuthenticated } from '../features/auth/authSlice';
 
 export function getAppRouter(store) {
   const postsLoader = new PostsLoader(store);

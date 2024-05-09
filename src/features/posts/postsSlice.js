@@ -1,3 +1,4 @@
+import { createSelector } from '@reduxjs/toolkit';
 import { blogscapeApi } from '../../API/apiSlice';
 
 export const postsSlice = blogscapeApi.injectEndpoints({
@@ -54,6 +55,13 @@ export const postsSlice = blogscapeApi.injectEndpoints({
       }),
       providesTags: (result, error, id) => [{ type: 'Comments', id }],
     }),
+    getPostRepliesById: builder.query({
+      query: ({ id, commentId }) => ({
+        url: `/posts/${id}/comments?commentId=${commentId}`,
+        method: 'GET',
+      }),
+      providesTags: (result, error, id) => [{ type: 'Comments', id }],
+    }),
     addPostCommentById: builder.mutation({
       query: ({ id, body: comment, commentId }) => {
         return {
@@ -76,10 +84,13 @@ export const {
   useGetMyPostsQuery,
   useCreatePostMutation,
   useGetPostCommentsByIdQuery,
+  useLazyGetPostRepliesByIdQuery,
   useAddPostCommentByIdMutation,
 } = postsSlice;
 export const selectPostsResult = postsSlice.endpoints.getPosts.select();
 export const selectPostByIdResult = postsSlice.endpoints.getPostById.select();
 export const selectMyPostsResult = postsSlice.endpoints.getMyPosts.select();
+export const selectRepliesById = postsSlice.endpoints.getPostRepliesById;
+
 export const selectPostCommentsByIdResult =
   postsSlice.endpoints.getPostCommentsById.select();

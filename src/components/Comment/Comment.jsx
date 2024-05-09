@@ -1,14 +1,18 @@
 import { useState } from 'react';
 import './Comment.css';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { AddCommentForm } from '../AddComment/AddCommentForm';
 import { convertDateToString } from '../../utils/dateConversions';
 import { addDefaultImg } from '../../utils/addDefaultImage';
+import { useLazyGetPostRepliesByIdQuery } from '../../features/posts/postsSlice';
 
 // TODO: show replies
 
 export function Comment({ comment, handleSubmitReply, isReply = false }) {
+  const { postId } = useParams();
   const { id, createdAt, body, replyCount, user } = comment;
+  const [triggerGetPostRepliesById, { data: replies, error: repliesError }] =
+    useLazyGetPostRepliesByIdQuery();
 
   const date = convertDateToString(createdAt);
   const { id: userId, display_name: userName, thumbnail: userImage } = user;
@@ -16,9 +20,10 @@ export function Comment({ comment, handleSubmitReply, isReply = false }) {
   const [repliesVisible, setRepliesVisible] = useState(false);
   const [replying, setReplying] = useState(false);
 
-  const toggleReplies = (e) => {
+  const toggleReplies = async (e) => {
     if (!repliesVisible && replyCount > 0) {
       e.preventDefault();
+      triggerGetPostRepliesById({ id: postId, commentId: id });
     }
     setRepliesVisible(!repliesVisible);
   };
@@ -60,26 +65,27 @@ export function Comment({ comment, handleSubmitReply, isReply = false }) {
               >
                 Reply
               </button>
-
-              <button
-                className={
-                  repliesVisible
-                    ? 'show-replies-button hide-replies-button'
-                    : 'show-replies-button'
-                }
-                onClick={toggleReplies}
-              >
-                {repliesVisible && replyCount
-                  ? 'Hide Replies'
-                  : 'View ' + replyCount + ' Replies'}
-              </button>
+              {replyCount > 0 && (
+                <button
+                  className={
+                    repliesVisible
+                      ? 'show-replies-button hide-replies-button'
+                      : 'show-replies-button'
+                  }
+                  onClick={toggleReplies}
+                >
+                  {repliesVisible && replyCount
+                    ? 'Hide Replies'
+                    : 'View ' + replyCount + ' Replies'}
+                </button>
+              )}
             </div>
           )}
         </div>
       </div>
-      {/* {repliesVisible && replies[id] && (
+      {repliesVisible && replies && (
         <div className='replies'>
-          {replies[id].map((comment) => (
+          {replies.map((comment) => (
             <Comment
               key={comment.id}
               comment={comment}
@@ -88,7 +94,8 @@ export function Comment({ comment, handleSubmitReply, isReply = false }) {
             />
           ))}
         </div>
-      )} */}
+      )}
+      {repliesError && <h4>Failed to get replies</h4>}
       {replying && (
         <AddCommentForm
           handleSubmit={handleReply}
