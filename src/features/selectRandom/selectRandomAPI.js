@@ -1,11 +1,23 @@
-function getRandomInt(max) {
-  return Math.floor(Math.random() * max) + 1;
-}
+import { axiosInstance } from '../../API/axiosBaseQuery';
 
 export async function getRandomBlogId() {
-  return await Promise.resolve(getRandomInt(10));
+  try {
+    const {
+      data: { id: blogId },
+    } = await axiosInstance.get('/v1/blogs/random');
+    return blogId;
+  } catch (axiosError) {
+    return 1;
+  }
 }
 
 export async function getRandomPostId() {
-  return await Promise.resolve(getRandomInt(100));
+  try {
+    const {
+      data: { id: postId },
+    } = await axiosInstance.get('/v1/posts/random');
+    return postId;
+  } catch (axiosError) {
+    return 1;
+  }
 }

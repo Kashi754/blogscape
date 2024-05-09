@@ -30,6 +30,13 @@ export const postsSlice = blogscapeApi.injectEndpoints({
       }),
       providesTags: (result, error, arg) => [{ type: 'Posts', id: arg }],
     }),
+    getRandomPostId: builder.query({
+      query: () => ({
+        url: '/posts/random',
+        method: 'GET',
+      }),
+      providesTags: (result, error, arg) => [{ type: 'Posts' }],
+    }),
     createPost: builder.mutation({
       query: (post) => ({
         url: '/posts',
