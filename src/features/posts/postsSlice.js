@@ -60,14 +60,20 @@ export const postsSlice = blogscapeApi.injectEndpoints({
         url: `/posts/${id}/comments`,
         method: 'GET',
       }),
-      providesTags: (result, error, id) => [{ type: 'Comments', id }],
+      providesTags: (result, error, id) => [
+        { type: 'Comments', id },
+        { type: 'Comments', id: 'LIST' },
+      ],
     }),
     getPostRepliesById: builder.query({
       query: ({ id, commentId }) => ({
         url: `/posts/${id}/comments?commentId=${commentId}`,
         method: 'GET',
       }),
-      providesTags: (result, error, id) => [{ type: 'Comments', id }],
+      providesTags: (result, error, id) => [
+        { type: 'Comments', id },
+        { type: 'Comments', id: 'LIST' },
+      ],
     }),
     addPostCommentById: builder.mutation({
       query: ({ id, body: comment, commentId }) => {
@@ -79,7 +85,10 @@ export const postsSlice = blogscapeApi.injectEndpoints({
           data: comment,
         };
       },
-      invalidatesTags: (result, error, { id }) => [{ type: 'Comments', id }],
+      invalidatesTags: (result, error, arg) => [
+        { type: 'Comments', id: arg.id },
+        { type: 'Comments', id: 'LIST' },
+      ],
     }),
   }),
 });

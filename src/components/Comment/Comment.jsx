@@ -30,7 +30,7 @@ export function Comment({ comment, handleSubmitReply, isReply = false }) {
 
   const handleReply = (reply) => {
     setReplying(false);
-    handleSubmitReply(reply, comment.id);
+    handleSubmitReply(reply, id);
   };
 
   return (

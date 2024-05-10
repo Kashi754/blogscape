@@ -21,10 +21,9 @@ export function PostComments({ postId, comments }) {
     });
   };
 
-  const submitReply = (body, commentId) => {
+  const submitReply = (reply, commentId) => {
     setAddComment(false);
-    body.comment_id = commentId;
-    const comment = { comment: body };
+    const comment = { comment: reply, comment_id: commentId };
 
     submit(comment, {
       method: 'post',

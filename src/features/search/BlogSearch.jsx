@@ -1,14 +1,17 @@
 import { Button, Form, InputGroup } from 'react-bootstrap';
 import './BlogSearch.css';
 import SearchIcon from '@mui/icons-material/Search';
-import { useState } from 'react';
+import ClearIcon from '@mui/icons-material/Clear';
+import { useRef, useState } from 'react';
 import { sanitizeInput } from '../../utils/sanitizeInput';
 import { useNavigate } from 'react-router';
-import { createSearchParams } from 'react-router-dom';
+import { createSearchParams, useSearchParams } from 'react-router-dom';
 
 export function BlogSearch() {
-  const [search, setSearch] = useState('');
+  const [searchParams] = useSearchParams();
+  const [search, setSearch] = useState(searchParams.get('q') || '');
   const navigate = useNavigate();
+  const searchRef = useRef();
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -29,14 +32,32 @@ export function BlogSearch() {
       onSubmit={handleSearch}
       style={formStyle}
     >
-      <InputGroup size='lg'>
+      <InputGroup
+        size='lg'
+        className='search-input-group'
+      >
         <Form.Control
+          type='search'
+          className='search-input'
           aria-label='search input'
           aria-describedby='search-button'
           value={search}
           placeholder='Search...'
           onChange={(e) => setSearch(e.target.value)}
+          ref={searchRef}
         />
+        <button
+          className='clear-button'
+          variant='secondary'
+          type='button'
+          id='clear-button'
+          onClick={() => {
+            setSearch('');
+            searchRef.current.focus();
+          }}
+        >
+          <ClearIcon />
+        </button>
         <Button
           variant='primary'
           type='submit'
