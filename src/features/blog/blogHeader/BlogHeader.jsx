@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { selectUserAuth } from '../../auth/authSlice';
 
 export function BlogHeader({ blogId }) {
-  const { title, description, image, author, authorId, followers, followed } =
+  const { title, description, image, author, authorId, followers, following } =
     useGetBlogByIdQuery(blogId).data || {};
 
   const { displayName } = useSelector(selectUserAuth) || {};
@@ -14,7 +14,10 @@ export function BlogHeader({ blogId }) {
 
   function toggleBlogFollowing(e) {
     e.preventDefault();
-    submit(null, { method: 'post', action: `/blog/${blogId}` });
+    submit(
+      { following },
+      { method: 'post', encType: 'application/json', action: `/blog/${blogId}` }
+    );
   }
 
   return (
@@ -33,7 +36,7 @@ export function BlogHeader({ blogId }) {
 
         <section className='follower-section'>
           <h3>{followers} followers</h3>
-          {displayName === author ? null : followed ? (
+          {displayName === author ? null : following ? (
             <div>
               <Button
                 id='follow-button'

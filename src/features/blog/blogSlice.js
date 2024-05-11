@@ -71,7 +71,10 @@ export const blogsSlice = blogscapeApi.injectEndpoints({
         method: 'PUT',
         data: blogs,
       }),
-      invalidatesTags: ['FollowedBlogs'],
+      invalidatesTags: (result, error, arg) => [
+        'FollowedBlogs',
+        { type: 'Blog', id: arg.id },
+      ],
     }),
   }),
 });

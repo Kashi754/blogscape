@@ -4,12 +4,12 @@ export const toggleFollowedBlogAction =
   (store) =>
   async ({ request, params }) => {
     const blogId = params.blogId;
-    const { following: previousFollowing } =
-      blogsSlice.endpoints.getBlogById.select(params.blogId)(store.getState());
+    const form = await request.json();
+    const following = !form.following;
 
     const formData = {
       blogIds: [blogId],
-      following: !previousFollowing,
+      following,
     };
 
     return await store.dispatch(
