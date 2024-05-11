@@ -20,7 +20,6 @@ export function MainPostCard({ post, author, isLink }) {
       <div className='main-post-info-container'>
         <div className='main-post-info'>
           <div className='post-header'>
-            <h4>{author}</h4>
             <h4>{date}</h4>
           </div>
           <div className='post-title'>

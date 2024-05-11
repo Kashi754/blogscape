@@ -46,18 +46,20 @@ export function BlogSearch() {
           onChange={(e) => setSearch(e.target.value)}
           ref={searchRef}
         />
-        <button
-          className='clear-button'
-          variant='secondary'
-          type='button'
-          id='clear-button'
-          onClick={() => {
-            setSearch('');
-            searchRef.current.focus();
-          }}
-        >
-          <ClearIcon />
-        </button>
+        {search && (
+          <button
+            className='clear-button'
+            variant='secondary'
+            type='button'
+            id='clear-button'
+            onClick={() => {
+              setSearch('');
+              searchRef.current.focus();
+            }}
+          >
+            <ClearIcon />
+          </button>
+        )}
         <Button
           variant='primary'
           type='submit'

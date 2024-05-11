@@ -14,7 +14,10 @@ export const login = createAsyncThunk(
       const { maxAge, ...user } = userResult;
 
       const maxAgeInDays = maxAge / 1000 / 60 / 60 / 24;
-      Cookies.set('user', JSON.stringify(user), { expires: maxAgeInDays });
+      Cookies.set('user', JSON.stringify(user), {
+        expires: maxAgeInDays,
+        sameSite: 'strict',
+      });
 
       return user;
     } catch (err) {

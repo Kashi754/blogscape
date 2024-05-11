@@ -1,0 +1,39 @@
+.user-info-card {
+  display: flex;
+  justify-content: space-between;
+  background-color: var(--primary-color-alt);
+  padding: 0.5rem;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  min-width: 250px;
+}
+
+.profile-link {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.profile-link:hover {
+  color: var(--primary-color);
+}
+
+.profile-link:hover h3 {
+  color: var(--primary-color);
+}
+
+.profile-link h3 {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--secondary-color);
+}
+
+.user-thumbnail {
+  border-radius: 50%;
+  height: 40px;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+}
+
+.blog-link {
+}
