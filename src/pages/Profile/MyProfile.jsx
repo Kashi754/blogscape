@@ -28,6 +28,10 @@ export default function MyProfile() {
             data={{ title: 'Email', value: user.email }}
           />
           <ProfileItem
+            visible={!!user.userName}
+            data={{ title: 'Username', value: user.userName }}
+          />
+          <ProfileItem
             visible={!!user.website}
             data={{ title: 'Website', value: user.website }}
           />

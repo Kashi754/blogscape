@@ -4,32 +4,22 @@ import { useGetMyProfileQuery } from '../userSlice';
 import { CountrySelect } from '../../../components/CountrySelect/CountrySelect';
 import { FileInput } from '../../../components/FileInput/FileInput';
 import { isURL } from 'validator';
-import { sanitizeInput } from '../../../utils/sanitizeInput';
 import { uploadImage } from '../../../API';
 
 export function EditProfileTab({ onSubmit }) {
   const { data: user } = useGetMyProfileQuery();
   const [formObject, setFormObject] = useState({
     email: user.email,
-    website: user.website || null,
-    location: user.location || null,
+    display_name: user.displayName || '',
+    website: user.website || '',
+    location: user.location || '',
     image: null,
   });
   const [validated, setValidated] = useState(false);
-  const [validUrl, setValidUrl] = useState(false);
 
   const handleChange = (event) => {
     if (event.target) {
       const { name, value } = event.target;
-      if (name === 'website') {
-        setValidUrl(
-          isURL(value, {
-            require_protocol: true,
-            allow_fragments: false,
-            allow_query_components: false,
-          }) || value === ''
-        );
-      }
 
       setFormObject({
         ...formObject,
@@ -56,7 +46,15 @@ export function EditProfileTab({ onSubmit }) {
       return;
     }
 
-    if (form.checkValidity() === false || !validUrl) {
+    if (
+      form.checkValidity() === false ||
+      (formObject.website !== '' &&
+        !isURL(formObject.website, {
+          require_protocol: true,
+          allow_fragments: false,
+          allow_query_components: false,
+        }))
+    ) {
       e.stopPropagation();
       setValidated(true);
       return;
@@ -91,6 +89,30 @@ export function EditProfileTab({ onSubmit }) {
         defaultPreview={user.image}
       />
       <Form.Group className='profile-info-group'>
+        <Form.Group>
+          <FloatingLabel
+            controlId='display-name'
+            label='Display Name'
+          >
+            <Form.Control
+              type='text'
+              name='display_name'
+              value={formObject.display_name}
+              onChange={handleChange}
+              placeholder={user.displayName}
+              pattern='^[a-zA-Z0-9_\-@!.+ ]+$'
+              isInvalid={
+                validated &&
+                !/^[a-zA-Z0-9_\-@!.+ ]+$/.test(formObject.display_name)
+              }
+              required
+              autoFocus
+            />
+            <Form.Control.Feedback type='invalid'>
+              Please enter a valid email address.
+            </Form.Control.Feedback>
+          </FloatingLabel>
+        </Form.Group>
         <Form.Group>
           <FloatingLabel
             controlId='email'
@@ -128,7 +150,15 @@ export function EditProfileTab({ onSubmit }) {
               value={formObject.website}
               onChange={handleChange}
               placeholder={user.website}
-              isInvalid={validated && !validUrl}
+              isInvalid={
+                validated &&
+                formObject.website !== '' &&
+                !isURL(formObject.website, {
+                  require_protocol: true,
+                  allow_fragments: false,
+                  allow_query_components: false,
+                })
+              }
             />
             <Form.Control.Feedback type='invalid'>
               Please enter a valid website! (Valid URL: http(s)://domain.ext)
