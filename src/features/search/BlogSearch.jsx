@@ -12,6 +12,7 @@ export function BlogSearch() {
   const [search, setSearch] = useState(searchParams.get('q') || '');
   const navigate = useNavigate();
   const searchRef = useRef();
+  const [tagSearch, setTagSearch] = useState([]);
 
   const handleSearch = (e) => {
     e.preventDefault();

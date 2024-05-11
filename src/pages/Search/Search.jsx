@@ -1,12 +1,12 @@
 import Carousel from 'react-multi-carousel';
 import { BlogCard } from '../../components/BlogCard/BlogCard';
-import { BlogSearch } from '../../features/search/BlogSearch';
 import { SelectRandomButton } from '../../features/selectRandom/SelectRandomButton';
 import { BlogPostCard } from '../../components/BlogPostCard/BlogPostCard';
 import './Search.css';
 import { useLoaderData } from 'react-router';
 import { useGetBlogsSearchQuery } from '../../features/blog/blogSlice';
 import { useGetPostsSearchQuery } from '../../features/posts/postsSlice';
+import { TagSearch } from '../../features/TagSearch/TagSearch';
 
 const responsive = {
   superLargeDesktop: {
@@ -44,7 +44,7 @@ export default function Search() {
   return (
     <main className='search'>
       <nav className='browse-nav'>
-        <BlogSearch />
+        <TagSearch />
         <SelectRandomButton />
       </nav>
       <section className='followed-blogs'>
