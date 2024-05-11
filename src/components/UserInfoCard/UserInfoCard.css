@@ -1,17 +1,20 @@
 .user-info-card {
-  display: flex;
-  justify-content: space-between;
   background-color: var(--primary-color-alt);
   padding: 0.5rem;
+  min-width: 250px;
+  display: flex;
+  justify-content: space-around;
   gap: 0.5rem;
   flex-wrap: wrap;
-  min-width: 250px;
+  align-items: center;
 }
 
 .profile-link {
   display: flex;
   gap: 1rem;
   align-items: center;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 .profile-link:hover {
@@ -36,4 +39,6 @@
 }
 
 .blog-link {
+  margin-left: auto;
+  margin-right: auto;
 }

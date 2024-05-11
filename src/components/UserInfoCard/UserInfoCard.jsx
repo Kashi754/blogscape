@@ -22,7 +22,7 @@ export function UserInfoCard({
           src={thumbnail || '/images/default.png'}
           onError={addDefaultImg}
         />
-        <h3>{'By ' + author}</h3>
+        <h3>{'Written by: ' + author}</h3>
       </Link>
 
       <Button

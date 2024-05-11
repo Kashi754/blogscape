@@ -5,6 +5,11 @@
 
 .react-multiple-carousel__arrow {
   background-color: rgba(255, 255, 255, 0.75) !important;
+  min-width: 30px;
+  min-height: 30px;
+  width: clamp(35px, 5vw, 45px);
+  height: clamp(35px, 5vw, 45px);
+  padding: 0;
 }
 .react-multiple-carousel__arrow::before {
   color: var(--secondary-color) !important;

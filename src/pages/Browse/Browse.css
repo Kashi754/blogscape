@@ -5,9 +5,10 @@
 
 .browse-nav {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   justify-content: space-between;
   gap: 0.5rem;
+  margin-bottom: 0.25rem;
 }
 
 @media screen and (max-width: 800px) {
@@ -18,6 +19,7 @@
 
 @media screen and (max-width: 510px) {
   .browse-nav {
+    flex-wrap: wrap;
     justify-content: center;
   }
 }

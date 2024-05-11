@@ -1,6 +1,8 @@
 .tag-search-container {
   display: flex;
   position: relative;
+  flex-shrink: 1;
+  flex-basis: fit-content;
 }
 
 .tag-search-input {
@@ -58,7 +60,7 @@
   gap: 10px;
   padding: 0.25rem 10px;
   cursor: pointer;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid var(--accent-color);
 }
 
 .suggestions-list li:last-child {
@@ -66,7 +68,7 @@
 }
 
 .suggestions-list li:hover {
-  background-color: #ccc;
+  background-color: var(--primary-color-alt);
 }
 
 .suggestions-list li img {
@@ -98,7 +100,7 @@
 }
 
 .suggestions-list li.active {
-  background-color: #ccc;
+  background-color: var(--accent-color);
 }
 
 #search-btn {

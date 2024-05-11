@@ -29,8 +29,8 @@
 }
 
 .post-author-thumbnail {
-  width: 2.5rem;
   height: 2.5rem;
+  aspect-ratio: 1/1;
   border-radius: 50%;
   object-fit: cover;
   object-position: top;
@@ -102,5 +102,18 @@
 @media screen and (max-width: 700px) {
   .post-item h2 {
     font-size: min(2rem, max(5vw, 1.25rem)) !important;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .post-author-thumbnail {
+    height: 2rem;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .post-item {
+    width: 90vw;
+    padding-top: 40px;
   }
 }
