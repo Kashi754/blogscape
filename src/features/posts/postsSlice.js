@@ -1,13 +1,26 @@
-import { createSelector } from '@reduxjs/toolkit';
 import { blogscapeApi } from '../../API/apiSlice';
 
 export const postsSlice = blogscapeApi.injectEndpoints({
   endpoints: (builder) => ({
     getPosts: builder.query({
-      query: (q) => ({
-        url: `/posts?${q ? q : ''}`,
+      query: (query) => ({
+        url: `/posts?${query ? query : ''}`,
         method: 'GET',
       }),
+      serializeQueryArgs: ({ queryArgs, endpointName }) => {
+        const blogId = new URLSearchParams(queryArgs).get('blogId');
+        return blogId ? `${endpointName}_${blogId}` : endpointName;
+      },
+      merge: (currentCache, responseData, { arg }) => {
+        if (new URLSearchParams(arg).get('beforeId')) {
+          currentCache.push(...responseData);
+          return currentCache;
+        }
+        return responseData;
+      },
+      forceRefetch: ({ currentArg, previousArg }) => {
+        return currentArg !== previousArg;
+      },
       providesTags: (result = [], error, arg) => [
         { type: 'Posts', id: 'LIST' },
         ...result.map(({ id }) => ({ type: 'Posts', id })),
@@ -18,6 +31,22 @@ export const postsSlice = blogscapeApi.injectEndpoints({
         url: `/posts/search?${q}`,
         method: 'GET',
       }),
+      serializeQueryArgs: ({ queryArgs, endpointName }) => {
+        const query = new URLSearchParams(queryArgs).get('q');
+        return `${endpointName}_${query}`;
+      },
+      merge: (currentCache, responseData, { arg }) => {
+        const beforeId = new URLSearchParams(arg).get('beforeId');
+        if (beforeId) {
+          currentCache.push(...responseData);
+          return currentCache;
+        }
+        console.log(responseData);
+        return responseData;
+      },
+      forceRefetch: ({ currentArg, previousArg }) => {
+        return currentArg !== previousArg;
+      },
       providesTags: (result = [], error, arg) => [
         { type: 'Posts', id: 'LIST' },
         ...result.map(({ id }) => ({ type: 'Posts', id })),
@@ -49,10 +78,23 @@ export const postsSlice = blogscapeApi.injectEndpoints({
       ],
     }),
     getMyPosts: builder.query({
-      query: () => ({
-        url: '/me/posts',
+      query: (query) => ({
+        url: `/me/posts?${query ? query : ''}`,
         method: 'GET',
       }),
+      serializeQueryArgs: ({ queryArgs, endpointName }) => {
+        return endpointName;
+      },
+      merge: (currentCache, responseData, { arg }) => {
+        if (new URLSearchParams(arg).get('beforeId')) {
+          currentCache.push(...responseData);
+          return currentCache;
+        }
+        return responseData;
+      },
+      forceRefetch: ({ currentArg, previousArg }) => {
+        return currentArg !== previousArg;
+      },
       providesTags: [{ type: 'MyPosts', id: 'LIST' }],
     }),
     getPostCommentsById: builder.query({

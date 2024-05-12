@@ -10,7 +10,7 @@ import { sanitizeInput } from '../../utils/sanitizeInput';
 
 mirage.register();
 
-export function TagSearch() {
+export function TagSearch({ resetPage }) {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const queryString = searchParams.get('q') || '';
@@ -122,7 +122,8 @@ export function TagSearch() {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    let search;
+    resetPage && resetPage();
+    let search = '';
     if (selectedTags.length > 0) {
       search = selectedTags.map((tag) => tag.name).join(' ');
     }

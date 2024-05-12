@@ -1,12 +1,14 @@
+import { useEffect, useRef, useState } from 'react';
+import { Button } from 'react-bootstrap';
 import Carousel from 'react-multi-carousel';
-import { BlogCard } from '../../components/BlogCard/BlogCard';
-import { SelectRandomButton } from '../../features/selectRandom/SelectRandomButton';
-import { BlogPostCard } from '../../components/BlogPostCard/BlogPostCard';
-import './Search.css';
 import { useLoaderData } from 'react-router';
+import { BlogCard } from '../../components/BlogCard/BlogCard';
+import { BlogPostCard } from '../../components/BlogPostCard/BlogPostCard';
+import { TagSearch } from '../../features/TagSearch/TagSearch';
 import { useGetBlogsSearchQuery } from '../../features/blog/blogSlice';
 import { useGetPostsSearchQuery } from '../../features/posts/postsSlice';
-import { TagSearch } from '../../features/TagSearch/TagSearch';
+import { SelectRandomButton } from '../../features/selectRandom/SelectRandomButton';
+import './Search.css';
 
 const responsive = {
   superLargeDesktop: {
@@ -38,13 +40,59 @@ const responsive = {
 
 export default function Search() {
   const { q } = useLoaderData();
+  const [page, setPage] = useState(null);
+  const [loadingPage, setLoadingPage] = useState(false);
+  const searchRef = useRef(null);
+
   const { data: blogs, error: blogsError } = useGetBlogsSearchQuery(q);
-  const { data: posts, error: postsError } = useGetPostsSearchQuery(q);
+  const {
+    data: posts,
+    error: postsError,
+    isFetching,
+  } = useGetPostsSearchQuery(
+    page ? q + '&' + new URLSearchParams(Object.entries(page)).toString() : q
+  );
+
+  const [prevPage, setPrevPage] = useState({
+    page: null,
+    length: posts?.length || 0,
+  });
+
+  if (
+    loadingPage &&
+    (posts.length !== prevPage.length ||
+      JSON.stringify(prevPage.page) === JSON.stringify(page))
+  )
+    setLoadingPage(false);
+
+  useEffect(() => {
+    const onScroll = () => {
+      const scrolledToBottom =
+        window.innerHeight + window.scrollY >= document.body.offsetHeight - 10;
+      if (scrolledToBottom && !isFetching && posts.length > 0) {
+        setLoadingPage(true);
+        setPrevPage({ length: posts.length, page: { ...page } });
+        setPage({
+          beforeId: posts[posts.length - 1].id,
+          beforeRank: posts[posts.length - 1].rank,
+        });
+      }
+    };
+
+    document.addEventListener('scroll', onScroll);
+
+    return function () {
+      document.removeEventListener('scroll', onScroll);
+    };
+  }, [isFetching, page, posts]);
 
   return (
-    <main className='search'>
+    <main
+      className='search'
+      ref={searchRef}
+    >
       <nav className='browse-nav'>
-        <TagSearch />
+        <TagSearch resetPage={() => setPage(null)} />
         <SelectRandomButton />
       </nav>
       <section className='followed-blogs'>
@@ -88,7 +136,7 @@ export default function Search() {
       </section>
       <section className='recent-posts'>
         <h2>Posts</h2>
-        {postsError ? (
+        {postsError && !page ? (
           <h3 className='search-error-message'>No posts found.</h3>
         ) : (
           <div className='recent-posts-list'>
@@ -101,6 +149,29 @@ export default function Search() {
           </div>
         )}
       </section>
+      {loadingPage && (
+        <div className='page-loader-container'>
+          <l-mirage
+            size='300'
+            speed='2.5'
+            color='var(--accent-color)'
+          />
+        </div>
+      )}
+
+      {window.innerHeight < searchRef.current?.offsetHeight && (
+        <div className='back-to-top-container'>
+          <Button
+            type='button'
+            variant='secondary'
+            size='xl'
+            className='back-to-top-button'
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          >
+            Back to Top
+          </Button>
+        </div>
+      )}
     </main>
   );
 }

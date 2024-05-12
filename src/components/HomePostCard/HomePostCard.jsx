@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import './HomePostCard.css';
 
 export function HomePostCard({ post }) {
-  console.log(post);
   return (
     <Link
       className='home-post'
