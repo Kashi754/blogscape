@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { Form, InputGroup } from 'react-bootstrap';
-import { verifyPassword } from '../../../API';
 import { useGetMyProfileQuery } from '../userSlice';
+import { useActionData } from 'react-router';
 
 export function ChangePasswordTab({ onSubmit }) {
   const [formData, setFormData] = useState({
@@ -12,13 +12,13 @@ export function ChangePasswordTab({ onSubmit }) {
   });
   const [validated, setValidated] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const [correctPassword, setCorrectPassword] = useState(true);
   const [passwordsMatch, setPasswordsMatch] = useState(true);
   const { data: user } = useGetMyProfileQuery();
   const username = user?.username;
+  const actionData = useActionData();
+  const { data, error } = actionData || {};
 
   const handleChange = (event) => {
-    setCorrectPassword(true);
     const { name, value } = event.target;
     setPasswordsMatch(true);
     setFormData({
@@ -30,13 +30,7 @@ export function ChangePasswordTab({ onSubmit }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const form = e.currentTarget;
-    const validPassword = await verifyPassword(formData.oldPassword);
-    if (!validPassword) {
-      e.stopPropagation();
-      setValidated(true);
-      setCorrectPassword(false);
-      return;
-    }
+
     if (formData.newPassword !== formData.confirmPassword) {
       e.stopPropagation();
       setValidated(true);
@@ -88,7 +82,8 @@ export function ChangePasswordTab({ onSubmit }) {
             placeholder='Old Password'
             onChange={handleChange}
             autoComplete='current-password'
-            isInvalid={!correctPassword}
+            isInvalid={error}
+            isValid={!!data}
           />
           <InputGroup.Text id='show-password'>
             {!passwordVisible ? (
@@ -102,8 +97,11 @@ export function ChangePasswordTab({ onSubmit }) {
             )}
           </InputGroup.Text>
           <Form.Control.Feedback type='invalid'>
-            Incorrect Password!
+            {error?.data}
           </Form.Control.Feedback>
+          {data && (
+            <Form.Control.Feedback type='valid'>{data}</Form.Control.Feedback>
+          )}
         </InputGroup>
       </Form.Group>
       <Form.Group

@@ -26,8 +26,8 @@ export function EditProfileModal() {
   };
 
   const handleSubmit = (formData) => {
-    setShow(false);
-    setVisible(false);
+    // setShow(false);
+    // setVisible(false);
 
     submit(formData, {
       method: 'put',

@@ -32,6 +32,13 @@ export const userSlice = blogscapeApi.injectEndpoints({
       }),
       invalidatesTags: ['myProfile'],
     }),
+    updateMyPassword: builder.mutation({
+      query: (password) => ({
+        url: '/me/password',
+        method: 'PUT',
+        data: password,
+      }),
+    }),
   }),
 });
 
@@ -40,6 +47,7 @@ export const {
   useGetMyProfileQuery,
   useUpdateMyProfileMutation,
   useUpdateMySocialMediaMutation,
+  useUpdateMyPasswordMutation,
 } = userSlice;
 export const selectUserResult = userSlice.endpoints.getUserById.select();
 export const selectMyProfileResult = userSlice.endpoints.getMyProfile.select();

@@ -33,6 +33,7 @@ import {
 import {
   updateProfileAction,
   updateSocialMediaAction,
+  updatePasswordAction,
 } from '../features/user/user.actions';
 import { login, logout, register } from '../API';
 
@@ -221,7 +222,15 @@ export function getAppRouter(store) {
 
             if (key === 'password') {
               // TODO: Add change password logic
-              console.log('password', formData);
+              const result = await updatePasswordAction(store.dispatch)(
+                formData
+              );
+
+              if (result.error && result.error.status !== 401) {
+                result.error.data = 'Something went wrong';
+              }
+
+              return { data: result.data, error: result.error };
             }
 
             if (key === 'socialMedia') {

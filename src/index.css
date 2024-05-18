@@ -160,5 +160,18 @@ code {
 }
 
 .modal .invalid-feedback {
+  margin-top: 0.5rem;
   color: rgb(0, 44, 41);
+  width: 100%;
+}
+
+.modal .valid-feedback {
+  margin-top: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  position: static;
+  background-color: rgba(0, 255, 0, 0.315);
+  border-radius: 3px;
+  color: rgb(0, 44, 41);
+  font-weight: bold;
+  width: 100%;
 }
