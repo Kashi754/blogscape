@@ -9,6 +9,7 @@ import { useGetBlogsSearchQuery } from '../../features/blog/blogSlice';
 import { useGetPostsSearchQuery } from '../../features/posts/postsSlice';
 import { SelectRandomButton } from '../../features/selectRandom/SelectRandomButton';
 import './Search.css';
+import { Suggestions } from '../../components/Suggestions/Suggestions';
 
 const responsive = {
   superLargeDesktop: {
@@ -40,17 +41,29 @@ const responsive = {
 
 export default function Search() {
   const { q } = useLoaderData();
-  const [page, setPage] = useState(null);
+  const [postPage, setPostPage] = useState(null);
+  const [blogPage, setBlogPage] = useState(null);
   const [loadingPage, setLoadingPage] = useState(false);
   const searchRef = useRef(null);
 
-  const { data: blogs, error: blogsError } = useGetBlogsSearchQuery(q);
   const {
-    data: posts,
+    data: blogs = [],
+    error: blogsError,
+    isFetching: blogsFetching,
+  } = useGetBlogsSearchQuery(
+    blogPage
+      ? q + '&' + new URLSearchParams(Object.entries(blogPage)).toString()
+      : q
+  );
+
+  const {
+    data: posts = [],
     error: postsError,
-    isFetching,
+    isFetching: postsFetching,
   } = useGetPostsSearchQuery(
-    page ? q + '&' + new URLSearchParams(Object.entries(page)).toString() : q
+    postPage
+      ? q + '&' + new URLSearchParams(Object.entries(postPage)).toString()
+      : q
   );
 
   const [prevPage, setPrevPage] = useState({
@@ -60,8 +73,8 @@ export default function Search() {
 
   if (
     loadingPage &&
-    (posts.length !== prevPage.length ||
-      JSON.stringify(prevPage.page) === JSON.stringify(page))
+    (posts?.length !== prevPage.length ||
+      JSON.stringify(prevPage.page) === JSON.stringify(postPage))
   )
     setLoadingPage(false);
 
@@ -69,10 +82,10 @@ export default function Search() {
     const onScroll = () => {
       const scrolledToBottom =
         window.innerHeight + window.scrollY >= document.body.offsetHeight - 10;
-      if (scrolledToBottom && !isFetching && posts.length > 0) {
+      if (scrolledToBottom && !postsFetching && posts.length > 0) {
         setLoadingPage(true);
-        setPrevPage({ length: posts.length, page: { ...page } });
-        setPage({
+        setPrevPage({ length: posts.length, page: { ...postPage } });
+        setPostPage({
           beforeId: posts[posts.length - 1].id,
           beforeRank: posts[posts.length - 1].rank,
         });
@@ -84,7 +97,36 @@ export default function Search() {
     return function () {
       document.removeEventListener('scroll', onScroll);
     };
-  }, [isFetching, page, posts]);
+  }, [postsFetching, postPage, posts]);
+
+  const handleCarouselChange = (previousSlide, _ref) => {
+    const { currentSlide, slidesToShow, totalItems } = _ref;
+    const endOfCarousel = currentSlide + slidesToShow === totalItems;
+
+    if (endOfCarousel && !blogsFetching && blogs.length > 0) {
+      setBlogPage({
+        beforeId: blogs[blogs.length - 1].id,
+        beforeRank: blogs[blogs.length - 1].rank,
+      });
+    }
+  };
+
+  if (blogsError && postsError) {
+    return (
+      <main className='search'>
+        <nav className='browse-nav'>
+          <TagSearch resetPage={() => setPostPage(null)} />
+          <SelectRandomButton />
+        </nav>
+        <section className='search-error-container'>
+          <Suggestions
+            blogsError={blogsError}
+            postsError={postsError}
+          />
+        </section>
+      </main>
+    );
+  }
 
   return (
     <main
@@ -92,7 +134,7 @@ export default function Search() {
       ref={searchRef}
     >
       <nav className='browse-nav'>
-        <TagSearch resetPage={() => setPage(null)} />
+        <TagSearch resetPage={() => setPostPage(null)} />
         <SelectRandomButton />
       </nav>
       <section className='followed-blogs'>
@@ -101,6 +143,7 @@ export default function Search() {
           <h3 className='search-error-message'>No blogs found.</h3>
         ) : (
           <Carousel
+            afterChange={handleCarouselChange}
             additionalTransform={0}
             arrows
             className=''
@@ -108,7 +151,6 @@ export default function Search() {
             dotListClass=''
             draggable
             focusOnSelect={false}
-            infinite
             itemClass=''
             keyBoardControl={false}
             minimumTouchDrag={80}
@@ -136,7 +178,7 @@ export default function Search() {
       </section>
       <section className='recent-posts'>
         <h2>Posts</h2>
-        {postsError && !page ? (
+        {postsError && !postPage ? (
           <h3 className='search-error-message'>No posts found.</h3>
         ) : (
           <div className='recent-posts-list'>
@@ -158,7 +200,6 @@ export default function Search() {
           />
         </div>
       )}
-
       {window.innerHeight < searchRef.current?.offsetHeight && (
         <div className='back-to-top-container'>
           <Button

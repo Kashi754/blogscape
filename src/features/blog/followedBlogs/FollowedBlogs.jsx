@@ -3,6 +3,7 @@ import './FollowedBlogs.css';
 import 'react-multi-carousel/lib/styles.css';
 import { BlogCard } from '../../../components/BlogCard/BlogCard';
 import { useGetFollowedBlogsQuery } from '../blogSlice';
+import { useEffect, useRef, useState } from 'react';
 
 const responsive = {
   superLargeDesktop: {
@@ -33,12 +34,28 @@ const responsive = {
 };
 
 export function FollowedBlogs() {
-  const { data: followedBlogs = [] } = useGetFollowedBlogsQuery();
+  const [page, setPage] = useState(null);
+  const { data: followedBlogs = [], isFetching } = useGetFollowedBlogsQuery(
+    page ? new URLSearchParams(Object.entries(page)).toString() : ''
+  );
+
+  const handleCarouselChange = (previousSlide, _ref) => {
+    const { currentSlide, slidesToShow, totalItems } = _ref;
+    const endOfCarousel = currentSlide + slidesToShow === totalItems;
+
+    if (endOfCarousel && !isFetching && followedBlogs.length > 0) {
+      setPage({
+        beforeId: followedBlogs[followedBlogs.length - 1].id,
+        beforeFollowers: followedBlogs[followedBlogs.length - 1].followers,
+      });
+    }
+  };
 
   return (
     <section className='followed-blogs'>
       <h2>Followed Blogs</h2>
       <Carousel
+        afterChange={handleCarouselChange}
         additionalTransform={0}
         arrows
         className=''
@@ -46,7 +63,6 @@ export function FollowedBlogs() {
         dotListClass=''
         draggable
         focusOnSelect={false}
-        infinite
         itemClass=''
         keyBoardControl={false}
         minimumTouchDrag={80}

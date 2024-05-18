@@ -17,16 +17,45 @@ export const blogsSlice = blogscapeApi.injectEndpoints({
         url: `/blogs/search?${q}`,
         method: 'GET',
       }),
+      serializeQueryArgs: ({ queryArgs, endpointName }) => {
+        return endpointName;
+      },
+      merge: (currentCache, responseData, { arg }) => {
+        const beforeId = new URLSearchParams(arg).get('beforeId');
+        if (beforeId) {
+          currentCache.push(...responseData);
+          return currentCache;
+        }
+        return responseData;
+      },
+      forceRefetch: ({ currentArg, previousArg }) => {
+        return currentArg !== previousArg;
+      },
       providesTags: (result = [], error, arg) => [
         { type: 'Blog', id: 'LIST' },
         ...result.map(({ id }) => ({ type: 'Blog', id })),
       ],
     }),
     getPopularBlogs: builder.query({
-      query: () => ({
-        url: '/blogs/popular',
+      query: (query) => ({
+        url: `/blogs/popular?${query ? query : ''}`,
         method: 'GET',
       }),
+      serializeQueryArgs: ({ queryArgs, endpointName }) => {
+        const query = new URLSearchParams(queryArgs).get('q');
+        return `${endpointName}_${query}`;
+      },
+      merge: (currentCache, responseData, { arg }) => {
+        const beforeId = new URLSearchParams(arg).get('beforeId');
+        if (beforeId) {
+          currentCache.push(...responseData);
+          return currentCache;
+        }
+        return responseData;
+      },
+      forceRefetch: ({ currentArg, previousArg }) => {
+        return currentArg !== previousArg;
+      },
       providesTags: ['PopularBlogs'],
     }),
     getBlogById: builder.query({
@@ -59,10 +88,24 @@ export const blogsSlice = blogscapeApi.injectEndpoints({
       invalidatesTags: ['myBlog', 'myProfile'],
     }),
     getFollowedBlogs: builder.query({
-      query: () => ({
-        url: '/me/following',
+      query: (query) => ({
+        url: `/me/following?${query ? query : ''}`,
         method: 'GET',
       }),
+      serializeQueryArgs: ({ queryArgs, endpointName }) => {
+        return endpointName;
+      },
+      merge: (currentCache, responseData, { arg }) => {
+        const beforeId = new URLSearchParams(arg).get('beforeId');
+        if (beforeId) {
+          currentCache.push(...responseData);
+          return currentCache;
+        }
+        return responseData;
+      },
+      forceRefetch: ({ currentArg, previousArg }) => {
+        return currentArg !== previousArg;
+      },
       providesTags: ['FollowedBlogs'],
     }),
     changeFollowedBlogs: builder.mutation({

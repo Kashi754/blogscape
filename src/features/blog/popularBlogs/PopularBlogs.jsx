@@ -3,6 +3,7 @@ import './PopularBlogs.css';
 import 'react-multi-carousel/lib/styles.css';
 import { BlogCard } from '../../../components/BlogCard/BlogCard';
 import { useGetPopularBlogsQuery } from '../blogSlice';
+import { useEffect, useRef, useState } from 'react';
 
 const responsive = {
   superLargeDesktop: {
@@ -33,12 +34,28 @@ const responsive = {
 };
 
 export function PopularBlogs() {
-  const { data: popularBlogs = [] } = useGetPopularBlogsQuery();
+  const [page, setPage] = useState(null);
+  const { data: popularBlogs = [], isFetching } = useGetPopularBlogsQuery(
+    page ? new URLSearchParams(Object.entries(page)).toString() : ''
+  );
+
+  const handleCarouselChange = (previousSlide, _ref) => {
+    const { currentSlide, slidesToShow, totalItems } = _ref;
+    const endOfCarousel = currentSlide + slidesToShow === totalItems;
+
+    if (endOfCarousel && !isFetching && popularBlogs.length > 0) {
+      setPage({
+        beforeId: popularBlogs[popularBlogs.length - 1].id,
+        beforeFollowers: popularBlogs[popularBlogs.length - 1].followers,
+      });
+    }
+  };
 
   return (
     <section className='popular-blogs'>
       <h2>Popular Blogs</h2>
       <Carousel
+        afterChange={handleCarouselChange}
         additionalTransform={0}
         arrows
         className=''
@@ -46,7 +63,6 @@ export function PopularBlogs() {
         dotListClass=''
         draggable
         focusOnSelect={false}
-        infinite
         itemClass=''
         keyBoardControl={false}
         minimumTouchDrag={80}

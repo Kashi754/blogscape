@@ -41,7 +41,6 @@ export const postsSlice = blogscapeApi.injectEndpoints({
           currentCache.push(...responseData);
           return currentCache;
         }
-        console.log(responseData);
         return responseData;
       },
       forceRefetch: ({ currentArg, previousArg }) => {
