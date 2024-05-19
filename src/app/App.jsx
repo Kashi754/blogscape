@@ -226,7 +226,7 @@ export function getAppRouter(store) {
                 formData
               );
 
-              if (result.error && result.error.status !== 401) {
+              if (result.error && result.error.status === 500) {
                 result.error.data = 'Something went wrong';
               }
 

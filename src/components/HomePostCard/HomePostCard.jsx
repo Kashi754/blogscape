@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import './HomePostCard.css';
 
 export function HomePostCard({ post }) {
+  console.log(post);
   return (
     <Link
       className='home-post'
@@ -25,16 +26,18 @@ export function HomePostCard({ post }) {
         <h5 className='home-post-comment-count'>
           {post.commentCount || 0} comments
         </h5>
-        <ul className='home-post-tags'>
-          {post.tags.map((tag) => (
-            <li
-              className='home-post-tag'
-              key={tag}
-            >
-              {tag}
-            </li>
-          ))}
-        </ul>
+        {post.tags?.length > 0 && (
+          <ul className='home-post-tags'>
+            {post.tags.map((tag) => (
+              <li
+                className='home-post-tag'
+                key={tag}
+              >
+                {tag}
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
     </Link>
   );

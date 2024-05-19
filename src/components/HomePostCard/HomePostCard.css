@@ -2,7 +2,7 @@
   display: flex;
   gap: max(1rem, min(5vw, 2rem));
   background-color: var(--secondary-color);
-  height: max(min(8vw, 8rem), fit-content);
+  height: max(min(8vw, 8rem), 5rem);
   padding: max(4px, min(0.5vw, 0.75rem));
   padding-right: 1rem;
   box-sizing: border-box;
@@ -19,7 +19,8 @@
 .home-post-image-container {
   height: max(min(8vw, 8rem), 5rem);
   aspect-ratio: 1/1;
-  flex-shrink: 0;
+  height: 100%;
+  flex-shrink: 1;
 }
 
 .home-post-image {
@@ -92,9 +93,10 @@
 }
 
 @media screen and (max-width: 451px) {
-  .home-post-comment-count {
-    display: none;
+  .home-post-tags {
+    gap: 0.25rem;
   }
+
   .home-post {
     display: flex;
     height: 10rem;
