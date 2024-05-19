@@ -2,8 +2,11 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useState } from 'react';
 import { FloatingLabel, InputGroup, Form, Button } from 'react-bootstrap';
 import './RegistrationForm.css';
+import { useActionData } from 'react-router';
 
 export function RegistrationForm({ handleSubmit }) {
+  const actionData = useActionData();
+  const { data, error } = actionData || {};
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [validated, setValidated] = useState(false);
   const [formData, setFormData] = useState({
@@ -23,7 +26,7 @@ export function RegistrationForm({ handleSubmit }) {
       return;
     }
     setValidated(false);
-    handleSubmit(event, formData);
+    handleSubmit(formData);
   };
 
   const handleChange = (event) => {
@@ -94,7 +97,9 @@ export function RegistrationForm({ handleSubmit }) {
             placeholder='Username'
           />
           <Form.Control.Feedback type='invalid'>
-            Please enter a valid username (letters and numbers only).
+            {error
+              ? error.data
+              : 'Please enter a valid username (letters and numbers only).'}
           </Form.Control.Feedback>
         </FloatingLabel>
       </Form.Group>
@@ -164,13 +169,14 @@ export function RegistrationForm({ handleSubmit }) {
           value={formData.confirmPassword}
           onChange={handleChange}
           required
-          valid={formData.password === formData.confirmPassword}
+          valid={(formData.password === formData.confirmPassword).toString()}
           isInvalid={
-            validated && formData.password !== formData.confirmPassword
+            (validated && formData.password !== formData.confirmPassword) ||
+            error
           }
         />
         <Form.Control.Feedback type='invalid'>
-          Passwords do not match.
+          {error ? error.data : 'Passwords do not match.'}
         </Form.Control.Feedback>
       </Form.Group>
 

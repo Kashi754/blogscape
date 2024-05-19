@@ -104,8 +104,17 @@ export function getAppRouter(store) {
           }}
           action={async ({ request }) => {
             let formData = await request.json();
-            await store.dispatch(register(formData));
-            return redirect('/login');
+            const result = await register(formData);
+
+            if (!result.error) {
+              return redirect('/login');
+            }
+
+            if (result.error && result.error.status === 500) {
+              result.error.data = 'Something went wrong';
+            }
+
+            return { data: result.data, error: result.error };
           }}
         />
         <Route

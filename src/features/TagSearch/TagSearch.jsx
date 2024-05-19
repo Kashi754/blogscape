@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react';
-import { axiosInstance } from '../../API/axiosBaseQuery';
 import { Pill } from './Pill';
 import SearchIcon from '@mui/icons-material/Search';
 import { mirage } from 'ldrs';
@@ -7,6 +6,7 @@ import './TagSearch.css';
 import { useNavigate } from 'react-router';
 import { createSearchParams, useSearchParams } from 'react-router-dom';
 import { sanitizeInput } from '../../utils/sanitizeInput';
+import { fetchTags } from './tagSearchAPI';
 
 mirage.register();
 
@@ -31,7 +31,7 @@ export function TagSearch({ resetPage }) {
   const inputRef = useRef();
 
   useEffect(() => {
-    const fetchTags = async () => {
+    const fetchTagsEffect = async () => {
       setActiveSuggestion(0);
       const term = searchTerm.trim();
 
@@ -40,27 +40,19 @@ export function TagSearch({ resetPage }) {
         return;
       }
 
+      if (term.length < 1) {
+        return;
+      }
+
       let data;
+      setLoadingSuggestions(true);
 
       if (term.length === 1 && term !== '#') {
-        setLoadingSuggestions(true);
-        try {
-          const result = await axiosInstance.get(`/v1/tags?startsWith=${term}`);
-          data = result.data;
-        } catch (axiosError) {
-          console.error(axiosError);
-        }
+        data = await fetchTags(term);
       } else if (term.length === 2 && term.startsWith('#')) {
-        setLoadingSuggestions(true);
-        try {
-          const result = await axiosInstance.get(
-            `/v1/tags?startsWith=${term.slice(1)}`
-          );
-          data = result.data;
-        } catch (axiosError) {
-          console.error(axiosError);
-        }
+        data = await fetchTags(term.slice(1));
       } else {
+        setLoadingSuggestions(false);
         return;
       }
 
@@ -68,7 +60,7 @@ export function TagSearch({ resetPage }) {
       setLoadingSuggestions(false);
     };
 
-    fetchTags();
+    fetchTagsEffect();
   }, [searchTerm, selectedTagsSet]);
 
   const handleSelectTag = (tag) => {

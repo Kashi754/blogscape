@@ -45,5 +45,16 @@ export const logout = createAsyncThunk(
 );
 
 export async function register(formData) {
-  await axiosInstance.post('v1/auth/register', formData);
+  try {
+    const result = await axiosInstance.post('v1/auth/register', formData);
+    return { data: result.data };
+  } catch (axiosError) {
+    let err = axiosError;
+    return {
+      error: {
+        status: err.response?.status,
+        data: err.response?.data || err || err.message,
+      },
+    };
+  }
 }

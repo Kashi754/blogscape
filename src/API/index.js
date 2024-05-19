@@ -11,6 +11,8 @@ export {
   getRandomPostId,
 } from '../features/selectRandom/selectRandomAPI';
 
+export { fetchTags } from '../features/TagSearch/tagSearchAPI';
+
 export async function verifyPassword(password) {
   // TODO: validate password in server
   return true;

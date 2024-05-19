@@ -60,8 +60,10 @@ export function LoginForm({ error, handleSubmit }) {
             value={formData.username}
             onChange={handleChange}
             required
-            pattern='^[a-zA-Z0-9]+$'
-            isInvalid={validated && !/^[a-zA-Z0-9]+$/.test(formData.username)}
+            pattern='^[a-zA-Z0-9_\-@!.+]+$'
+            isInvalid={
+              validated && !/^[a-zA-Z0-9_\-@!.+]+$/.test(formData.username)
+            }
             placeholder='Username'
           />
           <Form.Control.Feedback
