@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { addDefaultImg } from '../../utils/addDefaultImage';
 import './UserInfoCard.css';
 import { Button } from 'react-bootstrap';
+import { ImageKitImage } from '../ImageKitImage/ImageKitImage';
 
 export function UserInfoCard({
   author,
@@ -16,11 +17,13 @@ export function UserInfoCard({
         className='profile-link'
         to={`/profile/${authorId}`}
       >
-        <img
+        <ImageKitImage
           className='user-thumbnail'
           alt={author}
-          src={thumbnail || '/images/default.png'}
+          src={thumbnail}
+          defaultImg={'/images/default.png'}
           onError={addDefaultImg}
+          transformation={{ height: 40, aspectRatio: '1-1' }}
         />
         <h3>{'Written by: ' + author}</h3>
       </Link>

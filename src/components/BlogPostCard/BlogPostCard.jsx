@@ -3,6 +3,7 @@ import MarkdownPreview from '@uiw/react-markdown-preview';
 import rehypeSanitize from 'rehype-sanitize';
 import './BlogPostCard.css';
 import { addDefaultImg } from '../../utils/addDefaultImage';
+import { ImageKitImage } from '../ImageKitImage/ImageKitImage';
 
 const rehypePlugins = [rehypeSanitize];
 
@@ -11,11 +12,13 @@ export function BlogPostCard({ post }) {
     <div className='post-item'>
       <div className='author-info'>
         <Link to={`/profile/${post.authorId}`}>
-          <img
+          <ImageKitImage
             className='post-author-thumbnail'
             alt={post.author}
-            src={post.authorThumbnail || '/images/default.png'}
+            src={post.authorThumbnail}
+            defaultImg={'/images/default.png'}
             onError={addDefaultImg}
+            transformation={{ height: 40, aspectRatio: '1-1' }}
           />
           {post.author}
         </Link>

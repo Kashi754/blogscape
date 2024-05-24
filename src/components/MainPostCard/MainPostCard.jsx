@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import './MainPostCard.css';
 import { addDefaultImg } from '../../utils/addDefaultImage';
 import { convertDateToString } from '../../utils/dateConversions';
+import { ImageKitImage } from '../ImageKitImage/ImageKitImage';
 export function MainPostCard({ post, author, isLink }) {
   if (!post) return null;
   const date = convertDateToString(post.createdAt);
@@ -10,9 +11,12 @@ export function MainPostCard({ post, author, isLink }) {
     <div className='main-post'>
       {post.image && (
         <div className='post-image-container'>
-          <img
+          <ImageKitImage
+            className='post-image'
             src={post.image}
+            transformation={{ height: 400, aspectRatio: '1-1' }}
             alt={post.title}
+            defaultImg={'/images/blog-default-background.webp'}
             onError={addDefaultImg}
           />
         </div>

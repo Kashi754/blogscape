@@ -8,8 +8,8 @@ import { uploadImage } from '../../../API';
 export function EditBlogTab({ onSubmit }) {
   const { data: blog = {} } = useGetMyBlogQuery();
   const [formObject, setFormObject] = useState({
-    title: blog.title || null,
-    description: blog.description || null,
+    title: '',
+    description: '',
     image: null,
   });
   const [validated, setValidated] = useState(false);
@@ -52,8 +52,12 @@ export function EditBlogTab({ onSubmit }) {
     setValidated(false);
     const { image: imageFile, ...formToSend } = formObject;
 
-    formToSend.title = sanitizeInput(formToSend.title);
-    formToSend.description = sanitizeInput(formToSend.description);
+    formToSend.title = formToSend.title
+      ? sanitizeInput(formToSend.title)
+      : blog.title;
+    formToSend.description = formToSend.description
+      ? sanitizeInput(formToSend.description)
+      : blog.description;
 
     if (imageFile) {
       const { file_id, image, thumbnail } = await uploadImage(
@@ -96,7 +100,7 @@ export function EditBlogTab({ onSubmit }) {
             <Form.Control
               type='text'
               name='title'
-              value={formObject.title || ''}
+              value={formObject.title || blog.title}
               onChange={handleChange}
               placeholder={blog.title}
               pattern={`^[a-zA-Z0-9 .,!?'"\\-]+$`}
@@ -124,7 +128,7 @@ export function EditBlogTab({ onSubmit }) {
               as={'textarea'}
               name='description'
               className='blog-description-field'
-              value={formObject.description || ''}
+              value={formObject.description || blog.description}
               onChange={handleChange}
               placeholder={blog.description}
               pattern={`^[a-zA-Z0-9 .,!?'"\\-]+$`}

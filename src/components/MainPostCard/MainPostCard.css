@@ -21,7 +21,7 @@
   box-sizing: border-box;
 }
 
-.main-post img {
+.post-image {
   aspect-ratio: 1/1;
   object-fit: cover;
   height: 100%;

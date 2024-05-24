@@ -1,6 +1,7 @@
-import { addDefaultImg } from '../../utils/addDefaultImage.js';
 import { Link } from 'react-router-dom';
 import './HomePostCard.css';
+import { ImageKitImage } from '../ImageKitImage/ImageKitImage.jsx';
+import { addDefaultImg } from '../../utils/addDefaultImage.js';
 
 export function HomePostCard({ post }) {
   return (
@@ -9,10 +10,12 @@ export function HomePostCard({ post }) {
       to={`/posts/${post.id}`}
     >
       <div className='home-post-image-container'>
-        <img
+        <ImageKitImage
           className='home-post-image'
-          src={post.image || '/images/default.png'}
+          src={post.image}
+          transformation={{ height: 130, aspectRatio: '1-1' }}
           alt={post.title}
+          defaultImg={'/images/default.png'}
           onError={addDefaultImg}
         />
       </div>

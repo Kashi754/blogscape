@@ -57,7 +57,7 @@ export function DropdownNav({ blogId }) {
             as={DropdownLink}
             to={'/browse'}
           >
-            Browse Blogs
+            Browse
           </Dropdown.Item>
           <Dropdown.Item
             as={DropdownLink}

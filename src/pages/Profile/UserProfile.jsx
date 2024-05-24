@@ -4,6 +4,7 @@ import { useGetUserByIdQuery } from '../../features/user/userSlice';
 import { addDefaultImg } from '../../utils/addDefaultImage';
 import { ProfileBlogCard } from '../../features/blog/profileBlogCard/ProfileBlogCard';
 import { SocialIcon } from 'react-social-icons';
+import { ImageKitImage } from '../../components/ImageKitImage/ImageKitImage';
 
 export default function UserProfile({ userId }) {
   const { data: user } = useGetUserByIdQuery(userId);
@@ -14,10 +15,13 @@ export default function UserProfile({ userId }) {
       <h2>{user.displayName}</h2>
       <article className='profile-body'>
         <section className='profile-picture-section'>
-          <img
-            src={user.image || '/images/default.png'}
+          <ImageKitImage
+            className='profile-picture'
             alt={user.displayName}
+            src={user.image}
+            defaultImg={'/images/default.png'}
             onError={addDefaultImg}
+            transformation={{ width: 400, aspectRatio: '1-1' }}
           />
           <h4>{user.blog.followers} Followers</h4>
         </section>

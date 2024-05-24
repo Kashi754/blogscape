@@ -5,6 +5,7 @@ import { AddCommentForm } from '../AddComment/AddCommentForm';
 import { convertDateToString } from '../../utils/dateConversions';
 import { addDefaultImg } from '../../utils/addDefaultImage';
 import { useLazyGetPostRepliesByIdQuery } from '../../features/posts/postsSlice';
+import { ImageKitImage } from '../ImageKitImage/ImageKitImage';
 
 // TODO: show replies
 
@@ -40,14 +41,14 @@ export function Comment({ comment, handleSubmitReply, isReply = false }) {
       }
     >
       <div className={isReply ? 'reply comment' : 'comment'}>
-        {userImage && (
-          <img
-            className='comment-image'
-            src={userImage}
-            alt={userName}
-            onError={addDefaultImg}
-          />
-        )}
+        <ImageKitImage
+          className='comment-image'
+          src={userImage}
+          transformation={{ height: 70, aspectRatio: '1-1' }}
+          alt={userName}
+          defaultImg={'/images/default.png'}
+          onError={addDefaultImg}
+        />
         <div className='comment-body'>
           <div className='comment-header'>
             <Link to={`/profile/${userId}`}>{userName}</Link>

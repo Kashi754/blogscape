@@ -1,14 +1,17 @@
 import { Link } from 'react-router-dom';
 import './BlogCard.css';
 import { addBlogDefaultImg } from '../../utils/addDefaultImage';
+import { ImageKitImage } from '../ImageKitImage/ImageKitImage';
 
 export function BlogCard({ blog }) {
   return (
     <div className='blog-card'>
-      <img
+      <ImageKitImage
         className='blog-card-image'
-        src={blog.image || '/images/blog-default-background.webp'}
+        src={blog.image}
+        transformation={{ width: 700, aspectRatio: '3-2' }}
         alt={blog.title}
+        defaultImg={'/images/blog-default-background.webp'}
         onError={addBlogDefaultImg}
       />
       <div className='blog-card-overlay' />
