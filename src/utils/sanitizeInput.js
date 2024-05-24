@@ -1,4 +1,4 @@
-import { blacklist, escape, stripLow, trim } from 'validator';
+import { blacklist, stripLow, trim } from 'validator';
 
 const blacklistString = ';@$%^&*()[]{}|/\\'.replace(
   /[.*+?^${}();|[\]\\]/g,
