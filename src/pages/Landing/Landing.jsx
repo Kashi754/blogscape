@@ -2,7 +2,7 @@ import { Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router';
 import './landing.css';
 
-export function Landing() {
+export function Component() {
   const navigate = useNavigate();
 
   return (

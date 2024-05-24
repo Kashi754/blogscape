@@ -5,7 +5,7 @@ import { SelectRandomButton } from '../../features/selectRandom/SelectRandomButt
 import './Browse.css';
 import { TagSearch } from '../../features/TagSearch/TagSearch';
 
-export default function Browse() {
+export function Component() {
   return (
     <main className='browse'>
       <nav className='browse-nav'>

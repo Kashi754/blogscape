@@ -4,7 +4,7 @@ import './Login.css';
 import { useLoaderData, useSubmit } from 'react-router-dom';
 import { selectError } from '../../features/auth/authSlice';
 
-export default function Login() {
+export function Component() {
   const url = process.env.REACT_APP_SERVER_URL;
   const submit = useSubmit();
   const error = useSelector(selectError);

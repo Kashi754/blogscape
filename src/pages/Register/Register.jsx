@@ -2,7 +2,7 @@ import { RegistrationForm } from '../../features/auth/registration/RegistrationF
 import './Register.css';
 import { useSubmit } from 'react-router-dom';
 
-export default function Register() {
+export function Component() {
   const submit = useSubmit();
 
   const handleRegistration = async (formData) => {

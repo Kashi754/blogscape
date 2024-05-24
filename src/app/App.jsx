@@ -5,18 +5,8 @@ import {
   redirect,
   Route,
 } from 'react-router-dom';
-import Home from '../pages/Home/Home';
-import { Landing } from '../pages/Landing/Landing';
-import Login from '../pages/Login/Login';
-import Register from '../pages/Register/Register';
-import Blog from '../pages/Blog/Blog';
-import Post from '../pages/Post/Post';
-import Browse from '../pages/Browse/Browse';
-import NewPost from '../pages/NewPost/NewPost';
-import Profile from '../pages/Profile/Profile';
 import NotFound from '../pages/NotFound/NotFound';
 import Root from '../pages/Root/Root';
-import Search from '../pages/Search/Search';
 import { verifyLoggedIn } from '../utils/verifyLoggedIn';
 import { PostsLoader } from '../features/posts/posts.loaders';
 import { BlogLoader } from '../features/blog/blog.loaders';
@@ -60,11 +50,10 @@ export function getAppRouter(store) {
             // return redirect('/home');
             return redirect('/home');
           }}
-          element={<Landing />}
+          lazy={() => import('../pages/Landing/Landing')}
         />
         <Route
           path='login'
-          element={<Login />}
           action={async ({ request }) => {
             let formData = await request.json();
             // Action to login user
@@ -75,10 +64,10 @@ export function getAppRouter(store) {
               return redirect('/home');
             }
           }}
+          lazy={() => import('../pages/Login/Login')}
         />
         <Route
           path='logout'
-          element={<Login />}
           loader={async () => {
             try {
               // Action to logout user
@@ -88,10 +77,10 @@ export function getAppRouter(store) {
               throw new Response(err.message, { status: err.status || 500 });
             }
           }}
+          lazy={() => import('../pages/Login/Login')}
         />
         <Route
           path='register'
-          element={<Register />}
           loader={async () => {
             try {
               const id = await verifyLoggedIn(store);
@@ -116,10 +105,10 @@ export function getAppRouter(store) {
 
             return { data: result.data, error: result.error };
           }}
+          lazy={() => import('../pages/Register/Register')}
         />
         <Route
           path='home'
-          element={<Home />}
           loader={async ({ request }) => {
             try {
               await verifyLoggedIn(store);
@@ -130,10 +119,10 @@ export function getAppRouter(store) {
             const posts = await postsLoader.myPostsLoader({ request });
             return posts;
           }}
+          lazy={() => import('../pages/Home/Home')}
         />
         <Route
           path='blog/:blogId'
-          element={<Blog />}
           loader={async ({ request, params }) => {
             try {
               await verifyLoggedIn(store);
@@ -148,10 +137,10 @@ export function getAppRouter(store) {
             return { blog, posts, blogId: params.blogId, query };
           }}
           action={toggleFollowedBlogAction(store)}
+          lazy={() => import('../pages/Blog/Blog')}
         />
         <Route
           path='posts/:postId'
-          element={<Post />}
           loader={async ({ params, request }) => {
             try {
               await verifyLoggedIn(store);
@@ -172,10 +161,10 @@ export function getAppRouter(store) {
             return { post, comments, postId: params.postId };
           }}
           action={addCommentAction(store.dispatch)}
+          lazy={() => import('../pages/Post/Post')}
         />
         <Route
           path='browse'
-          element={<Browse />}
           loader={async ({ request }) => {
             try {
               await verifyLoggedIn(store);
@@ -190,10 +179,10 @@ export function getAppRouter(store) {
 
             return { followedBlogs, popularBlogs, posts };
           }}
+          lazy={() => import('../pages/Browse/Browse')}
         />
         <Route
           path='new'
-          element={<NewPost />}
           loader={async ({ request }) => {
             try {
               await verifyLoggedIn(store);
@@ -204,10 +193,10 @@ export function getAppRouter(store) {
             return { tags };
           }}
           action={createPostAction(store.dispatch)}
+          lazy={() => import('../pages/NewPost/NewPost')}
         />
         <Route
           path='profile/:userId?'
-          element={<Profile />}
           loader={async ({ params, request }) => {
             try {
               await verifyLoggedIn(store);
@@ -251,10 +240,10 @@ export function getAppRouter(store) {
             }
             return null;
           }}
+          lazy={() => import('../pages/Profile/Profile')}
         />
         <Route
           path='search'
-          element={<Search />}
           loader={async ({ request }) => {
             try {
               await verifyLoggedIn(store);
@@ -270,6 +259,7 @@ export function getAppRouter(store) {
 
             return { blogs, posts, q };
           }}
+          lazy={() => import('../pages/Search/Search')}
         />
         <Route
           path='*'

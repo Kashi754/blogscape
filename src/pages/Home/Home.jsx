@@ -5,7 +5,7 @@ import AddIcon from '@mui/icons-material/Add';
 import './Home.css';
 import useScreenSize from '../../hooks/useScreenSize';
 
-export default function Home() {
+export function Component() {
   const vw = useScreenSize().width;
 
   const navigate = useNavigate();

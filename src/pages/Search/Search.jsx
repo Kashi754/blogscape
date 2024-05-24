@@ -39,7 +39,7 @@ const responsive = {
   },
 };
 
-export default function Search() {
+export function Component() {
   const { q } = useLoaderData();
   const [postPage, setPostPage] = useState(null);
   const [blogPage, setBlogPage] = useState(null);

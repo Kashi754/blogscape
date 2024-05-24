@@ -4,7 +4,7 @@ import './NewPost.css';
 import { sanitizeInput } from '../../utils/sanitizeInput';
 import { uploadImage } from '../../API';
 
-export default function NewPost() {
+export function Component() {
   const submit = useSubmit();
 
   const handlePost = async (formObject) => {
