@@ -28,6 +28,7 @@ export class BaseLoader {
     request.signal.onabort = promise.abort;
     const res = await promise;
     const { data, isError, error } = res;
+    promise.unsubscribe();
     // if (isError) {
     //   const { status = 403, data } = error;
     //   console.log(error);

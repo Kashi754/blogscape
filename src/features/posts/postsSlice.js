@@ -19,7 +19,7 @@ export const postsSlice = blogscapeApi.injectEndpoints({
         return responseData;
       },
       forceRefetch: ({ currentArg, previousArg }) => {
-        return currentArg !== previousArg;
+        return currentArg !== previousArg && !(!currentArg && !previousArg);
       },
       providesTags: (result = [], error, arg) => [
         { type: 'Posts', id: 'LIST' },
@@ -44,7 +44,7 @@ export const postsSlice = blogscapeApi.injectEndpoints({
         return responseData;
       },
       forceRefetch: ({ currentArg, previousArg }) => {
-        return currentArg !== previousArg;
+        return currentArg !== previousArg && !(!currentArg && !previousArg);
       },
       providesTags: (result = [], error, arg) => [
         { type: 'Posts', id: 'LIST' },
@@ -92,7 +92,7 @@ export const postsSlice = blogscapeApi.injectEndpoints({
         return responseData;
       },
       forceRefetch: ({ currentArg, previousArg }) => {
-        return currentArg !== previousArg;
+        return currentArg !== previousArg && !(!currentArg && !previousArg);
       },
       providesTags: [{ type: 'MyPosts', id: 'LIST' }],
     }),

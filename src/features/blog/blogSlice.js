@@ -29,7 +29,7 @@ export const blogsSlice = blogscapeApi.injectEndpoints({
         return responseData;
       },
       forceRefetch: ({ currentArg, previousArg }) => {
-        return currentArg !== previousArg;
+        return currentArg !== previousArg && !(!currentArg && !previousArg);
       },
       providesTags: (result = [], error, arg) => [
         { type: 'Blog', id: 'LIST' },
@@ -54,7 +54,7 @@ export const blogsSlice = blogscapeApi.injectEndpoints({
         return responseData;
       },
       forceRefetch: ({ currentArg, previousArg }) => {
-        return currentArg !== previousArg;
+        return currentArg !== previousArg && !(!currentArg && !previousArg);
       },
       providesTags: ['PopularBlogs'],
     }),
@@ -104,7 +104,7 @@ export const blogsSlice = blogscapeApi.injectEndpoints({
         return responseData;
       },
       forceRefetch: ({ currentArg, previousArg }) => {
-        return currentArg !== previousArg;
+        return currentArg !== previousArg && !(!currentArg && !previousArg);
       },
       providesTags: ['FollowedBlogs'],
     }),
