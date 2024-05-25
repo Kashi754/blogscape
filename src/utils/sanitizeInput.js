@@ -10,12 +10,11 @@ const blacklistStringWithEscape = ';@$%^&*()[]{}|/'.replace(
   '\\$&'
 );
 
-export function sanitizeInput(input, escapeQuotes = true) {
+export function sanitizeInput(input, blacklistEscape = true) {
   const strippedLow = stripLow(input, true);
-  const blacklisted = escapeQuotes
+  const blacklisted = blacklistEscape
     ? blacklist(strippedLow, blacklistString)
     : blacklist(strippedLow, blacklistStringWithEscape);
-  //const escaped = escapeQuotes ? escape(blacklisted) : blacklisted;
   const escaped = blacklisted;
   const trimmed = trim(escaped);
 

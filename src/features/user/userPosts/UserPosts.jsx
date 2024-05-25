@@ -11,7 +11,7 @@ export function UserPosts() {
   const [page, setPage] = useState(null);
   const [loadingPage, setLoadingPage] = useState(false);
 
-  const { data: posts, isFetching } = useGetMyPostsQuery(
+  const { data: posts = [], isFetching } = useGetMyPostsQuery(
     page ? new URLSearchParams(Object.entries(page)).toString() : ''
   );
 

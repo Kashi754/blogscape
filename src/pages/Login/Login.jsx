@@ -1,14 +1,13 @@
 import { useSelector } from 'react-redux';
 import { LoginForm } from '../../features/auth/login/LoginForm';
 import './Login.css';
-import { useLoaderData, useSubmit } from 'react-router-dom';
+import { useSubmit } from 'react-router-dom';
 import { selectError } from '../../features/auth/authSlice';
 
 export function Component() {
-  const url = process.env.REACT_APP_SERVER_URL;
+  const url = import.meta.env.VITE_APP_SERVER_URL;
   const submit = useSubmit();
   const error = useSelector(selectError);
-  const loggedOutMsg = useLoaderData();
 
   const google = () => {
     window.open(`${url}/login/google`, '_self');
@@ -48,7 +47,7 @@ export function Component() {
           <LoginForm
             handleSubmit={handleLogin}
             // TODO: Add error handling
-            error={error || (loggedOutMsg && { message: loggedOutMsg })}
+            error={error}
           />
         </div>
       </div>

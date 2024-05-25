@@ -18,6 +18,8 @@ export const store = configureStore({
 export const setupStore = (preloadedState) => {
   return configureStore({
     reducer: rootReducer,
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware().concat(blogscapeApi.middleware),
     preloadedState,
   });
 };

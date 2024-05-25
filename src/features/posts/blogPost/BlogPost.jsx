@@ -13,8 +13,6 @@ export function BlogPost({ postId }) {
 
   if (!post) return null;
 
-  console.log(post);
-
   return (
     <div>
       <MainPostCard

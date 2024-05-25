@@ -73,7 +73,7 @@ export const postsSlice = blogscapeApi.injectEndpoints({
       }),
       invalidatesTags: [
         { type: 'Posts', id: 'LIST' },
-        { type: 'MyPosts', id: 'LIST' },
+        { type: 'myPosts', id: 'LIST' },
       ],
     }),
     getMyPosts: builder.query({
@@ -94,7 +94,7 @@ export const postsSlice = blogscapeApi.injectEndpoints({
       forceRefetch: ({ currentArg, previousArg }) => {
         return currentArg !== previousArg && !(!currentArg && !previousArg);
       },
-      providesTags: [{ type: 'MyPosts', id: 'LIST' }],
+      providesTags: [{ type: 'myPosts', id: 'LIST' }],
     }),
     getPostCommentsById: builder.query({
       query: (id) => ({

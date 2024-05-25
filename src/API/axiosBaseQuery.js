@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export const axiosInstance = axios.create({
   withCredentials: true,
-  baseURL: process.env.REACT_APP_SERVER_URL,
+  baseURL: import.meta.env.VITE_APP_SERVER_URL,
   headers: {
     'Access-Control-Allow-Origin': '*',
     'cache-control': 'no-cache',
