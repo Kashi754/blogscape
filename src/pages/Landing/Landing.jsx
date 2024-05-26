@@ -7,8 +7,8 @@ export function Component() {
 
   return (
     <main className='landing'>
-      <h2>Create Your Space</h2>
-      <p>
+      <h2 data-test='landing-title'>Create Your Space</h2>
+      <p data-test='landing-description'>
         BlockScape is a space to unlock your creativity, and share your thoughts
         with the world. You can write your own blog or just read what other
         people are saying.

@@ -8,12 +8,15 @@ export function Header({ blogId }) {
   return (
     <header className='header'>
       <div className='header-left'>
-        <Link to='/'>
+        <Link
+          data-test='header-link'
+          to='/'
+        >
           <h1 data-text='BlogScape'>BlogScape</h1>
         </Link>
         {!!blogId && <BlogNav blogId={blogId} />}
       </div>
-      {!!blogId ? <LoggedInNav /> : <LoggedOutNav />}
+      {blogId ? <LoggedInNav /> : <LoggedOutNav />}
     </header>
   );
 }
