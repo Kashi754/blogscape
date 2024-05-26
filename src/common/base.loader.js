@@ -14,14 +14,12 @@ export const getErrorMessage = (status = 403) => {
 };
 
 export class BaseLoader {
-  _store = {};
-  _dispatch = () => {};
   constructor(store) {
     this._store = store;
     this._dispatch = store.dispatch;
   }
 
-  _loader = async (endpoint, request, query, queryOptions) => {
+  async _loader(endpoint, request, query, queryOptions) {
     const promise = this._store.dispatch(
       endpoint.initiate(query, queryOptions)
     );
@@ -38,5 +36,5 @@ export class BaseLoader {
     //   });
     // }
     return data;
-  };
+  }
 }
