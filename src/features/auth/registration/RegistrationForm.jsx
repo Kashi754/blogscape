@@ -6,7 +6,7 @@ import { useActionData } from 'react-router';
 
 export function RegistrationForm({ handleSubmit }) {
   const actionData = useActionData();
-  const { data, error } = actionData || {};
+  const { error } = actionData || {};
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [validated, setValidated] = useState(false);
   const [formData, setFormData] = useState({
@@ -20,11 +20,16 @@ export function RegistrationForm({ handleSubmit }) {
   const submitForm = (event) => {
     event.preventDefault();
     const form = event.currentTarget;
-    if (form.checkValidity() === false) {
+    if (
+      form.checkValidity() === false ||
+      formData.password !== formData.confirmPassword
+    ) {
       event.stopPropagation();
       setValidated(true);
       return;
     }
+    console.log(form.checkValidity());
+    console.log(formData);
     setValidated(false);
     handleSubmit(formData);
   };
@@ -73,7 +78,10 @@ export function RegistrationForm({ handleSubmit }) {
             }
             placeholder='name@example.com'
           />
-          <Form.Control.Feedback type='invalid'>
+          <Form.Control.Feedback
+            type='invalid'
+            data-test='invalid-email'
+          >
             Please enter a valid email address.
           </Form.Control.Feedback>
         </FloatingLabel>
@@ -92,12 +100,16 @@ export function RegistrationForm({ handleSubmit }) {
             required
             pattern='^[a-zA-Z0-9_\-@!.+]+$'
             isInvalid={
-              validated && !/^[a-zA-Z0-9_\-@!.]+$/.test(formData.username)
+              (error && error.data.includes('username')) ||
+              (validated && !/^[a-zA-Z0-9_\-@!.]+$/.test(formData.username))
             }
             placeholder='Username'
           />
-          <Form.Control.Feedback type='invalid'>
-            {error
+          <Form.Control.Feedback
+            type='invalid'
+            data-test='invalid-username'
+          >
+            {error?.data && error.data.includes('username')
               ? error.data
               : 'Please enter a valid username (letters and numbers only).'}
           </Form.Control.Feedback>
@@ -121,14 +133,17 @@ export function RegistrationForm({ handleSubmit }) {
             }
             placeholder='Blog Title'
           />
-          <Form.Control.Feedback type='invalid'>
-            "Please use only letters, numbers, spaces, and common punctuation."
+          <Form.Control.Feedback
+            type='invalid'
+            data-test='invalid-blog-title'
+          >
+            Please use only letters, numbers, spaces, and common punctuation.
           </Form.Control.Feedback>
         </FloatingLabel>
       </Form.Group>
 
       <Form.Group>
-        <InputGroup>
+        <InputGroup hasValidation>
           <Form.Control
             type={passwordVisible ? 'text' : 'password'}
             placeholder='Password'
@@ -146,19 +161,24 @@ export function RegistrationForm({ handleSubmit }) {
           <InputGroup.Text id='show-password'>
             {!passwordVisible ? (
               <Visibility
+                data-test='show-password'
                 onClick={() => setPasswordVisible(!passwordVisible)}
               />
             ) : (
               <VisibilityOff
+                data-test='hide-password'
                 onClick={() => setPasswordVisible(!passwordVisible)}
               />
             )}
           </InputGroup.Text>
+          <Form.Control.Feedback
+            type='invalid'
+            data-test='invalid-password'
+          >
+            Password must contain at least 8 characters, including at least one
+            number, one lowercase and one uppercase letter.
+          </Form.Control.Feedback>
         </InputGroup>
-        <Form.Control.Feedback type='invalid'>
-          Password must be at least 8 characters long and contain at least one
-          uppercase letter, one lowercase letter, and one number.
-        </Form.Control.Feedback>
       </Form.Group>
 
       <Form.Group>
@@ -172,11 +192,16 @@ export function RegistrationForm({ handleSubmit }) {
           valid={(formData.password === formData.confirmPassword).toString()}
           isInvalid={
             (validated && formData.password !== formData.confirmPassword) ||
-            error
+            (error?.data && !error.data.includes('username'))
           }
         />
-        <Form.Control.Feedback type='invalid'>
-          {error ? error.data : 'Passwords do not match.'}
+        <Form.Control.Feedback
+          type='invalid'
+          data-test='invalid-passwords'
+        >
+          {error?.data && !error.data.includes('username')
+            ? error.data
+            : 'Passwords do not match.'}
         </Form.Control.Feedback>
       </Form.Group>
 
