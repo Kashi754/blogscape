@@ -23,7 +23,10 @@ export function LoginForm({ error, handleSubmit }) {
   const submitForm = (event) => {
     event.preventDefault();
     const form = event.currentTarget;
-    if (form.checkValidity() === false) {
+    if (
+      form.checkValidity() === false ||
+      !/^[a-zA-Z0-9_\-@!.+]+$/.test(formData.username)
+    ) {
       event.stopPropagation();
       setValidated(true);
       return;
@@ -60,18 +63,8 @@ export function LoginForm({ error, handleSubmit }) {
             value={formData.username}
             onChange={handleChange}
             required
-            pattern='^[a-zA-Z0-9_\-@!.+]+$'
-            isInvalid={
-              validated && !/^[a-zA-Z0-9_\-@!.+]+$/.test(formData.username)
-            }
             placeholder='Username'
           />
-          <Form.Control.Feedback
-            className='login-feedback'
-            type='invalid'
-          >
-            Invalid username
-          </Form.Control.Feedback>
         </FloatingLabel>
       </Form.Group>
 
@@ -86,14 +79,21 @@ export function LoginForm({ error, handleSubmit }) {
             required
             minLength={8}
             pattern='(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}'
+            isInvalid={
+              validated &&
+              (!/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/.test(formData.password) ||
+                !/^[a-zA-Z0-9_\-@!.+]+$/.test(formData.username))
+            }
           />
           <InputGroup.Text id='show-password'>
             {!passwordVisible ? (
               <Visibility
+                data-test='show-password'
                 onClick={() => setPasswordVisible(!passwordVisible)}
               />
             ) : (
               <VisibilityOff
+                data-test='hide-password'
                 onClick={() => setPasswordVisible(!passwordVisible)}
               />
             )}
@@ -101,13 +101,19 @@ export function LoginForm({ error, handleSubmit }) {
           <Form.Control.Feedback
             className='login-feedback'
             type='invalid'
+            data-test='login-error'
           >
-            Invalid password
+            Invalid username or password
           </Form.Control.Feedback>
         </InputGroup>
       </Form.Group>
       {!!error && (
-        <div className='invalid-feedback custom-feedback'>{error.message}</div>
+        <div
+          className='invalid-feedback custom-feedback'
+          data-test='login-error'
+        >
+          {error.message}
+        </div>
       )}
 
       <Button

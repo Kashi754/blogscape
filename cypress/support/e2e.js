@@ -15,17 +15,5 @@
 
 // Import commands.js using ES2015 syntax:
 import './commands';
-import { worker } from '../../src/mocks/browser';
-
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
-Cypress.on('test:before:run:async', async () => {
-  if (window.msw) {
-    console.log('MSW is already running.');
-  }
-
-  if (!window.msw) {
-    console.log('MSW has not been started.  Starting now...');
-    await worker.start();
-  }
-});

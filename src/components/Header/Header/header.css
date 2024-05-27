@@ -30,8 +30,11 @@ h1:after {
   z-index: -1;
 }
 
-.header-links {
+.header-links:not(.dropdown-menu) {
   display: flex;
+}
+
+.header-links {
   align-items: center;
   list-style: none;
   gap: 3vw;

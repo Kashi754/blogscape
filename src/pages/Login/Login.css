@@ -104,7 +104,16 @@
 }
 
 .google {
+  border: none;
+  margin: 0;
+  background: transparent;
   background-color: #df4930;
+  line-height: normal;
+  -webkit-font-smoothing: inherit;
+  -moz-osx-font-smoothing: inherit;
+  -webkit-appearance: none;
+  appearance: none;
+  outline: none;
 }
 
 .facebook {

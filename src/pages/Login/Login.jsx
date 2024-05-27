@@ -24,13 +24,24 @@ export function Component() {
   return (
     <main className='login'>
       <div className='login-field'>
-        <h1 className='login-title'>Choose a Login Method</h1>
-        <h1 className='login-title-alt'>Login</h1>
+        <h2
+          className='login-title'
+          data-test='login-title'
+        >
+          Choose a Login Method
+        </h2>
+        <h2
+          className='login-title-alt'
+          data-test='login-title'
+        >
+          Login
+        </h2>
         <div className='wrapper'>
           <div className='left'>
-            <div
+            <button
               className='loginButton google'
               onClick={google}
+              data-test='google-login'
             >
               <img
                 src='/images/google.png'
@@ -38,9 +49,12 @@ export function Component() {
                 className='icon'
               />
               Google
-            </div>
+            </button>
           </div>
-          <div className='center'>
+          <div
+            className='center'
+            data-test='login-divider'
+          >
             <div className='divider-line' />
             <div className='or'>OR</div>
           </div>

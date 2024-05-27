@@ -13,7 +13,7 @@ export function Component() {
   return (
     <main className='home'>
       <div className='heading'>
-        <h2>Your {vw <= 375 ? '' : 'Blog'} Posts</h2>
+        <h2 data-test='home-title'>Your {vw <= 375 ? '' : 'Blog'} Posts</h2>
         <Button
           className='add-post-button'
           variant='secondary'

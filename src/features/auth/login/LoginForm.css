@@ -3,6 +3,11 @@
   margin: 0 !important;
 }
 
+.login-feedback {
+  width: auto;
+  width: 100%;
+}
+
 #show-password {
   cursor: pointer;
   background-color: var(--secondary-color);

@@ -18,6 +18,8 @@ const DropdownButton = React.forwardRef(({ children, onClick }, ref) => (
   </Button>
 ));
 
+DropdownButton.displayName = 'DropdownButton';
+
 const DropdownLink = React.forwardRef(({ children, onClick, to }, ref) => (
   <Link
     className='dropdown-link'
@@ -31,10 +33,12 @@ const DropdownLink = React.forwardRef(({ children, onClick, to }, ref) => (
   </Link>
 ));
 
+DropdownLink.displayName = 'DropdownLink';
+
 export function DropdownNav({ blogId }) {
   const navigate = useNavigate();
 
-  if (!!blogId) {
+  if (blogId) {
     return (
       <Dropdown autoClose='true'>
         <Dropdown.Toggle variant='primary'>
@@ -84,8 +88,13 @@ export function DropdownNav({ blogId }) {
   } else {
     return (
       <Dropdown>
-        <Dropdown.Toggle variant='primary'>Open Menu</Dropdown.Toggle>
-        <Dropdown.Menu className='header-links'>
+        <Dropdown.Toggle variant='primary'>
+          <MenuIcon data-test='menu-icon' />
+        </Dropdown.Toggle>
+        <Dropdown.Menu
+          className='header-links'
+          data-test='dropdown-menu'
+        >
           <Dropdown.Item
             as={DropdownButton}
             onClick={() => navigate('/register')}

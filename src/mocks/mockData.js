@@ -112,6 +112,8 @@ const POSTS = [];
 
 for (const [i, user] of USERS.entries()) {
   for (let j = 0; j < 4; j++) {
+    const commentsForPost = COMMENTS.filter((comment) => comment.postId === j);
+
     POSTS.push({
       author: user.displayName,
       authorId: user.id,
@@ -122,13 +124,7 @@ for (const [i, user] of USERS.entries()) {
       body: `Test Post Body ${j}`,
       createdAt: '2021-11-05T16:40:01.000Z',
       tags: ['#mock', '#tag', '#test'],
-      commentCount: COMMENTS.reduce((acc, curr) => {
-        if (curr.postId === j) {
-          return acc + 1;
-        } else {
-          return acc;
-        }
-      }),
+      commentCount: commentsForPost.length,
     });
   }
 }
