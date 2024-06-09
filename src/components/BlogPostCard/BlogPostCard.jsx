@@ -9,8 +9,14 @@ const rehypePlugins = [rehypeSanitize];
 
 export function BlogPostCard({ post }) {
   return (
-    <div className='post-item'>
-      <div className='author-info'>
+    <div
+      className='post-item'
+      data-test='post-card'
+    >
+      <div
+        className='author-info'
+        data-test='author-info'
+      >
         <Link to={`/profile/${post.authorId}`}>
           <ImageKitImage
             className='post-author-thumbnail'
@@ -40,7 +46,10 @@ export function BlogPostCard({ post }) {
           }
         }}
       />
-      <div className='post-item-footer'>
+      <div
+        className='post-item-footer'
+        data-test='post-card-footer'
+      >
         <Link to={`/posts/${post.id}`}>Read More</Link>
         <div className='post-item-categories'>
           {post.tags.map((tag) => (

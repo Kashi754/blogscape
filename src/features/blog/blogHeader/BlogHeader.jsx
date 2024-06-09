@@ -24,6 +24,7 @@ export function BlogHeader({ blogId }) {
     <header
       className='blog-header'
       style={{ backgroundImage: `url(${image})` }}
+      data-test='blog-header'
     >
       <div className='blog-header-wrapper'>
         <section className='blog-header-info'>

@@ -57,7 +57,11 @@ export function ReactMarkdownEditor({ formData, setFormData, isInvalid }) {
     name: 'showPreview',
     keyCommand: 'showPreview',
     button: { 'aria-label': 'show preview' },
-    icon: previewVisible ? <VisibilityOffIcon /> : <VisibilityIcon />,
+    icon: previewVisible ? (
+      <VisibilityOffIcon data-test='hide-preview' />
+    ) : (
+      <VisibilityIcon data-test='show-preview' />
+    ),
     execute: ({ state, view }) => {
       if (!state || !view) return;
       setPreviewVisible(!previewVisible);
@@ -150,8 +154,11 @@ export function ReactMarkdownEditor({ formData, setFormData, isInvalid }) {
         />
       </Form.Group>
       {isInvalid && (
-        <div className='invalid-feedback body-invalid'>
-          "Please add a body to your blog post."
+        <div
+          className='invalid-feedback body-invalid'
+          data-test='body-feedback'
+        >
+          Please add a body to your blog post.
         </div>
       )}
     </Form.Group>

@@ -23,7 +23,7 @@ export function NewPostForm({ handleSubmit }) {
   const submitForm = async (event) => {
     event.preventDefault();
     const form = event.currentTarget;
-    if (form.checkValidity() === false) {
+    if (form.checkValidity() === false || !formObject.body) {
       event.stopPropagation();
       setValidated(true);
       return;
@@ -69,6 +69,7 @@ export function NewPostForm({ handleSubmit }) {
             >
               <Form.Control
                 className='title-input'
+                data-test='title-input'
                 name='title'
                 type='text'
                 placeholder='Post Title'
@@ -81,9 +82,12 @@ export function NewPostForm({ handleSubmit }) {
                 value={formObject.title}
                 onChange={handleChange}
               />
-              <Form.Control.Feedback type='invalid'>
-                "Please use only letters, numbers, spaces, and common
-                punctuation for this field."
+              <Form.Control.Feedback
+                type='invalid'
+                data-test='title-feedback'
+              >
+                Please use only letters, numbers, spaces, and common punctuation
+                for this field.
               </Form.Control.Feedback>
             </FloatingLabel>
             <FloatingLabel
@@ -93,6 +97,7 @@ export function NewPostForm({ handleSubmit }) {
             >
               <Form.Control
                 className='title-input'
+                data-test='subtitle-input'
                 name='subtitle'
                 placeholder='Post Subtitle'
                 type='text'
@@ -100,14 +105,17 @@ export function NewPostForm({ handleSubmit }) {
                 pattern={`^[a-zA-Z0-9 .,!?'"\\-]+$`}
                 isInvalid={
                   validated &&
-                  !/^[a-zA-Z0-9 .,!?'"\\-]+$/.test(formObject.title)
+                  !/^[a-zA-Z0-9 .,!?'"\\-]+$/.test(formObject.subtitle)
                 }
                 value={formObject.subtitle}
                 onChange={handleChange}
               />
-              <Form.Control.Feedback type='invalid'>
-                "Please use only letters, numbers, spaces, and common
-                punctuation for this field."
+              <Form.Control.Feedback
+                type='invalid'
+                data-test='subtitle-feedback'
+              >
+                Please use only letters, numbers, spaces, and common punctuation
+                for this field.
               </Form.Control.Feedback>
             </FloatingLabel>
           </Form.Group>
@@ -125,12 +133,14 @@ export function NewPostForm({ handleSubmit }) {
       </Form.Group>
       <Form.Group className='bottom-section'>
         <TagSelect
+          data-test='tag-input'
           tagsData={tagsData}
           form={formObject}
           setForm={setFormObject}
           addTag={createTag}
         />
         <Button
+          data-test='submit-button'
           className='post-submit-button'
           variant='primary'
           size='lg'

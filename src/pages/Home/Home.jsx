@@ -16,6 +16,7 @@ export function Component() {
         <h2 data-test='home-title'>Your {vw <= 375 ? '' : 'Blog'} Posts</h2>
         <Button
           className='add-post-button'
+          data-test='add-post-button'
           variant='secondary'
           size='sm'
           onClick={() => navigate('/new')}

@@ -8,6 +8,7 @@ export function HomePostCard({ post }) {
     <Link
       className='home-post'
       to={`/posts/${post.id}`}
+      data-test='home-post-card'
     >
       <div className='home-post-image-container'>
         <ImageKitImage
@@ -22,7 +23,6 @@ export function HomePostCard({ post }) {
       <div className='home-post-titles'>
         <h3>{post.title}</h3>
         {post.subtitle && <h4>{post.subtitle}</h4>}
-        <h4>Or how I learned to code</h4>
       </div>
       <div className='home-post-info'>
         <h5 className='home-post-comment-count'>

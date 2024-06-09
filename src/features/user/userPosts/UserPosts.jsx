@@ -50,7 +50,10 @@ export function UserPosts() {
 
   return (
     <>
-      <ul className='home-posts'>
+      <ul
+        className='home-posts'
+        data-test='user-posts'
+      >
         {posts.map((post) => (
           <HomePostCard
             post={post}

@@ -95,7 +95,7 @@
     "@vitest/browser": "^1.6.0",
     "@vitest/coverage-istanbul": "^1.6.0",
     "@vitest/coverage-v8": "^1.6.0",
-    "cypress": "^13.10.0",
+    "cypress": "^13.11.0",
     "eslint-plugin-cypress": "^3.2.0",
     "eslint-plugin-jest-dom": "^5.4.0",
     "eslint-plugin-prettier": "^5.1.3",

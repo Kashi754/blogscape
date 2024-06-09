@@ -9,7 +9,10 @@ import './FileInput.css';
 
 function FileInfo({ fileInfo }) {
   return (
-    <p className='file-info'>{`File: ${fileInfo?.name} (${fileInfo?.size})`}</p>
+    <p
+      data-test='file-info'
+      className='file-info'
+    >{`File: ${fileInfo?.name} (${fileInfo?.size})`}</p>
   );
 }
 
@@ -67,6 +70,7 @@ export function FileInput({
     >
       {(previewImage || defaultPreview) && (
         <img
+          data-test='preview-image'
           className={
             (className ? className + '-preview ' : '') + 'preview-image'
           }
@@ -83,11 +87,14 @@ export function FileInput({
               'custom-image-input'
         }
       >
-        <Form.Label htmlFor={(className ? className + '-' : '') + 'imageFile'}>
+        <Form.Label
+          data-test='image-input-button'
+          htmlFor={(className ? className + '-' : '') + 'imageFile'}
+        >
           Image...
         </Form.Label>
         {!fileInfo ? (
-          <p>No image selected for upload</p>
+          <p data-test='file-info'>No image selected for upload</p>
         ) : (
           <FileInfo fileInfo={fileInfo} />
         )}
@@ -96,6 +103,7 @@ export function FileInput({
       <Form.Control
         id={(className ? className + '-' : '') + 'imageFile'}
         type='file'
+        data-test='image-input'
         className={(className ? className + '-input ' : '') + 'image-input '}
         size='lg'
         name='image'
@@ -105,6 +113,7 @@ export function FileInput({
       />
 
       <Form.Control.Feedback
+        data-test='image-input-feedback'
         className={
           (className ? className + '-feedback ' : '') + 'invalid-feedback'
         }

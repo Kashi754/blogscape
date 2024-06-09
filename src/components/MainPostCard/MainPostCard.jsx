@@ -3,14 +3,17 @@ import './MainPostCard.css';
 import { addDefaultImg } from '../../utils/addDefaultImage';
 import { convertDateToString } from '../../utils/dateConversions';
 import { ImageKitImage } from '../ImageKitImage/ImageKitImage';
-export function MainPostCard({ post, author, isLink }) {
+export function MainPostCard({ post, isLink }) {
   if (!post) return null;
   const date = convertDateToString(post.createdAt);
 
   return (
     <div className='main-post'>
       {post.image && (
-        <div className='post-image-container'>
+        <div
+          className='post-image-container'
+          data-test='post-image-container'
+        >
           <ImageKitImage
             className='post-image'
             src={post.image}
@@ -22,19 +25,30 @@ export function MainPostCard({ post, author, isLink }) {
         </div>
       )}
       <div className='main-post-info-container'>
-        <div className='main-post-info'>
+        <div
+          className='main-post-info'
+          data-test='main-post-info'
+        >
           <div className='post-header'>
-            <h4>{date}</h4>
+            <h4 data-test='post-date'>{date}</h4>
           </div>
           <div className='post-title'>
             <h2>{post.title}</h2>
             <h3 className='post-subtitle'>{post.subtitle}</h3>
           </div>
         </div>
-        <div className='main-post-footer'>
+        <div
+          className='main-post-footer'
+          data-test='main-post-footer'
+        >
           <div className='main-post-categories'>
             {post.tags.map((tag) => (
-              <h4 key={tag}>{tag}</h4>
+              <h4
+                data-test='main-post-tag'
+                key={tag}
+              >
+                {tag}
+              </h4>
             ))}
           </div>
           {isLink && (

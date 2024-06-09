@@ -6,7 +6,10 @@ export function LoggedInNav() {
 
   return (
     <nav>
-      <ul className='header-links'>
+      <ul
+        className='header-links'
+        data-test='logged-in-nav'
+      >
         <li>
           <Link to='/'>API</Link>
         </li>

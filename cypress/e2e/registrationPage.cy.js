@@ -66,18 +66,14 @@ describe('Registration Page', () => {
   });
 
   it('Should register successfully', () => {
-    cy.intercept('POST', 'http://localhost:5000/api/v1/auth/register', {
-      statusCode: 201,
-    }).as('register-success');
-
+    cy.resetDatabase();
     cy.get('input[name="email"]').type('user@test.com');
-    cy.get('input[name="username"]').type('kashi754');
+    cy.get('input[name="username"]').type('registerTest');
     cy.get('input[name="blogTitle"]').type('Test Blog');
     cy.get('input[name="password"]').type('Password_123');
     cy.get('input[name="confirmPassword"]').type('Password_123');
     cy.get('button[type="submit"]').click();
 
-    cy.wait('@register-success').its('response.statusCode').should('eq', 201);
     cy.url().should('eq', 'http://localhost:3000/login');
   });
 
@@ -106,15 +102,20 @@ describe('Registration Page', () => {
   });
 
   it('Should fail when username or email already exist', () => {
-    cy.intercept('POST', 'http://localhost:5000/api/v1/auth/register', {
-      statusCode: 400,
-      body: 'User with that username or email already exists',
-    }).as('register-duplicate');
     cy.get('input[name="email"]').type('user@test.com');
     cy.get('input[name="username"]').type('kashi754');
     cy.get('input[name="blogTitle"]').type('Test Blog');
     cy.get('input[name="password"]').type('Password_123');
     cy.get('input[name="confirmPassword"]').type('Password_123');
+    cy.get('button[type="submit"]').click();
+    cy.getByData('invalid-username').contains(
+      'User with that username or email already exists'
+    );
+
+    cy.get('input[name="email"]').clear();
+    cy.get('input[name="email"]').type('arigorn15@gmail.com');
+    cy.get('input[name="username"]').clear();
+    cy.get('input[name="username"]').type('registerTest');
     cy.get('button[type="submit"]').click();
     cy.getByData('invalid-username').contains(
       'User with that username or email already exists'

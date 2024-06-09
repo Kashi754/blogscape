@@ -1,6 +1,11 @@
 describe('Login Page', () => {
   beforeEach(() => {
     cy.visit('/login');
+    cy.request({
+      method: 'POST',
+      url: 'http://localhost:5000/api/v1/auth/logout',
+      failOnStatusCode: false,
+    });
   });
 
   it('Loads the login page and shows the correct elements', () => {
@@ -42,12 +47,19 @@ describe('Login Page', () => {
     });
 
     it('Should login successfully', () => {
-      cy.login('kashi754', 'Password_123');
-      cy.get('h2').contains('Your Blog Posts');
+      cy.get('input[name="username"]').type('kashi754');
+      cy.get('input[name="password"]').type('Password_123');
+      cy.get('button[type="submit"]').click();
+      cy.url().should('eq', 'http://localhost:3000/home');
+      cy.get('h2').should('contain', 'Your Blog Posts');
+      cy.getCookie('connect.sid').should('exist');
+      cy.getCookie('user').should('exist');
     });
 
     it('Should fail login when credentials are incorrect', () => {
-      cy.login('fail_test', 'Password_123');
+      cy.get('input[name="username"]').type('kashi754');
+      cy.get('input[name="password"]').type('Password_321');
+      cy.get('button[type="submit"]').click();
       cy.get('h2').contains('Login');
       cy.url().should('eq', 'http://localhost:3000/login');
       cy.getByData('login-error').contains('Invalid username or password');
