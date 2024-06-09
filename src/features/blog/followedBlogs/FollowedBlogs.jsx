@@ -1,9 +1,9 @@
+import { useState } from 'react';
 import Carousel from 'react-multi-carousel';
-import './FollowedBlogs.css';
 import 'react-multi-carousel/lib/styles.css';
 import { BlogCard } from '../../../components/BlogCard/BlogCard';
 import { useGetFollowedBlogsQuery } from '../blogSlice';
-import { useEffect, useRef, useState } from 'react';
+import './FollowedBlogs.css';
 
 const responsive = {
   superLargeDesktop: {
@@ -52,7 +52,10 @@ export function FollowedBlogs() {
   };
 
   return (
-    <section className='followed-blogs'>
+    <section
+      className='followed-blogs'
+      data-test='followed-blogs'
+    >
       <h2>Followed Blogs</h2>
       <Carousel
         afterChange={handleCarouselChange}

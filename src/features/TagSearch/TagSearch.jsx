@@ -146,6 +146,7 @@ export function TagSearch({ resetPage }) {
         {/* input field with search suggestions */}
         <input
           ref={inputRef}
+          data-test='search-input'
           type='search'
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
@@ -156,7 +157,10 @@ export function TagSearch({ resetPage }) {
         {/* Search Suggestions */}
         {searchTerm &&
           ((suggestions.length > 0 && !loadingSuggestions && (
-            <ul className='suggestions-list'>
+            <ul
+              className='suggestions-list'
+              data-test='tag-suggestions'
+            >
               {suggestions?.map((tag, index) => {
                 return !selectedTagsSet.has(tag.name) ? (
                   <li
@@ -184,6 +188,7 @@ export function TagSearch({ resetPage }) {
       </div>
       <button
         type='button'
+        data-test='search-button'
         id='search-btn'
         className='btn btn-primary'
         onClick={handleSearch}

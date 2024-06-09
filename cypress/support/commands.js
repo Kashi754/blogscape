@@ -29,6 +29,14 @@ Cypress.Commands.add('getByData', (selector) => {
   return cy.get(`[data-test=${selector}]`);
 });
 
+Cypress.Commands.add(
+  'findByData',
+  { prevSubject: true },
+  (subject, selector) => {
+    return subject.find(`[data-test=${selector}]`);
+  }
+);
+
 Cypress.Commands.add('resetDatabase', () => {
   cy.request('POST', 'http://localhost:5000/api/v1/reset');
 });

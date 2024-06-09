@@ -1,9 +1,9 @@
+import { useState } from 'react';
 import Carousel from 'react-multi-carousel';
-import './PopularBlogs.css';
 import 'react-multi-carousel/lib/styles.css';
 import { BlogCard } from '../../../components/BlogCard/BlogCard';
 import { useGetPopularBlogsQuery } from '../blogSlice';
-import { useEffect, useRef, useState } from 'react';
+import './PopularBlogs.css';
 
 const responsive = {
   superLargeDesktop: {
@@ -52,7 +52,10 @@ export function PopularBlogs() {
   };
 
   return (
-    <section className='popular-blogs'>
+    <section
+      className='popular-blogs'
+      data-test='popular-blogs'
+    >
       <h2>Popular Blogs</h2>
       <Carousel
         afterChange={handleCarouselChange}

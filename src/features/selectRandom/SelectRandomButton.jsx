@@ -40,6 +40,7 @@ export const SelectRandomButton = () => {
   return !buttonSelected ? (
     <Button
       variant='primary'
+      data-test='random-button'
       type='button'
       onClick={() => setButtonSelected(true)}
       aria-label='find something new'
@@ -59,6 +60,7 @@ export const SelectRandomButton = () => {
       <Button
         variant='secondary'
         type='button'
+        data-test='random-blog-button'
         onClick={navigateRandomBlog}
         aria-label='go to random blog'
         className='select-random'
@@ -69,6 +71,7 @@ export const SelectRandomButton = () => {
       <Button
         variant='secondary'
         type='button'
+        data-test='random-post-button'
         onClick={navigateRandomPost}
         aria-label='go to random post'
         className='select-random'

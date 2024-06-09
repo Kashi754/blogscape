@@ -53,6 +53,7 @@ export function RecentPosts() {
     <section
       className='recent-posts'
       ref={postsRef}
+      data-test='recent-posts'
     >
       <h2 className='recent-posts-heading'>Recent Posts</h2>
       <div className='recent-posts-list'>
