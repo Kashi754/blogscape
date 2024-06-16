@@ -44,6 +44,7 @@
     "start": "vite",
     "build": "vite build",
     "test": "vitest watch --ui --coverage.all",
+    "cy:run": "npx cypress run --record --key 9413c946-91ea-4a97-8919-2f2411b43ff0",
     "cy:open": "cypress open",
     "preview": "vite preview"
   },

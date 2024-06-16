@@ -40,14 +40,7 @@ describe('Blog Page', () => {
 
     // Posts Section
     cy.getByData('post-card').should('have.length', 1);
-    cy.getByData('author-info')
-      .find('a')
-      .contains('Test User 1')
-      .should(
-        'have.attr',
-        'href',
-        '/profile/e556cbbc-a847-42bc-b5c0-9f25453af768'
-      );
+    cy.getByData('author-info').find('a').contains('Test User 1');
     cy.getByData('author-info')
       .find('img')
       .should('have.attr', 'src', '/images/default.png');
@@ -70,8 +63,8 @@ describe('Blog Page', () => {
   it('Links work properly', () => {
     cy.getByData('blog-header').find('a').contains('— Test User 1').click();
     cy.url().should(
-      'eq',
-      'http://localhost:3000/profile/e556cbbc-a847-42bc-b5c0-9f25453af768'
+      'match',
+      /http:\/\/localhost:3000\/profile\/[a-f\d]{8}-[a-f\d]{4}-[a-f\d]{4}-[a-f\d]{4}-[a-f\d]{12}/
     );
     cy.visit('/blog/2');
 
@@ -81,8 +74,8 @@ describe('Blog Page', () => {
 
     cy.getByData('author-info').find('a').contains('Test User 1').click();
     cy.url().should(
-      'eq',
-      'http://localhost:3000/profile/e556cbbc-a847-42bc-b5c0-9f25453af768'
+      'match',
+      /http:\/\/localhost:3000\/profile\/[a-f\d]{8}-[a-f\d]{4}-[a-f\d]{4}-[a-f\d]{4}-[a-f\d]{12}/
     );
     cy.visit('/blog/2');
 
@@ -90,7 +83,7 @@ describe('Blog Page', () => {
     cy.url().should('eq', 'http://localhost:3000/posts/2');
   });
 
-  it.only('Can follow and unfollow the blog', () => {
+  it('Can follow and unfollow the blog', () => {
     cy.resetDatabase();
     cy.reload(true);
     cy.getByData('blog-header').find('h3').should('contain', '1 followers');

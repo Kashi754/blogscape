@@ -144,7 +144,7 @@ describe('New Post Page', () => {
     });
   });
 
-  it.only('Should show markdown preview', () => {
+  it('Should show markdown preview', () => {
     cy.get('.cm-activeLine').type('# Test Content');
     cy.getByData('show-preview').click();
     cy.get('.wmde-markdown').should('be.visible');
