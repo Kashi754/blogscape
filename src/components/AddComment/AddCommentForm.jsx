@@ -33,6 +33,7 @@ export function AddCommentForm({
   return (
     <Form
       className='add-comment-form'
+      data-test='add-comment-form'
       noValidate
       onSubmit={submitComment}
       style={formStyle}
@@ -45,6 +46,7 @@ export function AddCommentForm({
         >
           <Form.Control
             className='comment-input'
+            data-test='comment-input'
             as='textarea'
             ref={textAreaRef}
             name='comment'
@@ -59,6 +61,7 @@ export function AddCommentForm({
       <Form.Group className='button-group'>
         <Button
           className='submit-comment-button'
+          data-test='submit-comment-button'
           type='submit'
           variant='primary'
           size='lg'
@@ -68,6 +71,7 @@ export function AddCommentForm({
         </Button>
         <Button
           className='cancel-comment-button'
+          data-test='cancel-comment-button'
           variant='secondary'
           size='lg'
           onClick={() => {

@@ -39,8 +39,12 @@ export function Comment({ comment, handleSubmitReply, isReply = false }) {
       className={
         isReply ? 'comment-container reply-container' : 'comment-container'
       }
+      data-test='comment-container'
     >
-      <div className={isReply ? 'reply comment' : 'comment'}>
+      <div
+        className={isReply ? 'reply comment' : 'comment'}
+        data-test={isReply ? 'reply' : 'comment'}
+      >
         <ImageKitImage
           className='comment-image'
           src={userImage}
@@ -50,17 +54,21 @@ export function Comment({ comment, handleSubmitReply, isReply = false }) {
           onError={addDefaultImg}
         />
         <div className='comment-body'>
-          <div className='comment-header'>
+          <div
+            className='comment-header'
+            data-test='comment-header'
+          >
             <Link to={`/profile/${userId}`}>{userName}</Link>
-            <h5>{date}</h5>
+            <h5 data-test='comment-date'>{date}</h5>
           </div>
 
-          <p>{body}</p>
+          <p data-test='comment-body'>{body}</p>
 
           {!replying && (
             <div className='comment-buttons'>
               <button
                 className='reply-button'
+                data-test='reply-button'
                 type='button'
                 onClick={() => setReplying(true)}
               >
@@ -73,11 +81,14 @@ export function Comment({ comment, handleSubmitReply, isReply = false }) {
                       ? 'show-replies-button hide-replies-button'
                       : 'show-replies-button'
                   }
+                  data-test='show-replies-button'
                   onClick={toggleReplies}
                 >
                   {repliesVisible && replyCount
                     ? 'Hide Replies'
-                    : 'View ' + replyCount + ' Replies'}
+                    : 'View ' +
+                      replyCount +
+                      (parseInt(replyCount) === 1 ? ' Reply' : ' Replies')}
                 </button>
               )}
             </div>
@@ -85,7 +96,10 @@ export function Comment({ comment, handleSubmitReply, isReply = false }) {
         </div>
       </div>
       {repliesVisible && replies && (
-        <div className='replies'>
+        <div
+          className='replies'
+          data-test='replies'
+        >
           {replies.map((comment) => (
             <Comment
               key={comment.id}

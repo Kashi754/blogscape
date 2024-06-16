@@ -37,12 +37,16 @@ export function PostComments({ postId, comments }) {
   };
 
   return (
-    <section className='post-comments'>
+    <section
+      className='post-comments'
+      data-test='post-comments'
+    >
       <div className='comments-header'>
-        <h3>Comments</h3>
+        <h3 data-test='comments-header'>Comments</h3>
         {!addComment && (
           <Button
             className='add-comment'
+            data-test='add-comment-button'
             variant='secondary'
             size='md'
             onClick={() => setAddComment(true)}

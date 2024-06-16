@@ -12,13 +12,17 @@ export function UserInfoCard({
   blogId,
 }) {
   return (
-    <section className='user-info-card'>
+    <section
+      className='user-info-card'
+      data-test='user-info-card'
+    >
       <Link
         className='profile-link'
         to={`/profile/${authorId}`}
       >
         <ImageKitImage
           className='user-thumbnail'
+          data-test='author-image'
           alt={author}
           src={thumbnail}
           defaultImg={'/images/default.png'}
@@ -30,6 +34,7 @@ export function UserInfoCard({
 
       <Button
         className='blog-link'
+        data-test='blog-link'
         variant='primary'
         size='sm'
         as={Link}

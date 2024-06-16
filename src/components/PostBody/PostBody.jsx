@@ -6,7 +6,10 @@ const rehypePlugins = [rehypeSanitize];
 
 export function PostBody({ body }) {
   return (
-    <section className='post-body wmde-markdown-var'>
+    <section
+      className='post-body wmde-markdown-var'
+      data-test='post-body'
+    >
       <MarkdownPreview
         source={body}
         className='markdown-body'
