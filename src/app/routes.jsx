@@ -207,11 +207,13 @@ export default function routes(store) {
             return redirect('/login');
           }
 
-          const user = params.userId
-            ? await userLoader.userLoader({ params, request })
-            : await userLoader.myProfileLoader({ request });
+          // const user = params.userId
+          //   ? await userLoader.userLoader({ params, request })
+          //   : await userLoader.myProfileLoader({ request });
 
-          return { user, userId: params.userId };
+          const user = await userLoader.userLoader({ params, request });
+
+          return { user, userId: params.userId || null };
         }}
         action={async ({ request }) => {
           const { key, formData } = await request.json();
