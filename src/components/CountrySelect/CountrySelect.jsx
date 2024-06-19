@@ -68,13 +68,13 @@ const styles = {
     backgroundColor: isDisabled
       ? undefined
       : isFocused
-      ? 'var(--accent-color)'
-      : undefined,
+        ? 'var(--accent-color)'
+        : undefined,
     color: isDisabled
       ? 'var(--primary-color-alt)'
       : isFocused
-      ? 'var(--secondary-color)'
-      : 'var(--primary-color)',
+        ? 'var(--secondary-color)'
+        : 'var(--primary-color)',
     cursor: isDisabled ? 'not-allowed' : 'pointer',
     borderRadius: '3px',
   }),
@@ -115,16 +115,8 @@ export function CountrySelect({ defaultCountry, formId, onChange }) {
   const handleCountryChange = (country) => {
     setSelectedValue(country);
     onChange({
-      target: {
-        name: 'location',
-        value: country.label.split(' ')[1],
-      },
-    });
-    onChange({
-      target: {
-        name: 'locationCode',
-        value: country.value,
-      },
+      location: country.label.split(' ').slice(1).join(' '),
+      locationCode: country.value,
     });
   };
 

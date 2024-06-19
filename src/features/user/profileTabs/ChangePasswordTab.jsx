@@ -96,11 +96,19 @@ export function ChangePasswordTab({ onSubmit }) {
               />
             )}
           </InputGroup.Text>
-          <Form.Control.Feedback type='invalid'>
+          <Form.Control.Feedback
+            type='invalid'
+            data-test='invalid-old-password'
+          >
             {error?.data}
           </Form.Control.Feedback>
           {data && (
-            <Form.Control.Feedback type='valid'>{data}</Form.Control.Feedback>
+            <Form.Control.Feedback
+              type='valid'
+              data-test='password-success'
+            >
+              {data}
+            </Form.Control.Feedback>
           )}
         </InputGroup>
       </Form.Group>
@@ -123,7 +131,10 @@ export function ChangePasswordTab({ onSubmit }) {
             !/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/.test(formData.newPassword)
           }
         />
-        <Form.Control.Feedback type='invalid'>
+        <Form.Control.Feedback
+          type='invalid'
+          data-test='invalid-password'
+        >
           Password must be at least 8 characters long and contain at least one
           uppercase letter, one lowercase letter, and one number.
         </Form.Control.Feedback>
@@ -146,7 +157,10 @@ export function ChangePasswordTab({ onSubmit }) {
               !passwordsMatch)
           }
         />
-        <Form.Control.Feedback type='invalid'>
+        <Form.Control.Feedback
+          type='invalid'
+          data-test='invalid-confirm-password'
+        >
           Passwords do not match.
         </Form.Control.Feedback>
       </Form.Group>

@@ -44,7 +44,7 @@
     "start": "vite",
     "build": "vite build",
     "test": "vitest watch --ui --coverage.all",
-    "cy:run": "npx cypress run --record --key 9413c946-91ea-4a97-8919-2f2411b43ff0",
+    "cy:run": "npx cypress run --browser=firefox --record --key 9413c946-91ea-4a97-8919-2f2411b43ff0",
     "cy:open": "cypress open",
     "preview": "vite preview"
   },
@@ -87,6 +87,8 @@
     "@babel/plugin-transform-private-property-in-object": "^7.24.6",
     "@babel/preset-env": "^7.24.6",
     "@babel/preset-react": "^7.24.6",
+    "@cypress-audit/lighthouse": "^1.4.2",
+    "@cypress-audit/pa11y": "^1.4.2",
     "@eslint-community/eslint-utils": "^4.4.0",
     "@eslint/compat": "^1.0.1",
     "@eslint/eslintrc": "^3.1.0",

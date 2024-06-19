@@ -39,6 +39,7 @@ export function EditProfileModal() {
   return (
     <>
       <Button
+        data-test='open-modal'
         variant='secondary'
         onClick={handleShow}
         className='edit-profile-btn'
@@ -106,6 +107,7 @@ export function EditProfileModal() {
               variant='secondary'
               size='lg'
               onClick={handleClose}
+              data-test='close-modal'
             >
               Close
             </Button>
@@ -114,6 +116,7 @@ export function EditProfileModal() {
               size='lg'
               type='submit'
               form={key + '-form-tab'}
+              data-test='save-button'
             >
               Save Changes
             </Button>

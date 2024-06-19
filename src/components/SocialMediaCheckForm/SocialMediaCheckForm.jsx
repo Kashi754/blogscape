@@ -17,7 +17,7 @@ export function SocialMediaCheckForm({
     socialValue = new URL(socialUrl).pathname.slice(1);
   }
 
-  const handleCheck = (e) => {
+  const handleCheck = () => {
     if (!checked) {
       handleAddSocial({
         name: company.id,
@@ -92,7 +92,10 @@ export function SocialMediaCheckForm({
           }
         />
         {checked && (
-          <Form.Control.Feedback type='invalid'>
+          <Form.Control.Feedback
+            type='invalid'
+            data-test='invalid-path'
+          >
             Please enter a valid path!
           </Form.Control.Feedback>
         )}

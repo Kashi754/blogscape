@@ -21,14 +21,15 @@ export function EditProfileTab({ onSubmit }) {
     if (event.target) {
       const { name, value } = event.target;
 
-      setFormObject({
-        ...formObject,
+      setFormObject((prev) => ({
+        ...prev,
         [name]: value,
-      });
+      }));
     } else {
-      setFormObject({
-        location: event,
-      });
+      setFormObject((prev) => ({
+        ...prev,
+        ...event,
+      }));
     }
   };
 
@@ -97,7 +98,7 @@ export function EditProfileTab({ onSubmit }) {
             <Form.Control
               type='text'
               name='display_name'
-              value={formObject.display_name}
+              value={formObject.display_name || ''}
               onChange={handleChange}
               placeholder={user.displayName}
               pattern='^[a-zA-Z0-9_\-@!.+ ]+$'
@@ -108,8 +109,11 @@ export function EditProfileTab({ onSubmit }) {
               required
               autoFocus
             />
-            <Form.Control.Feedback type='invalid'>
-              Please enter a valid email address.
+            <Form.Control.Feedback
+              type='invalid'
+              data-test='invalid-display-name'
+            >
+              Please enter a valid display name.
             </Form.Control.Feedback>
           </FloatingLabel>
         </Form.Group>
@@ -121,7 +125,7 @@ export function EditProfileTab({ onSubmit }) {
             <Form.Control
               type='email'
               name='email'
-              value={formObject.email}
+              value={formObject.email || ''}
               onChange={handleChange}
               placeholder={user.email}
               isInvalid={
@@ -133,7 +137,10 @@ export function EditProfileTab({ onSubmit }) {
               required
               autoFocus
             />
-            <Form.Control.Feedback type='invalid'>
+            <Form.Control.Feedback
+              type='invalid'
+              data-test='invalid-email'
+            >
               Please enter a valid email address.
             </Form.Control.Feedback>
           </FloatingLabel>
@@ -147,7 +154,7 @@ export function EditProfileTab({ onSubmit }) {
             <Form.Control
               type='text'
               name='website'
-              value={formObject.website}
+              value={formObject.website || ''}
               onChange={handleChange}
               placeholder={user.website}
               isInvalid={
@@ -160,7 +167,10 @@ export function EditProfileTab({ onSubmit }) {
                 })
               }
             />
-            <Form.Control.Feedback type='invalid'>
+            <Form.Control.Feedback
+              type='invalid'
+              data-test='invalid-website'
+            >
               Please enter a valid website! (Valid URL: http(s)://domain.ext)
             </Form.Control.Feedback>
           </FloatingLabel>

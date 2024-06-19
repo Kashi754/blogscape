@@ -15,18 +15,12 @@ export function EditBlogTab({ onSubmit }) {
   const [validated, setValidated] = useState(false);
 
   const handleChange = (event) => {
-    if (event.target) {
-      const { name, value } = event.target;
+    const { name, value } = event.target;
 
-      setFormObject({
-        ...formObject,
-        [name]: value,
-      });
-    } else {
-      setFormObject({
-        location: event,
-      });
-    }
+    setFormObject((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   const handleImageChange = (imageFile) => {
@@ -105,15 +99,16 @@ export function EditBlogTab({ onSubmit }) {
               placeholder={blog.title}
               pattern={`^[a-zA-Z0-9 .,!?'"\\-]+$`}
               isInvalid={
-                validated &&
-                !/`^[a-zA-Z0-9 .,!?'"\\-]+$`/.test(formObject.title)
+                validated && !/^[a-zA-Z0-9 .,!?`'"\\-]+$/.test(formObject.title)
               }
               required
               autoFocus
             />
-            <Form.Control.Feedback type='invalid'>
-              "Please use only letters, numbers, spaces, and common
-              punctuation."
+            <Form.Control.Feedback
+              type='invalid'
+              data-test='invalid-title'
+            >
+              Please use only letters, numbers, spaces, and common punctuation.
             </Form.Control.Feedback>
           </FloatingLabel>
         </Form.Group>
@@ -134,12 +129,12 @@ export function EditBlogTab({ onSubmit }) {
               pattern={`^[a-zA-Z0-9 .,!?'"\\-]+$`}
               isInvalid={
                 validated &&
-                !/`^[a-zA-Z0-9 .,!?'"\\-]+$`/.test(formObject.title)
+                formObject.description !== '' &&
+                !/^[a-zA-Z0-9 .,!?'"\\-]+$/.test(formObject.description)
               }
             />
             <Form.Control.Feedback type='invalid'>
-              "Please use only letters, numbers, spaces, and common
-              punctuation."
+              Please use only letters, numbers, spaces, and common punctuation.
             </Form.Control.Feedback>
           </FloatingLabel>
         </Form.Group>

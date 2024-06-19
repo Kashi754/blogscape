@@ -13,9 +13,9 @@ export function ProfileBlogCard({ blog }) {
       <div className='blog-header-wrapper'>
         <div className='blog-header-info'>
           <div className='blog-title'>
-            <h2>{title}</h2>
+            <h2 data-test='blog-title'>{title}</h2>
           </div>
-          <p>{description}</p>
+          <p data-test='blog-description'>{description}</p>
         </div>
       </div>
     </header>

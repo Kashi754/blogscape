@@ -29,6 +29,10 @@ Cypress.Commands.add('getByData', (selector) => {
   return cy.get(`[data-test=${selector}]`);
 });
 
+Cypress.Commands.add('getFormField', (selector) => {
+  return cy.get(`input[name=${selector}]`);
+});
+
 Cypress.Commands.add(
   'findByData',
   { prevSubject: true },
