@@ -159,7 +159,7 @@ describe('Post Page', () => {
     cy.getByData('comment-container').find('replies').should('not.exist');
   });
 
-  it.only('Can add a reply', () => {
+  it('Can add a reply', () => {
     cy.getByData('comment-container').first().as('firstComment');
     cy.get('@firstComment')
       .findByData('show-replies-button')
